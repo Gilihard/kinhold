@@ -65,6 +65,14 @@ class StoreRecipeRequest extends FormRequest
             'ingredients.*.is_optional' => ['nullable', 'boolean'],
             'tag_ids' => ['nullable', 'array'],
             'tag_ids.*' => [Rule::exists('tags', 'id')->where('family_id', $this->user()->family_id)],
+            'allergens' => ['nullable', 'array'],
+            'allergens.*.allergen_id' => ['required_with:allergens', 'uuid', 'exists:allergens,id'],
+            'allergens.*.presence' => ['required_with:allergens', 'in:contains,may_contain'],
+            'images' => ['nullable', 'array'],
+            'images.*.id' => ['nullable', 'uuid'],
+            'images.*.path' => ['required_with:images', 'string', 'max:512'],
+            'images.*.sort_order' => ['nullable', 'integer', 'min:0'],
+            'images.*.is_primary' => ['nullable', 'boolean'],
         ];
     }
 }

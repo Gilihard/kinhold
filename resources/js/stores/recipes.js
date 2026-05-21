@@ -16,6 +16,7 @@ export const useRecipesStore = defineStore('recipes', () => {
   const sortBy = ref('recent')
   const selectedTagIds = ref([])
   const showFavoritesOnly = ref(false)
+  const safeForMemberIds = ref([])
 
   // Computed
   const hasMore = computed(() => pagination.value.current_page < pagination.value.last_page)
@@ -57,6 +58,7 @@ export const useRecipesStore = defineStore('recipes', () => {
       if (sortBy.value && sortBy.value !== 'recent') params.sort = sortBy.value
       if (selectedTagIds.value.length === 1) params.tag = selectedTagIds.value[0]
       if (showFavoritesOnly.value) params.favorite = 1
+      if (safeForMemberIds.value.length > 0) params['safe_for_members'] = safeForMemberIds.value
 
       const response = await api.get('/recipes', { params })
       recipes.value = response.data.data
@@ -140,6 +142,25 @@ export const useRecipesStore = defineStore('recipes', () => {
       return { success: true, recipe: response.data.recipe }
     } catch (err) {
       return { success: false, error: err.response?.data?.message || 'Failed to restore recipe' }
+    }
+  }
+
+  // Confirm an AI-tagged allergen (ai_auto / ai_suggested → human_confirmed).
+  // Updates the recipe in place so the badge re-renders without a refetch.
+  const confirmAllergen = async (recipeId, pivotId) => {
+    try {
+      await api.patch(`/recipes/${recipeId}/allergens/${pivotId}`)
+      const stamp = (recipe) => {
+        if (!recipe?.allergens) return
+        const hit = recipe.allergens.find((a) => a.id && a.pivot_id === pivotId)
+        if (hit) hit.source = 'human_confirmed'
+      }
+      stamp(currentRecipe.value)
+      const inList = recipes.value.find((r) => r.id === recipeId)
+      stamp(inList)
+      return { success: true }
+    } catch (err) {
+      return { success: false, error: err.response?.data?.message || 'Failed to confirm allergen' }
     }
   }
 
@@ -285,6 +306,8 @@ export const useRecipesStore = defineStore('recipes', () => {
     sortBy,
     selectedTagIds,
     showFavoritesOnly,
+    safeForMemberIds,
+    confirmAllergen,
 
     // Computed
     hasMore,

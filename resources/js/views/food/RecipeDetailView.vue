@@ -49,6 +49,16 @@
             variant="ghost"
             size="sm"
             icon-only
+            aria-label="Share recipe"
+            @click="showShareModal = true"
+          >
+            <ShareIcon class="w-5 h-5" />
+          </KinButton>
+          <KinButton
+            v-if="isParent"
+            variant="ghost"
+            size="sm"
+            icon-only
             aria-label="Edit recipe"
             @click="showEditForm = true"
           >
@@ -68,9 +78,22 @@
       </div>
 
       <!-- Hero image -->
-      <div v-if="recipe.image_path" class="px-4 md:px-6 mb-4">
+      <div v-if="heroImagePath" class="px-4 md:px-6 mb-4">
         <div class="aspect-video rounded-xl overflow-hidden bg-surface-sunken">
-          <img :src="`/storage/${recipe.image_path}`" :alt="recipe.title" class="w-full h-full object-cover" />
+          <img :src="resolveStoragePath(heroImagePath)" :alt="recipe.title" class="w-full h-full object-cover" />
+        </div>
+        <!-- Small gallery row of additional images -->
+        <div v-if="extraImages.length > 0" class="mt-2 flex gap-2 overflow-x-auto pb-1">
+          <button
+            v-for="img in extraImages"
+            :key="img.id || img.path"
+            type="button"
+            class="shrink-0 w-16 h-16 rounded-lg overflow-hidden border border-border-subtle bg-surface-sunken hover:border-accent-lavender-bold transition-colors"
+            :aria-label="`View image`"
+            @click="setHero(img.path)"
+          >
+            <img :src="resolveStoragePath(img.path)" alt="" class="w-full h-full object-cover" />
+          </button>
         </div>
       </div>
 
@@ -108,6 +131,14 @@
             {{ tag.name }}
           </KinChip>
         </div>
+
+        <!-- Allergens -->
+        <AllergenBadgeRow
+          v-if="recipe.allergens?.length"
+          :allergens="recipe.allergens"
+          :editable="isParent"
+          @confirm="onConfirmAllergen"
+        />
 
         <!-- Source -->
         <div v-if="recipe.source_url" class="flex items-center gap-1.5">
@@ -228,6 +259,15 @@
       @confirm="handleDelete"
       @cancel="showDeleteConfirm = false"
     />
+
+    <!-- Share -->
+    <ShareRecipeModal
+      v-if="recipe"
+      :show="showShareModal"
+      :recipe="recipe"
+      @close="showShareModal = false"
+      @updated="onShareUpdated"
+    />
   </div>
 </template>
 
@@ -243,6 +283,8 @@ import StepList from '@/components/recipes/StepList.vue'
 import FamilyRating from '@/components/recipes/FamilyRating.vue'
 import CookLogEntry from '@/components/recipes/CookLogEntry.vue'
 import RecipeForm from '@/components/recipes/RecipeForm.vue'
+import AllergenBadgeRow from '@/components/allergens/AllergenBadgeRow.vue'
+import ShareRecipeModal from '@/components/recipes/ShareRecipeModal.vue'
 import ConfirmDialog from '@/components/common/ConfirmDialog.vue'
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue'
 import UserAvatar from '@/components/common/UserAvatar.vue'
@@ -259,6 +301,7 @@ import {
   FireIcon,
   LinkIcon,
   ExclamationCircleIcon,
+  ShareIcon,
 } from '@heroicons/vue/24/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/vue/24/solid'
 
@@ -274,8 +317,39 @@ const isParent = computed(() => authStore.isParent)
 const showEditForm = ref(false)
 const showDeleteConfirm = ref(false)
 const showCookLogModal = ref(false)
+const showShareModal = ref(false)
 const cookLogs = ref([])
 const ratings = ref([])
+const heroOverride = ref(null)
+
+const allImages = computed(() => {
+  const list = recipe.value?.images || []
+  if (list.length > 0) return list
+  // Backwards compat: a recipe migrated from single image_path still works.
+  if (recipe.value?.image_path) {
+    return [{ id: null, path: recipe.value.image_path, is_primary: true }]
+  }
+  return []
+})
+
+const primaryImagePath = computed(() => {
+  const primary = allImages.value.find((i) => i.is_primary)
+  return primary?.path || allImages.value[0]?.path || null
+})
+
+const heroImagePath = computed(() => heroOverride.value || primaryImagePath.value)
+
+const extraImages = computed(() => allImages.value.filter((i) => i.path !== heroImagePath.value))
+
+const setHero = (path) => {
+  heroOverride.value = path
+}
+
+const resolveStoragePath = (path) => {
+  if (!path) return null
+  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('/storage/')) return path
+  return `/storage/${path}`
+}
 
 const totalTime = computed(() => {
   if (!recipe.value) return null
@@ -327,6 +401,16 @@ const loadRecipe = async () => {
 const handleToggleFavorite = async () => {
   const result = await recipesStore.toggleFavorite(recipe.value.id)
   if (!result.success) notifyError(result.error)
+}
+
+const onConfirmAllergen = async (row) => {
+  const result = await recipesStore.confirmAllergen(recipe.value.id, row.pivot_id)
+  if (!result.success) notifyError(result.error)
+}
+
+const onShareUpdated = (share) => {
+  // Mutate locally so the modal reads the latest state on next open without a refetch.
+  if (recipe.value) recipe.value.share = share
 }
 
 const handleRate = async (score) => {

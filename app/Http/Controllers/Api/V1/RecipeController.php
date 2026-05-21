@@ -30,7 +30,7 @@ class RecipeController extends Controller
     {
         $family = $request->user()->family;
 
-        $filters = $request->only(['search', 'tag', 'favorite', 'sort', 'per_page']);
+        $filters = $request->only(['search', 'tag', 'favorite', 'sort', 'per_page', 'safe_for', 'safe_for_members']);
 
         $recipes = $this->recipeService->searchRecipes($family, $filters);
 
@@ -54,7 +54,7 @@ class RecipeController extends Controller
     {
         $this->authorize('view', $recipe);
 
-        $recipe->load(['ingredients', 'cookLogs.user', 'ratings.user', 'tags', 'creator']);
+        $recipe->load(['ingredients', 'cookLogs.user', 'ratings.user', 'tags', 'allergens', 'images', 'creator']);
 
         return response()->json(['recipe' => new RecipeResource($recipe)]);
     }
@@ -63,7 +63,7 @@ class RecipeController extends Controller
     {
         $this->authorize('update', $recipe);
 
-        $recipe = $this->recipeService->updateRecipe($recipe, $request->validated());
+        $recipe = $this->recipeService->updateRecipe($recipe, $request->validated(), $request->user());
 
         return response()->json(['recipe' => new RecipeResource($recipe)]);
     }

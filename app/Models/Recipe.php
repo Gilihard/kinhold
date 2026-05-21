@@ -32,6 +32,9 @@ class Recipe extends Model
         'notes',
         'is_favorite',
         'sort_order',
+        // Share columns are intentionally NOT fillable. RecipeShareController
+        // uses forceFill so the public-link token can never be set via the
+        // recipe create/update API surface (mass-assignment safety).
     ];
 
     protected $casts = [
@@ -43,7 +46,18 @@ class Recipe extends Model
         'cook_time_minutes' => 'integer',
         'total_time_minutes' => 'integer',
         'sort_order' => 'integer',
+        'share_visible_attribution' => 'boolean',
     ];
+
+    public function isShared(): bool
+    {
+        return ! empty($this->share_token);
+    }
+
+    public function shareUrl(): ?string
+    {
+        return $this->isShared() ? url('/r/'.$this->share_token) : null;
+    }
 
     public function family(): BelongsTo
     {
@@ -75,6 +89,29 @@ class Recipe extends Model
         return $this->belongsToMany(Tag::class, 'recipe_tag')
             ->using(RecipeTag::class)
             ->withTimestamps();
+    }
+
+    public function allergens(): BelongsToMany
+    {
+        return $this->belongsToMany(Allergen::class, 'recipe_allergens')
+            ->using(RecipeAllergen::class)
+            ->withPivot(['id', 'presence', 'source', 'confidence', 'confirmed_by', 'confirmed_at'])
+            ->withTimestamps();
+    }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(RecipeImage::class)->orderBy('sort_order')->orderBy('created_at');
+    }
+
+    /**
+     * Path of the recipe's primary image. Reads from `recipes.image_path`
+     * (kept in sync as a denormalized cache) so existing callers don't break.
+     * Returns null if the recipe has no images.
+     */
+    public function primaryImagePath(): ?string
+    {
+        return $this->image_path ?: null;
     }
 
     public function scopeForFamily($query, string $familyId): void

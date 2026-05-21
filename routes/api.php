@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\V1\AllergenController;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\BadgesController;
 use App\Http\Controllers\Api\V1\BillingController;
@@ -15,13 +16,16 @@ use App\Http\Controllers\Api\V1\OnboardingController;
 use App\Http\Controllers\Api\V1\PointRequestController;
 use App\Http\Controllers\Api\V1\PointsController;
 use App\Http\Controllers\Api\V1\PushSubscriptionController;
+use App\Http\Controllers\Api\V1\RecipeAllergenController;
 use App\Http\Controllers\Api\V1\RecipeController;
+use App\Http\Controllers\Api\V1\RecipeShareController;
 use App\Http\Controllers\Api\V1\RestaurantController;
 use App\Http\Controllers\Api\V1\RewardsController;
 use App\Http\Controllers\Api\V1\SettingsController;
 use App\Http\Controllers\Api\V1\ShoppingListController;
 use App\Http\Controllers\Api\V1\TagController;
 use App\Http\Controllers\Api\V1\TaskController;
+use App\Http\Controllers\Api\V1\UserAllergenController;
 use App\Http\Controllers\Api\V1\VaultController;
 use App\Models\Family;
 use App\Models\User;
@@ -228,6 +232,35 @@ Route::prefix('v1')->group(function () {
                 Route::post('/{recipe}/cook-logs', [RecipeController::class, 'addCookLog']);
                 Route::post('/{recipe}/rate', [RecipeController::class, 'rate']);
                 Route::get('/{recipe}/ratings', [RecipeController::class, 'ratings']);
+
+                // Fine-grained allergen edits (single-row confirm / change presence / remove)
+                Route::post('/{recipe}/allergens', [RecipeAllergenController::class, 'store']);
+                Route::patch('/{recipe}/allergens/{allergen}', [RecipeAllergenController::class, 'update']);
+
+                // Family-wide AI allergen backfill (parent only, throttled
+                // to 2/day per family to keep Anthropic costs bounded)
+                Route::post('/allergens/backfill', [RecipeAllergenController::class, 'backfill'])
+                    ->middleware('throttle:allergen-backfill-dispatch');
+
+                // Public sharing (parent only)
+                Route::post('/{recipe}/share', [RecipeShareController::class, 'store']);
+                Route::patch('/{recipe}/share', [RecipeShareController::class, 'update']);
+                Route::delete('/{recipe}/share', [RecipeShareController::class, 'destroy']);
+            });
+
+            // Allergens (module: food)
+            Route::prefix('/allergens')->middleware('module:food')->group(function () {
+                Route::get('/', [AllergenController::class, 'index']);
+                Route::post('/', [AllergenController::class, 'store']);
+                Route::patch('/{allergen}', [AllergenController::class, 'update']);
+                Route::delete('/{allergen}', [AllergenController::class, 'destroy']);
+            });
+
+            // Member allergy profiles (module: food)
+            Route::prefix('/users/{user}/allergens')->middleware('module:food')->group(function () {
+                Route::get('/', [UserAllergenController::class, 'index']);
+                Route::put('/', [UserAllergenController::class, 'update']);
+                Route::post('/mark-reviewed', [UserAllergenController::class, 'markReviewed']);
             });
 
             // Shopping (module: food)
