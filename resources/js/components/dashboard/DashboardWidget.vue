@@ -12,7 +12,7 @@
           <div class="flex items-center gap-2">
             <button
               class="drag-handle cursor-grab active:cursor-grabbing p-1 rounded hover:bg-surface-sunken"
-              aria-label="Drag to reorder widget"
+              aria-label="Перетащите, чтобы изменить порядок виджета"
             >
               <Bars3Icon class="w-4 h-4 text-ink-tertiary" />
             </button>
@@ -24,7 +24,7 @@
               variant="ghost"
               size="sm"
               icon-only
-              aria-label="Remove widget"
+              aria-label="Удалить виджет"
               @click.stop="$emit('remove')"
             >
               <XMarkIcon class="w-4 h-4" />
@@ -54,7 +54,7 @@
         <div v-if="editMode" class="flex items-center justify-between mb-2 -mt-1 flex-shrink-0">
           <button
             class="drag-handle cursor-grab active:cursor-grabbing p-1 rounded hover:bg-surface-sunken"
-            aria-label="Drag to reorder widget"
+            aria-label="Перетащите, чтобы изменить порядок виджета"
           >
             <Bars3Icon class="w-4 h-4 text-ink-tertiary" />
           </button>
@@ -64,7 +64,7 @@
               variant="ghost"
               size="sm"
               icon-only
-              aria-label="Remove widget"
+              aria-label="Удалить виджет"
               @click.stop="$emit('remove')"
             >
               <XMarkIcon class="w-4 h-4" />

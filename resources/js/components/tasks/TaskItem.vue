@@ -63,7 +63,7 @@
         <!-- Assignee or Family task -->
         <span v-if="task.is_family_task" class="flex items-center gap-1 text-xs text-accent-lavender-bold">
           <UserGroupIcon class="w-3 h-3" />
-          Open
+          Для всех
         </span>
         <span v-else-if="task.assignee" class="flex items-center gap-1 text-xs text-ink-tertiary">
           <UserAvatar :user="task.assignee" size="xs" />
@@ -72,7 +72,7 @@
 
         <!-- Points -->
         <span v-if="task.effective_points" class="text-[10px] font-medium font-mono text-sand-600 dark:text-sand-400">
-          {{ task.effective_points }}pts
+          {{ task.effective_points }} {{ ptsWord(task.effective_points) }}
         </span>
 
         <!-- Recurring indicator with label -->
@@ -81,7 +81,7 @@
           class="inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-medium rounded-full bg-accent-lavender-soft/40 text-accent-lavender-bold"
         >
           <ArrowPathIcon class="w-3 h-3" />
-          {{ task.recurrence_label || 'Recurring' }}
+          {{ task.recurrence_label || 'Повтор' }}
         </span>
 
         <!-- Description indicator -->
@@ -95,7 +95,7 @@
     <button
       class="flex-shrink-0 p-1 rounded transition-colors"
       :class="priorityIndicatorClass"
-      title="Click to change priority"
+      title="Нажмите, чтобы изменить приоритет"
       @click.stop="cyclePriority"
     >
       <FlagIcon class="w-3.5 h-3.5" />
@@ -112,6 +112,7 @@
 import { computed, ref, nextTick } from 'vue'
 import { CalendarIcon, DocumentTextIcon, FlagIcon, PencilIcon, TrashIcon, UserGroupIcon, ArrowPathIcon } from '@heroicons/vue/24/outline'
 import { useTasksStore } from '@/stores/tasks'
+import { pluralRu, ptsWord } from '@/utils/plural'
 import TaskCheckbox from './TaskCheckbox.vue'
 import ContextMenu from '@/components/common/ContextMenu.vue'
 import UserAvatar from '@/components/common/UserAvatar.vue'
@@ -187,9 +188,9 @@ const priorityIndicatorClass = computed(() => {
 })
 
 const menuItems = computed(() => [
-  { label: 'Edit', icon: PencilIcon, action: () => emit('edit', props.task) },
+  { label: 'Изменить', icon: PencilIcon, action: () => emit('edit', props.task) },
   { divider: true },
-  { label: 'Delete', icon: TrashIcon, variant: 'danger', action: () => emit('delete', props.task.id) },
+  { label: 'Удалить', icon: TrashIcon, variant: 'danger', action: () => emit('delete', props.task.id) },
 ])
 
 const formattedDueDate = computed(() => {
@@ -205,16 +206,16 @@ const formattedDueDate = computed(() => {
   const dueDay = new Date(due)
   dueDay.setHours(0, 0, 0, 0)
 
-  if (dueDay.getTime() === today.getTime()) return 'Today'
-  if (dueDay.getTime() === tomorrow.getTime()) return 'Tomorrow'
+  if (dueDay.getTime() === today.getTime()) return 'Сегодня'
+  if (dueDay.getTime() === tomorrow.getTime()) return 'Завтра'
   if (dueDay < today) {
     const daysAgo = Math.ceil((today.getTime() - dueDay.getTime()) / 86400000)
-    return `${daysAgo}d overdue`
+    return `Просрочено на ${daysAgo} ${pluralRu(daysAgo, 'день', 'дня', 'дней')}`
   }
   if (dueDay < nextWeek) {
-    return dueDay.toLocaleDateString('en-US', { weekday: 'short' })
+    return dueDay.toLocaleDateString('ru-RU', { weekday: 'short' })
   }
-  return dueDay.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  return dueDay.toLocaleDateString('ru-RU', { month: 'short', day: 'numeric' })
 })
 
 const dueDateClass = computed(() => {

@@ -11,7 +11,7 @@
           class="text-sm font-semibold text-accent-lavender-bold hover:text-accent-lavender-bold uppercase tracking-wide"
           @click="$emit('undo')"
         >
-          Undo
+          Отменить
         </button>
       </div>
     </Transition>

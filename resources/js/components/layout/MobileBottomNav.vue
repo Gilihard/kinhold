@@ -27,7 +27,7 @@
       <template #fab>
         <RouterLink
           :to="aiReady ? '/chat' : '/dashboard'"
-          :aria-label="aiReady ? 'Ask Assistant' : 'Home'"
+          :aria-label="aiReady ? 'Спросить Ассистента' : 'Главная'"
           class="mobile-fab w-[50px] h-[50px] rounded-full flex items-center justify-center transition-transform hover:-translate-y-[2px]"
         >
           <SparklesIcon v-if="aiReady" class="mobile-fab__icon w-6 h-6" />
@@ -67,14 +67,14 @@ const ForkKnife = (_, { attrs }) => h(PhForkKnife, { weight: 'regular', ...attrs
 
 const HOME_SLOT = {
   id: 'home',
-  label: 'Home',
+  label: 'Главная',
   icon: HomeIcon,
   to: '/dashboard',
 }
 
 const POINTS_SLOT = {
   id: 'points',
-  label: 'Points',
+  label: 'Баллы',
   icon: TrophyIcon,
   to: '/points',
   module: 'points',
@@ -84,33 +84,33 @@ const SLOTS = [
   HOME_SLOT,
   {
     id: 'schedule',
-    label: 'Schedule',
+    label: 'Расписание',
     icon: CalendarDaysIcon,
     children: [
-      { key: 'calendar', label: 'Calendar', icon: CalendarIcon,    to: '/calendar', module: 'calendar' },
-      { key: 'tasks',    label: 'Tasks',    icon: CheckCircleIcon, to: '/tasks',    module: 'tasks' },
+      { key: 'calendar', label: 'Календарь', icon: CalendarIcon,    to: '/calendar', module: 'calendar' },
+      { key: 'tasks',    label: 'Задачи',    icon: CheckCircleIcon, to: '/tasks',    module: 'tasks' },
     ],
   },
   {
     id: 'meals',
-    label: 'Meals',
+    label: 'Питание',
     icon: ForkKnife,
     children: [
-      { key: 'food',     label: 'Food',     icon: FireIcon,                  to: '/food',     module: 'food' },
-      { key: 'shopping', label: 'Shopping', icon: ClipboardDocumentListIcon, to: '/shopping', module: 'food' },
+      { key: 'food',     label: 'Еда',     icon: FireIcon,                  to: '/food',     module: 'food' },
+      { key: 'shopping', label: 'Покупки', icon: ClipboardDocumentListIcon, to: '/shopping', module: 'food' },
     ],
   },
   {
     id: 'more',
-    label: 'More',
+    label: 'Ещё',
     icon: EllipsisHorizontalIcon,
   },
 ]
 
 const FILL_PRIORITY = [
-  { id: 'points',   label: 'Points',   icon: null, to: '/points',   module: 'points' },
-  { id: 'vault',    label: 'Vault',    icon: null, to: '/vault',    module: 'vault' },
-  { id: 'settings', label: 'Settings', icon: null, to: '/settings', module: null },
+  { id: 'points',   label: 'Баллы',   icon: null, to: '/points',   module: 'points' },
+  { id: 'vault',    label: 'Хранилище',    icon: null, to: '/vault',    module: 'vault' },
+  { id: 'settings', label: 'Настройки', icon: null, to: '/settings', module: null },
 ]
 
 const route = useRoute()

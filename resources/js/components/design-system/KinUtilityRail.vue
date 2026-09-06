@@ -29,11 +29,11 @@ const props = defineProps({
 })
 
 const DEFAULT_LABELS = {
-  'mini-month':  'This month',
-  'filters':     'Filters',
-  'presence':    "Who's around",
-  'saved-views': 'Saved views',
-  'actions':     'Actions',
+  'mini-month':  'Этот месяц',
+  'filters':     'Фильтры',
+  'presence':    'Кто рядом',
+  'saved-views': 'Сохранённые виды',
+  'actions':     'Действия',
 }
 
 const labelFor = (slotName) =>

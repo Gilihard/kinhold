@@ -3,13 +3,13 @@
     <div class="flex items-center justify-between mb-3 flex-shrink-0">
       <h3 class="text-sm font-semibold text-ink-primary flex items-center gap-2">
         <UserGroupIcon class="w-4 h-4 text-accent-lavender-bold" />
-        {{ config.title || 'Family Tasks' }}
+        {{ config.title || 'Задачи семьи' }}
       </h3>
       <RouterLink
         to="/tasks"
         class="text-xs font-medium text-accent-lavender-bold hover:opacity-80 transition-opacity"
       >
-        View All
+        Все
       </RouterLink>
     </div>
 
@@ -20,7 +20,7 @@
     <KinEmptyState
       v-else-if="tasks.length === 0"
       :icon="UserGroupIcon"
-      title="No open family tasks"
+      title="Нет открытых задач для семьи"
       size="sm"
       accent-color="lavender"
       class="flex-1"
@@ -38,7 +38,7 @@
           :class="task._justCompleted
             ? 'border-status-success bg-status-success/10'
             : 'border-border-subtle hover:border-accent-lavender-bold'"
-          :aria-label="`Mark ${task.title} as complete`"
+          :aria-label="`Отметить «${task.title}» как выполненную`"
           @click.stop="toggleTask(task)"
         >
           <CheckIcon v-if="task._justCompleted" class="w-3 h-3 text-status-success" />
@@ -123,8 +123,8 @@ function formatDate(dateStr) {
   if (!dateStr) return ''
   const dt = DateTime.fromISO(dateStr)
   const today = DateTime.now().startOf('day')
-  if (dt.startOf('day').equals(today)) return 'Today'
-  if (dt.startOf('day').equals(today.plus({ days: 1 }))) return 'Tomorrow'
+  if (dt.startOf('day').equals(today)) return 'Сегодня'
+  if (dt.startOf('day').equals(today.plus({ days: 1 }))) return 'Завтра'
   return dt.toLocaleString({ month: 'short', day: 'numeric' })
 }
 </script>

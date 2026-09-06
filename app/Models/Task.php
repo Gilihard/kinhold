@@ -252,8 +252,8 @@ class Task extends Model
     /**
      * Get a human-readable label for the recurrence rule.
      *
-     * Parses RRULE strings into friendly text like "Daily", "Every Tuesday",
-     * "Every Mon, Wed, Fri", or "Monthly on the 15th".
+     * Parses RRULE strings into friendly text like "Ежедневно", "Каждый вторник",
+     * "Каждые пн, ср, пт" or "Каждый месяц 15-го числа".
      */
     public function getRecurrenceLabelAttribute(): ?string
     {
@@ -279,53 +279,47 @@ class Task extends Model
             return null;
         }
 
-        $dayNames = [
-            'MO' => 'Mon', 'TU' => 'Tue', 'WE' => 'Wed',
-            'TH' => 'Thu', 'FR' => 'Fri', 'SA' => 'Sat', 'SU' => 'Sun',
+        $fullDayNames = [
+            'MO' => 'понедельник', 'TU' => 'вторник', 'WE' => 'среда',
+            'TH' => 'четверг', 'FR' => 'пятница', 'SA' => 'суббота', 'SU' => 'воскресенье',
         ];
 
-        $fullDayNames = [
-            'MO' => 'Monday', 'TU' => 'Tuesday', 'WE' => 'Wednesday',
-            'TH' => 'Thursday', 'FR' => 'Friday', 'SA' => 'Saturday', 'SU' => 'Sunday',
+        $shortDayNames = [
+            'MO' => 'пн', 'TU' => 'вт', 'WE' => 'ср',
+            'TH' => 'чт', 'FR' => 'пт', 'SA' => 'сб', 'SU' => 'вс',
         ];
 
         switch ($freq) {
             case 'DAILY':
-                return 'Daily';
+                return 'Ежедневно';
 
             case 'WEEKLY':
                 if (isset($parts['BYDAY'])) {
                     $days = explode(',', $parts['BYDAY']);
                     if (count($days) === 1) {
-                        return 'Every '.($fullDayNames[$days[0]] ?? $days[0]);
+                        return 'Каждый '.($fullDayNames[$days[0]] ?? $days[0]);
                     }
-                    $labels = array_map(fn ($d) => $dayNames[$d] ?? $d, $days);
+                    $labels = array_map(fn ($d) => $shortDayNames[$d] ?? $d, $days);
 
-                    return 'Every '.implode(', ', $labels);
+                    return 'Каждые '.implode(', ', $labels);
                 }
 
-                return 'Weekly';
+                return 'Еженедельно';
 
             case 'MONTHLY':
                 if (isset($parts['BYMONTHDAY'])) {
                     $day = (int) $parts['BYMONTHDAY'];
-                    $suffix = match (true) {
-                        $day === 1, $day === 21, $day === 31 => 'st',
-                        $day === 2, $day === 22 => 'nd',
-                        $day === 3, $day === 23 => 'rd',
-                        default => 'th',
-                    };
 
-                    return "Monthly on the {$day}{$suffix}";
+                    return "Каждый месяц {$day}-го числа";
                 }
 
-                return 'Monthly';
+                return 'Ежемесячно';
 
             case 'YEARLY':
-                return 'Yearly';
+                return 'Ежегодно';
 
             default:
-                return 'Recurring';
+                return 'Повтор';
         }
     }
 }

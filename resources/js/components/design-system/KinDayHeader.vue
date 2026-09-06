@@ -4,6 +4,8 @@
   Props: day, weekday, month, eventCount, isToday, size
 -->
 <script setup>
+import { pluralRu } from '@/utils/plural'
+
 const props = defineProps({
   day:        { type: [Number, String], required: true },
   weekday:    { type: String, required: true },
@@ -21,10 +23,10 @@ const props = defineProps({
     <div class="flex flex-col justify-center gap-1 min-w-0">
       <div class="flex items-center gap-2 flex-wrap">
         <span class="kin-day-header__weekday font-semibold uppercase tracking-widest text-ink-primary">{{ weekday }}</span>
-        <span v-if="isToday" class="kin-day-header__today-badge inline-flex items-center rounded-full h-6 font-semibold uppercase flex-shrink-0">TODAY</span>
+        <span v-if="isToday" class="kin-day-header__today-badge inline-flex items-center rounded-full h-6 font-semibold uppercase flex-shrink-0">Сегодня</span>
       </div>
       <span class="kin-day-header__month font-semibold uppercase tracking-widest text-ink-tertiary">{{ month }}</span>
-      <span v-if="eventCount !== null" class="kin-day-header__count text-ink-tertiary">· {{ eventCount }} event{{ eventCount === 1 ? '' : 's' }}</span>
+      <span v-if="eventCount !== null" class="kin-day-header__count text-ink-tertiary">· {{ eventCount }} {{ pluralRu(eventCount, 'событие', 'события', 'событий') }}</span>
     </div>
   </div>
 </template>

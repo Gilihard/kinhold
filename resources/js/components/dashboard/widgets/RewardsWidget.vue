@@ -3,13 +3,13 @@
     <div class="flex items-center justify-between mb-3">
       <h3 class="text-sm font-semibold text-ink-primary flex items-center gap-2">
         <GiftIcon class="w-4 h-4 text-accent-lavender-bold" />
-        {{ config.title || 'Rewards Shop' }}
+        {{ config.title || 'Магазин наград' }}
       </h3>
       <RouterLink
         to="/points/rewards"
         class="text-xs font-medium text-accent-lavender-bold hover:opacity-80 transition-opacity"
       >
-        View All
+        Все
       </RouterLink>
     </div>
 

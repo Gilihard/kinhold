@@ -3,13 +3,13 @@
     <div class="flex items-center justify-between mb-3 flex-shrink-0">
       <h3 class="text-sm font-semibold text-ink-primary flex items-center gap-2">
         <BellIcon class="w-4 h-4 text-accent-lavender-bold" />
-        {{ config.title || 'Activity' }}
+        {{ config.title || 'Активность' }}
       </h3>
       <RouterLink
         to="/points"
         class="text-xs font-medium text-accent-lavender-bold hover:opacity-80 transition-opacity"
       >
-        View All
+        Все
       </RouterLink>
     </div>
 
@@ -20,7 +20,7 @@
     <KinEmptyState
       v-else-if="items.length === 0"
       :icon="BellIcon"
-      title="No recent activity"
+      title="Нет недавней активности"
       size="sm"
       accent-color="lavender"
     />

@@ -1,7 +1,7 @@
 <template>
   <KinModalSheet
     :model-value="!!task"
-    title="Task Details"
+    title="Детали задачи"
     size="md"
     @update:model-value="(v) => !v && $emit('close')"
   >
@@ -9,21 +9,21 @@
       <!-- Title -->
       <KinInput
         v-model="form.title"
-        label="Title"
-        placeholder="Task title"
+        label="Название"
+        placeholder="Название задачи"
       />
 
       <!-- Description -->
       <KinTextarea
         v-model="form.description"
-        label="Description"
+        label="Описание"
         :rows="3"
-        placeholder="Add details..."
+        placeholder="Добавьте подробности..."
       />
 
       <!-- Tags -->
       <div>
-        <label class="block text-xs font-medium text-ink-tertiary uppercase tracking-wider mb-2">Tags</label>
+        <label class="block text-xs font-medium text-ink-tertiary uppercase tracking-wider mb-2">Метки</label>
         <div class="flex flex-wrap gap-2">
           <KinChip
             v-for="tag in tags"
@@ -41,7 +41,7 @@
 
       <!-- Priority -->
       <div>
-        <label class="block text-xs font-medium text-ink-tertiary uppercase tracking-wider mb-2">Priority</label>
+        <label class="block text-xs font-medium text-ink-tertiary uppercase tracking-wider mb-2">Приоритет</label>
         <KinSegmentedFilter
           :options="priorityOptions"
           :active-key="form.priority"
@@ -52,7 +52,7 @@
       <!-- Due Date -->
       <KinInput
         v-model="form.due_date"
-        label="Due Date"
+        label="Срок"
         type="date"
       />
 
@@ -60,8 +60,8 @@
       <div class="py-3 px-4 bg-surface-sunken rounded-xl">
         <KinSwitch
           v-model="form.is_family_task"
-          label="Open to Anyone"
-          description="Any family member can claim and complete this task"
+          label="Доступно всем"
+          description="Любой член семьи может взять и выполнить эту задачу"
           color="lavender"
         />
       </div>
@@ -70,22 +70,22 @@
       <KinSelect
         v-if="!form.is_family_task"
         v-model="form.assigned_to"
-        label="Assigned To"
+        label="Назначено"
         :options="assigneeOptions"
       />
 
       <!-- Points (only for parents — children can't set point values) -->
       <div v-if="enabledModules.points && isParent">
-        <label class="block text-xs font-medium text-ink-tertiary uppercase tracking-wider mb-1.5">Points</label>
+        <label class="block text-xs font-medium text-ink-tertiary uppercase tracking-wider mb-1.5">Баллы</label>
         <div class="flex items-center gap-3">
           <KinInput
             v-model.number="form.points"
             type="number"
             min="0"
-            placeholder="Auto (based on priority)"
+            placeholder="Авто (по приоритету)"
           />
           <span class="text-xs text-ink-tertiary whitespace-nowrap">
-            Earns: {{ form.points || defaultPoints[form.priority] || 10 }} pts
+            Награда: {{ earnsLabel() }}
           </span>
         </div>
       </div>
@@ -94,7 +94,7 @@
       <div>
         <KinSelect
           v-model="form.recurrence_preset"
-          label="Repeat"
+          label="Повтор"
           :options="recurrencePresetOptions"
         />
 
@@ -103,7 +103,7 @@
           <KinInput
             v-model="form.recurrence_rule"
             type="text"
-            placeholder="e.g. FREQ=WEEKLY;BYDAY=TU,TH"
+            placeholder="напр., FREQ=WEEKLY;BYDAY=TU,TH"
           />
         </div>
 
@@ -112,7 +112,7 @@
           <KinInput
             v-model="form.recurrence_end"
             type="date"
-            label="Repeat until (optional)"
+            label="Повторять до (необязательно)"
           />
         </div>
       </div>
@@ -121,7 +121,7 @@
       <div class="py-3 px-4 bg-surface-sunken rounded-xl">
         <KinSwitch
           v-model="form.completed"
-          label="Completed"
+          label="Выполнено"
           color="mint"
         />
       </div>
@@ -130,23 +130,23 @@
     <template #actions>
       <div class="flex gap-3 items-center">
         <KinButton variant="danger" size="md" @click="$emit('delete', task.id)">
-          Delete
+          Удалить
         </KinButton>
         <div class="flex-1"></div>
 
         <!-- Unsaved changes indicator -->
         <Transition name="fade-fast" mode="out-in">
           <span v-if="isDirty && !justSaved" key="dirty" class="text-xs text-ink-tertiary font-medium">
-            Unsaved changes
+            Несохранённые изменения
           </span>
           <span v-else-if="justSaved" key="saved" class="text-xs text-status-success font-medium flex items-center gap-1">
             <CheckCircleIcon class="w-4 h-4" />
-            Saved!
+            Сохранено!
           </span>
         </Transition>
 
         <KinButton variant="ghost" size="md" @click="$emit('close')">
-          Cancel
+          Отмена
         </KinButton>
         <KinButton
           variant="primary"
@@ -154,7 +154,7 @@
           :disabled="saving || !form.title?.trim()"
           @click="save"
         >
-          {{ saving ? 'Saving...' : 'Save' }}
+          {{ saving ? 'Сохранение...' : 'Сохранить' }}
         </KinButton>
       </div>
     </template>
@@ -166,6 +166,7 @@ import { reactive, watch, ref, computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '@/stores/auth'
 import { CheckCircleIcon } from '@heroicons/vue/24/outline'
+import { ptsWord } from '@/utils/plural'
 import KinModalSheet from '@/components/design-system/KinModalSheet.vue'
 import KinButton from '@/components/design-system/KinButton.vue'
 import KinInput from '@/components/design-system/KinInput.vue'
@@ -191,10 +192,15 @@ let savedTimer = null
 
 const defaultPoints = { low: 5, medium: 10, high: 20 }
 
+const earnsLabel = () => {
+  const value = form.points || defaultPoints[form.priority] || 10
+  return `${value} ${ptsWord(value)}`
+}
+
 const priorityOptions = [
-  { key: 'low', label: 'Low' },
-  { key: 'medium', label: 'Medium' },
-  { key: 'high', label: 'High' },
+  { key: 'low', label: 'Низкий' },
+  { key: 'medium', label: 'Средний' },
+  { key: 'high', label: 'Высокий' },
 ]
 
 // If user can't assign tasks to others, only show themselves as an option
@@ -204,22 +210,22 @@ const assignableMembers = computed(() => {
 })
 
 const assigneeOptions = computed(() => [
-  { value: null, label: 'Unassigned' },
+  { value: null, label: 'Не назначено' },
   ...assignableMembers.value.map((m) => ({ value: m.id, label: m.name })),
 ])
 
 const recurrencePresetOptions = [
-  { value: '', label: 'Does not repeat' },
-  { value: 'FREQ=DAILY', label: 'Every day' },
-  { value: 'FREQ=WEEKLY;BYDAY=MO', label: 'Every Monday' },
-  { value: 'FREQ=WEEKLY;BYDAY=TU', label: 'Every Tuesday' },
-  { value: 'FREQ=WEEKLY;BYDAY=WE', label: 'Every Wednesday' },
-  { value: 'FREQ=WEEKLY;BYDAY=TH', label: 'Every Thursday' },
-  { value: 'FREQ=WEEKLY;BYDAY=FR', label: 'Every Friday' },
-  { value: 'FREQ=WEEKLY;BYDAY=SA', label: 'Every Saturday' },
-  { value: 'FREQ=WEEKLY;BYDAY=SU', label: 'Every Sunday' },
-  { value: 'FREQ=MONTHLY', label: 'Every month' },
-  { value: 'custom', label: 'Custom RRULE...' },
+  { value: '', label: 'Не повторяется' },
+  { value: 'FREQ=DAILY', label: 'Ежедневно' },
+  { value: 'FREQ=WEEKLY;BYDAY=MO', label: 'Каждый понедельник' },
+  { value: 'FREQ=WEEKLY;BYDAY=TU', label: 'Каждый вторник' },
+  { value: 'FREQ=WEEKLY;BYDAY=WE', label: 'Каждую среду' },
+  { value: 'FREQ=WEEKLY;BYDAY=TH', label: 'Каждый четверг' },
+  { value: 'FREQ=WEEKLY;BYDAY=FR', label: 'Каждую пятницу' },
+  { value: 'FREQ=WEEKLY;BYDAY=SA', label: 'Каждую субботу' },
+  { value: 'FREQ=WEEKLY;BYDAY=SU', label: 'Каждое воскресенье' },
+  { value: 'FREQ=MONTHLY', label: 'Ежемесячно' },
+  { value: 'custom', label: 'Свой RRULE...' },
 ]
 
 const colorMap = {

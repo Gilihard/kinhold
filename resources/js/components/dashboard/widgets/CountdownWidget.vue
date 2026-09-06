@@ -10,12 +10,12 @@
     v-else
     class="rounded-card border border-border-subtle bg-surface-raised p-4 md:p-5 text-sm text-ink-secondary"
   >
-    Mark a calendar event as featured to see a countdown here.
+    Отметьте событие календаря как избранное, чтобы увидеть здесь отсчёт.
     <router-link
       to="/calendar"
       class="ml-1 font-medium text-accent-peach-bold hover:underline"
     >
-      Open calendar
+      Открыть календарь
     </router-link>
   </div>
 </template>

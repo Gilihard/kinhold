@@ -30,8 +30,8 @@ class DemoBadgeSeeder extends Seeder
         $welcomeBadge = Badge::create([
             'family_id' => $this->familyId(),
             'created_by' => $this->mike->id,
-            'name' => 'Welcome to Kinhold!',
-            'description' => 'Joined the family hub',
+            'name' => 'Добро пожаловать в Kinhold!',
+            'description' => 'Присоединился(ась) к семейному приложению',
             'icon' => 'shield',
             'color' => '#7d57a8',
             'trigger_type' => BadgeTriggerType::Custom->value,
@@ -43,8 +43,8 @@ class DemoBadgeSeeder extends Seeder
         $superHelper = Badge::create([
             'family_id' => $this->familyId(),
             'created_by' => $this->sarah->id,
-            'name' => 'Super Helper',
-            'description' => 'Went above and beyond to help the family',
+            'name' => 'Суперпомощник',
+            'description' => 'Сделал(а) больше обычного, чтобы помочь семье',
             'icon' => 'thumbs-up',
             'color' => '#f59e0b',
             'trigger_type' => BadgeTriggerType::Custom->value,
@@ -65,24 +65,24 @@ class DemoBadgeSeeder extends Seeder
 
         // All 3 kids have First Steps
         foreach ($this->kids() as $kid) {
-            $badges['First Steps']->users()->attach($kid->id, [
+            $badges['Первые шаги']->users()->attach($kid->id, [
                 'id' => Str::uuid(),
                 'earned_at' => $now->copy()->subDays(88),
             ]);
         }
 
         // Emma has Task Rookie (she has ~18 completed tasks)
-        $badges['Task Rookie']->users()->attach($this->emma->id, [
+        $badges['Новичок']->users()->attach($this->emma->id, [
             'id' => Str::uuid(),
             'earned_at' => $now->copy()->subDays(56),
         ]);
 
         // Emma and Jake have Rising Star (100+ points earned)
-        $badges['Rising Star']->users()->attach($this->emma->id, [
+        $badges['Восходящая звезда']->users()->attach($this->emma->id, [
             'id' => Str::uuid(),
             'earned_at' => $now->copy()->subDays(46),
         ]);
-        $badges['Rising Star']->users()->attach($this->jake->id, [
+        $badges['Восходящая звезда']->users()->attach($this->jake->id, [
             'id' => Str::uuid(),
             'earned_at' => $now->copy()->subDays(36),
         ]);
@@ -95,13 +95,13 @@ class DemoBadgeSeeder extends Seeder
         ]);
 
         // Mike has First Steps too (from completed tasks)
-        $badges['First Steps']->users()->attach($this->mike->id, [
+        $badges['Первые шаги']->users()->attach($this->mike->id, [
             'id' => Str::uuid(),
             'earned_at' => $now->copy()->subDays(84),
         ]);
 
         // Sarah has First Steps
-        $badges['First Steps']->users()->attach($this->sarah->id, [
+        $badges['Первые шаги']->users()->attach($this->sarah->id, [
             'id' => Str::uuid(),
             'earned_at' => $now->copy()->subDays(83),
         ]);

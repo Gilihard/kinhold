@@ -1,9 +1,15 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import { registerSW } from 'virtual:pwa-register'
+import { Settings as LuxonSettings } from 'luxon'
 import App from './App.vue'
 import router from './router'
 import '../css/app.css'
+
+// Russian locale: Luxon date formatting (weekdays, months, relative dates)
+// and the html lang attribute follow the interface language.
+LuxonSettings.defaultLocale = 'ru'
+document.documentElement.lang = 'ru'
 
 // Stale-build recovery (#278). After a redeploy, hashed asset filenames
 // change. A returning user whose tab cached the old `index.html` (via SW or

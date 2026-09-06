@@ -3,17 +3,17 @@
     <!-- Hero metric -->
     <div class="pb-3 border-b border-border-subtle">
       <p class="text-[10px] font-semibold uppercase tracking-widest text-ink-tertiary">
-        {{ config.title || 'Your Points' }}
+        {{ config.title || 'Ваши баллы' }}
       </p>
       <KinSkeleton v-if="bankLoading" shape="rect" :width="'120px'" :height="'40px'" rounded="4px" class="mt-1" />
       <p v-else class="text-4xl font-bold font-mono text-ink-primary mt-1">
-        {{ balance.toLocaleString() }}<span class="text-base font-normal ml-1 text-ink-tertiary">pts</span>
+        {{ balance.toLocaleString() }}<span class="text-base font-normal ml-1 text-ink-tertiary">{{ ptsWord(balance) }}</span>
       </p>
     </div>
 
     <!-- Recent activity -->
     <div class="flex-1 min-h-0 pt-2">
-      <p class="text-[10px] uppercase tracking-wider font-semibold text-ink-tertiary mb-1.5">Recent</p>
+      <p class="text-[10px] uppercase tracking-wider font-semibold text-ink-tertiary mb-1.5">Недавние</p>
       <div v-if="feedLoading" class="space-y-2">
         <KinSkeleton v-for="n in 3" :key="n" shape="rect" :height="'24px'" rounded="4px" />
       </div>
@@ -41,6 +41,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useWidgetData } from '@/composables/useWidgetData'
+import { ptsWord } from '@/utils/plural'
 import KinSkeleton from '@/components/design-system/KinSkeleton.vue'
 
 defineProps({

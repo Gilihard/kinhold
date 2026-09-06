@@ -8,8 +8,8 @@
           <h1 class="text-4xl font-heading font-bold text-kin-gold">Kinhold</h1>
         </router-link>
         <p class="kin-muted mt-2">
-          <template v-if="authStore.appConfig?.first_boot">Welcome! Create your first family to get started.</template>
-          <template v-else>Create your family hub</template>
+          <template v-if="authStore.appConfig?.first_boot">Добро пожаловать! Создай свою первую семью, чтобы начать.</template>
+          <template v-else>Создай свой семейный центр</template>
         </p>
       </div>
 
@@ -19,7 +19,7 @@
           <!-- Name -->
           <KinInput
             v-model="form.name"
-            label="Full Name"
+            label="Имя и фамилия"
             type="text"
             placeholder="John Doe"
             required
@@ -29,7 +29,7 @@
           <!-- Email -->
           <KinInput
             v-model="form.email"
-            label="Email"
+            label="Эл. почта"
             type="email"
             placeholder="name@example.com"
             required
@@ -39,7 +39,7 @@
           <!-- Password -->
           <KinInput
             v-model="form.password"
-            label="Password"
+            label="Пароль"
             type="password"
             placeholder="••••••••"
             required
@@ -49,7 +49,7 @@
           <!-- Confirm Password -->
           <KinInput
             v-model="form.password_confirmation"
-            label="Confirm Password"
+            label="Подтверждение пароля"
             type="password"
             placeholder="••••••••"
             required
@@ -59,7 +59,7 @@
           <!-- Family Setup tabs (#247) — pill tabs read as a binary selector
                instead of two competing primary buttons. -->
           <div class="space-y-3 py-2">
-            <p class="text-sm font-medium text-ink-primary">Family Setup</p>
+            <p class="text-sm font-medium text-ink-primary">Семья</p>
             <KinTabPillGroup
               :tabs="familyModeTabs"
               :active-key="familyMode"
@@ -73,7 +73,7 @@
           <template v-if="familyMode === 'new'">
             <KinInput
               v-model="form.family_name"
-              label="Family Name"
+              label="Название семьи"
               type="text"
               placeholder="The Johnsons"
               required
@@ -85,7 +85,7 @@
           <template v-else>
             <KinInput
               v-model="form.invite_code"
-              label="Family Invite Code"
+              label="Код приглашения в семью"
               type="text"
               placeholder="ABC123XYZ"
               required
@@ -106,7 +106,7 @@
             :loading="isLoading"
             class="w-full mt-6"
           >
-            Create Account
+            Создать аккаунт
           </KinButton>
         </form>
 
@@ -117,7 +117,7 @@
               <div class="w-full border-t border-border-subtle"></div>
             </div>
             <div class="relative flex justify-center text-sm">
-              <span class="px-3 bg-surface-raised kin-muted">or sign up with</span>
+              <span class="px-3 bg-surface-raised kin-muted">или зарегистрироваться через</span>
             </div>
           </div>
 
@@ -137,7 +137,7 @@
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
               </svg>
             </template>
-            {{ googleLoading ? 'Redirecting...' : 'Sign up with Google' }}
+            {{ googleLoading ? 'Перенаправление…' : 'Зарегистрироваться через Google' }}
           </KinButton>
         </template>
 
@@ -146,9 +146,9 @@
 
         <!-- Login link -->
         <p class="text-center kin-muted">
-          Already have an account?
+          Уже есть аккаунт?
           <RouterLink to="/login" class="kin-link font-medium">
-            Sign in
+            Войти
           </RouterLink>
         </p>
       </KinFlatCard>
@@ -176,8 +176,8 @@ const familyMode = ref('new')
 const googleLoading = ref(false)
 
 const familyModeTabs = [
-  { key: 'new', label: 'Create new' },
-  { key: 'join', label: 'Join existing' },
+  { key: 'new', label: 'Создать новую' },
+  { key: 'join', label: 'Вступить в существующую' },
 ]
 
 const form = reactive({
@@ -209,31 +209,31 @@ const validateForm = () => {
   errors.general = ''
 
   if (!form.name) {
-    errors.name = 'Name is required'
+    errors.name = 'Укажи имя'
   }
 
   if (!form.email) {
-    errors.email = 'Email is required'
+    errors.email = 'Укажи эл. почту'
   } else if (!form.email.includes('@')) {
-    errors.email = 'Invalid email format'
+    errors.email = 'Неверный формат эл. почты'
   }
 
   if (!form.password) {
-    errors.password = 'Password is required'
+    errors.password = 'Введи пароль'
   } else if (form.password.length < 8) {
-    errors.password = 'Password must be at least 8 characters'
+    errors.password = 'Пароль должен содержать не менее 8 символов'
   }
 
   if (form.password !== form.password_confirmation) {
-    errors.password_confirmation = 'Passwords do not match'
+    errors.password_confirmation = 'Пароли не совпадают'
   }
 
   if (familyMode.value === 'new' && !form.family_name) {
-    errors.family_name = 'Family name is required'
+    errors.family_name = 'Укажи название семьи'
   }
 
   if (familyMode.value === 'join' && !form.invite_code) {
-    errors.invite_code = 'Invite code is required'
+    errors.invite_code = 'Укажи код приглашения'
   }
 
   return (
@@ -267,7 +267,7 @@ const handleRegister = async () => {
   if (result.success) {
     router.push({ name: 'Dashboard' })
   } else {
-    errors.general = result.error || 'Registration failed. Please try again.'
+    errors.general = result.error || 'Не удалось зарегистрироваться. Попробуй ещё раз.'
     notificationError(errors.general)
   }
 }
@@ -285,11 +285,11 @@ const handleGoogleSignup = async () => {
     if (data.url) {
       window.location.href = data.url
     } else {
-      errors.general = 'Failed to get Google signup URL.'
+      errors.general = 'Не удалось получить ссылку для регистрации через Google.'
       googleLoading.value = false
     }
   } catch {
-    errors.general = 'Failed to connect to Google. Please try again.'
+    errors.general = 'Не удалось подключиться к Google. Попробуй ещё раз.'
     googleLoading.value = false
   }
 }

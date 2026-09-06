@@ -38,12 +38,12 @@ const props = defineProps({
 
 const actions = computed(() => {
   return props.config.settings?.actions || [
-    { label: 'Add Task', icon: 'plus-circle', path: '/tasks' },
-    { label: 'Calendar', icon: 'calendar', path: '/calendar' },
-    { label: 'Assistant', icon: 'cpu-chip', path: '/chat' },
-    { label: 'Vault', icon: 'lock-closed', path: '/vault' },
-    { label: 'Points', icon: 'trophy', path: '/points' },
-    { label: 'Rewards', icon: 'gift', path: '/points/rewards' },
+    { label: 'Добавить задачу', icon: 'plus-circle', path: '/tasks' },
+    { label: 'Календарь', icon: 'calendar', path: '/calendar' },
+    { label: 'Ассистент', icon: 'cpu-chip', path: '/chat' },
+    { label: 'Хранилище', icon: 'lock-closed', path: '/vault' },
+    { label: 'Баллы', icon: 'trophy', path: '/points' },
+    { label: 'Награды', icon: 'gift', path: '/points/rewards' },
   ]
 })
 

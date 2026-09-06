@@ -3,13 +3,13 @@
     <div class="flex items-center justify-between mb-3 flex-shrink-0">
       <h3 class="text-sm font-semibold text-ink-primary flex items-center gap-2">
         <CalendarIcon class="w-4 h-4 text-accent-lavender-bold" />
-        {{ config.title || "Today's Schedule" }}
+        {{ config.title || "Расписание на сегодня" }}
       </h3>
       <RouterLink
         to="/calendar"
         class="text-xs font-medium text-accent-lavender-bold hover:opacity-80 transition-opacity"
       >
-        View Calendar
+        Открыть календарь
       </RouterLink>
     </div>
 
@@ -20,8 +20,8 @@
     <KinEmptyState
       v-else-if="events.length === 0"
       :icon="CalendarIcon"
-      title="No events today"
-      description="Your calendar is clear!"
+      title="Сегодня нет событий"
+      description="Ваш календарь свободен!"
       size="sm"
       accent-color="lavender"
     />
@@ -42,7 +42,7 @@
           </p>
           <div class="flex items-center gap-2 mt-0.5">
             <p class="text-xs text-ink-tertiary">
-              <template v-if="event.all_day">All day</template>
+              <template v-if="event.all_day">Весь день</template>
               <template v-else-if="event.start_time">{{ formatTime(event.start_time) }}</template>
               <template v-else-if="event.start">{{ formatTime(event.start) }}</template>
             </p>

@@ -4,7 +4,7 @@
     <div class="flex-1 min-w-0 p-3 md:p-6 overflow-y-auto">
       <!-- Header -->
       <div class="flex items-center justify-between mb-2 md:mb-4 gap-3 flex-wrap">
-        <h1 class="text-lg md:text-2xl font-bold font-heading text-ink-primary">Calendar</h1>
+        <h1 class="text-lg md:text-2xl font-bold font-heading text-ink-primary">Календарь</h1>
 
         <div class="flex items-center gap-2 flex-wrap">
           <!-- View Mode Selector -->
@@ -20,26 +20,26 @@
 
       <!-- Day-view editorial header (hero day number + week / month) -->
       <div v-if="viewMode === 'day'" class="mb-6 flex items-center gap-3 flex-wrap">
-        <KinButton variant="ghost" size="sm" icon-only aria-label="Previous day" @click="navigatePrev">
+        <KinButton variant="ghost" size="sm" icon-only aria-label="Предыдущий день" @click="navigatePrev">
           <ChevronLeftIcon class="w-5 h-5" />
         </KinButton>
         <KinDayHeader
           :day="currentMonth.day"
           :weekday="currentMonth.toFormat('EEEE')"
-          :month="currentMonth.toFormat('MMMM yyyy')"
+          :month="monthTitleRu(currentMonth)"
           :event-count="dayEvents.length"
           :is-today="currentMonth.hasSame(now, 'day')"
           size="md"
           class="flex-1 min-w-0"
         />
-        <KinButton variant="ghost" size="sm" icon-only aria-label="Next day" @click="navigateNext">
+        <KinButton variant="ghost" size="sm" icon-only aria-label="Следующий день" @click="navigateNext">
           <ChevronRightIcon class="w-5 h-5" />
         </KinButton>
       </div>
 
       <!-- Month/Week navigation bar (compact title + prev/next/today) -->
       <div v-else class="flex items-center justify-between mb-6 px-3 py-2 bg-surface-raised rounded-card border border-border-subtle">
-        <KinButton variant="ghost" size="sm" icon-only aria-label="Previous" @click="navigatePrev">
+        <KinButton variant="ghost" size="sm" icon-only aria-label="Предыдущий" @click="navigatePrev">
           <ChevronLeftIcon class="w-5 h-5" />
         </KinButton>
 
@@ -48,11 +48,11 @@
             {{ navigationTitle }}
           </h2>
           <KinButton variant="secondary" size="sm" @click="navigateToToday">
-            Today
+            Сегодня
           </KinButton>
         </div>
 
-        <KinButton variant="ghost" size="sm" icon-only aria-label="Next" @click="navigateNext">
+        <KinButton variant="ghost" size="sm" icon-only aria-label="Следующий" @click="navigateNext">
           <ChevronRightIcon class="w-5 h-5" />
         </KinButton>
       </div>
@@ -106,16 +106,16 @@
           <button
             type="button"
             class="w-6 h-6 rounded-full flex items-center justify-center text-ink-tertiary hover:bg-surface-sunken hover:text-ink-primary transition-colors"
-            aria-label="Previous month"
+            aria-label="Предыдущий месяц"
             @click="navigateMiniMonth(-1)"
           >
             <ChevronLeftIcon class="w-3.5 h-3.5" />
           </button>
-          <span class="text-[12px] font-semibold text-ink-primary">{{ currentMonth.toFormat('MMMM yyyy') }}</span>
+          <span class="text-[12px] font-semibold text-ink-primary">{{ monthTitleRu(currentMonth) }}</span>
           <button
             type="button"
             class="w-6 h-6 rounded-full flex items-center justify-center text-ink-tertiary hover:bg-surface-sunken hover:text-ink-primary transition-colors"
-            aria-label="Next month"
+            aria-label="Следующий месяц"
             @click="navigateMiniMonth(1)"
           >
             <ChevronRightIcon class="w-3.5 h-3.5" />
@@ -181,10 +181,10 @@
             <template #leading>
               <PlusIcon class="w-4 h-4" />
             </template>
-            Add Event
+            Добавить событие
           </KinButton>
           <KinButton variant="ghost" size="sm" @click="navigateToToday">
-            Today
+            Сегодня
           </KinButton>
         </div>
       </template>
@@ -195,7 +195,7 @@
       v-if="!showEventModal"
       type="button"
       class="lg:hidden fixed bottom-20 right-4 z-30 w-14 h-14 rounded-full flex items-center justify-center shadow-elevated bg-accent-lavender-bold text-ink-inverse hover:brightness-110 transition-all"
-      aria-label="Add event"
+      aria-label="Добавить событие"
       @click="openCreateModal()"
     >
       <PlusIcon class="w-6 h-6" />
@@ -214,9 +214,9 @@
     <!-- Delete Confirmation -->
     <ConfirmDialog
       :show="showDeleteConfirm"
-      title="Delete Event"
-      :message="`Are you sure you want to delete '${editingEvent?.title}'?`"
-      confirm-text="Delete"
+      title="Удалить событие"
+      :message="`Вы уверены, что хотите удалить «${editingEvent?.title}»?`"
+      confirm-text="Удалить"
       variant="danger"
       @confirm="handleDelete"
       @cancel="showDeleteConfirm = false"
@@ -249,16 +249,20 @@ const calendarStore = useCalendarStore()
 const { currentMonth, viewMode, events, connections } = storeToRefs(calendarStore)
 
 const viewModeTabs = [
-  { key: 'month', label: 'Month' },
-  { key: 'week',  label: 'Week' },
-  { key: 'day',   label: 'Day' },
+  { key: 'month', label: 'Месяц' },
+  { key: 'week',  label: 'Неделя' },
+  { key: 'day',   label: 'День' },
 ]
 
 // "now" — used by KinDayHeader for the TODAY badge.
 const now = ref(DateTime.now())
 
+// Standalone month title («сентябрь 2026»), not the declension used after a day number.
+const monthTitleRu = (m) =>
+  m.toLocaleString({ month: 'long', year: 'numeric' }).replace(/ г\.$/, '')
+
 // Mini-month day-of-week labels for the rail.
-const MINI_DOW = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+const MINI_DOW = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
 
 const navigateMiniMonth = (delta) => {
   if (delta < 0) calendarStore.navigateMonth('prev')
@@ -272,12 +276,12 @@ const navigateMiniMonth = (delta) => {
 // month/week/day grids.
 const sourceFilters = computed(() => {
   const built = [
-    { key: 'manual', label: 'Family Events', color: '#6856B2' },
-    { key: 'task',   label: 'Tasks',         color: '#A07A10' },
+    { key: 'manual', label: 'Семейные события', color: '#6856B2' },
+    { key: 'task',   label: 'Задачи',           color: '#A07A10' },
   ]
   const conn = (connections.value || []).map((c, idx) => ({
     key: `cal:${c.calendar_id || c.id}`,
-    label: c.calendar_name || 'Calendar',
+    label: c.calendar_name || 'Календарь',
     color: c.color || defaultColors[idx % defaultColors.length],
   }))
   return [...built, ...conn]
@@ -329,22 +333,22 @@ const calendarColorMap = computed(() => {
 const calendarNameMap = computed(() => {
   const map = {}
   ;(connections.value || []).forEach((conn) => {
-    if (conn.calendar_id) map[conn.calendar_id] = conn.calendar_name || 'Calendar'
+    if (conn.calendar_id) map[conn.calendar_id] = conn.calendar_name || 'Календарь'
     if (conn.calendar_name) map[conn.calendar_name] = conn.calendar_name
   })
   return map
 })
 
 const getCalendarSourceName = (event) => {
-  if (event.source === 'task') return 'Task'
-  if (event.source === 'manual') return 'Family Event'
+  if (event.source === 'task') return 'Задача'
+  if (event.source === 'manual') return 'Семейное событие'
   if (event.calendar_id && calendarNameMap.value[event.calendar_id]) {
     return calendarNameMap.value[event.calendar_id]
   }
   if (event.user?.name) {
-    return event.user.name + "'s Calendar"
+    return `Календарь ${event.user.name}`
   }
-  return 'Calendar'
+  return 'Календарь'
 }
 
 const getEventColor = (event) => {
@@ -406,16 +410,16 @@ const handleDelete = async () => {
 
 const navigationTitle = computed(() => {
   if (viewMode.value === 'month') {
-    return currentMonth.value.toFormat('MMMM yyyy')
+    return monthTitleRu(currentMonth.value)
   } else if (viewMode.value === 'week') {
     const start = currentMonth.value.startOf('week')
     const end = start.plus({ days: 6 })
     if (start.month === end.month) {
-      return `${start.toFormat('MMMM d')} - ${end.toFormat('d, yyyy')}`
+      return `${start.toFormat('d')} - ${end.toFormat('d MMMM yyyy')}`
     }
-    return `${start.toFormat('MMM d')} - ${end.toFormat('MMM d, yyyy')}`
+    return `${start.toFormat('d MMMM')} - ${end.toFormat('d MMMM yyyy')}`
   } else {
-    return currentMonth.value.toFormat('EEEE, MMMM d, yyyy')
+    return currentMonth.value.toFormat('EEEE, d MMMM yyyy')
   }
 })
 
@@ -509,7 +513,7 @@ const monthEventLabels = computed(() => {
     const d = DateTime.fromISO(event.start)
     if (d < monthStart || d > monthEnd) continue
     if (!map[d.day]) map[d.day] = []
-    map[d.day].push(event.title || 'Event')
+    map[d.day].push(event.title || 'Событие')
   }
   return map
 })
@@ -584,7 +588,7 @@ const filteredMonthEventLabels = computed(() => {
     const d = DateTime.fromISO(event.start)
     if (d < monthStart || d > monthEnd) continue
     if (!map[d.day]) map[d.day] = []
-    map[d.day].push(event.title || 'Event')
+    map[d.day].push(event.title || 'Событие')
   }
   return map
 })

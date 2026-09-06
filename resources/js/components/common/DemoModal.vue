@@ -1,7 +1,7 @@
 <template>
-  <BaseModal :show="show" title="Try the Demo" size="lg" @close="$emit('close')">
+  <BaseModal :show="show" title="Попробовать демо" size="lg" @close="$emit('close')">
     <p class="text-sm kin-muted mb-5">
-      Meet the Ellis family! Pick a family member to explore Kinhold from their perspective.
+      Познакомьтесь с семьёй Эллис! Выберите члена семьи, чтобы изучить Kinhold от его имени.
     </p>
 
     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -32,7 +32,7 @@
             class="inline-block mt-1 text-xs px-2 py-0.5 rounded-full"
             :class="member.role === 'Parent' ? 'bg-accent-lavender-soft/40 text-accent-lavender-bold' : 'bg-accent-sun-soft/40 text-accent-sun-bold'"
           >
-            {{ member.role }}
+            {{ roleLabel(member.role) }}
           </span>
           <div class="text-xs kin-muted mt-1">{{ member.description }}</div>
         </div>
@@ -63,12 +63,20 @@ const loadingMember = ref(null)
 const errorMsg = ref('')
 
 const members = [
-  { key: 'adaeze', name: 'Adaeze', role: 'Parent', description: 'Mom', color: '#7B5EA7' },
-  { key: 'marcus', name: 'Marcus', role: 'Parent', description: 'Dad', color: '#4A7B8C' },
-  { key: 'zara',   name: 'Zara',   role: 'Teen',   description: 'Age 16', color: '#C25B8A' },
-  { key: 'kenji',  name: 'Kenji',  role: 'Kid',    description: 'Age 13', color: '#5B7BC2' },
-  { key: 'naia',   name: 'Naia',   role: 'Kid',    description: 'Age 9',  color: '#4A9C78' },
+  { key: 'adaeze', name: 'Adaeze', role: 'Parent', description: 'Мама', color: '#7B5EA7' },
+  { key: 'marcus', name: 'Marcus', role: 'Parent', description: 'Папа', color: '#4A7B8C' },
+  { key: 'zara',   name: 'Zara',   role: 'Teen',   description: '16 лет', color: '#C25B8A' },
+  { key: 'kenji',  name: 'Kenji',  role: 'Kid',    description: '13 лет', color: '#5B7BC2' },
+  { key: 'naia',   name: 'Naia',   role: 'Kid',    description: '9 лет',  color: '#4A9C78' },
 ]
+
+const roleLabels = {
+  Parent: 'Родитель',
+  Teen: 'Подросток',
+  Kid: 'Ребёнок',
+}
+
+const roleLabel = (role) => roleLabels[role] || role
 
 const handleSelect = async (key) => {
   loadingMember.value = key
@@ -80,7 +88,7 @@ const handleSelect = async (key) => {
     emit('close')
     router.push({ name: 'Dashboard' })
   } else {
-    errorMsg.value = result.error || 'Something went wrong. Please try again.'
+    errorMsg.value = result.error || 'Что-то пошло не так. Попробуйте ещё раз.'
   }
 
   loadingMember.value = null

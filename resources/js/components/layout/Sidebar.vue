@@ -26,18 +26,18 @@
           <UserAvatar :user="currentUser" size="sm" />
           <div v-if="!collapsed" class="flex-1 min-w-0">
             <p class="text-sm font-medium text-ink-primary truncate">{{ currentUser?.name }}</p>
-            <p class="text-[11px] text-ink-tertiary truncate capitalize">{{ currentUser?.family_role || 'member' }}</p>
+            <p class="text-[11px] text-ink-tertiary truncate">{{ roleLabel(currentUser?.family_role) }}</p>
           </div>
         </RouterLink>
         <button
           type="button"
           class="flex items-center w-full rounded-[12px] text-sm text-ink-tertiary hover:bg-status-failed/10 hover:text-status-failed transition-colors"
           :class="collapsed ? 'justify-center py-2 px-0' : 'gap-3 px-2 py-2'"
-          :title="collapsed ? 'Sign Out' : undefined"
+          :title="collapsed ? 'Выйти' : undefined"
           @click="handleLogout"
         >
           <ArrowRightOnRectangleIcon class="w-5 h-5 flex-shrink-0" />
-          <span v-if="!collapsed">Sign Out</span>
+          <span v-if="!collapsed">Выйти</span>
         </button>
       </div>
     </template>
@@ -65,6 +65,9 @@ import {
   ArrowRightOnRectangleIcon,
 } from '@heroicons/vue/24/outline'
 
+const roleLabels = { parent: 'Родитель', teen: 'Подросток', kid: 'Ребёнок' }
+const roleLabel = (role) => roleLabels[String(role || '').toLowerCase()] || role || 'Участник'
+
 const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
@@ -89,16 +92,16 @@ const onLogoClick = () => {
 }
 
 const navItems = [
-  { key: 'dashboard', label: 'Dashboard', to: '/dashboard', icon: HomeIcon, module: null },
-  { key: 'chat',      label: 'Assistant', to: '/chat',      icon: CpuChipIcon, module: 'chat' },
-  { key: 'calendar',  label: 'Calendar',  to: '/calendar',  icon: CalendarIcon, module: 'calendar' },
-  { key: 'tasks',     label: 'Tasks',     to: '/tasks',     icon: CheckCircleIcon, module: 'tasks' },
-  { key: 'food',      label: 'Meals',     to: '/food',      icon: FireIcon, module: 'food' },
-  { key: 'shopping',  label: 'Shopping',  to: '/shopping',  icon: ClipboardDocumentListIcon, module: 'food' },
-  { key: 'points',    label: 'Points',    to: '/points',    icon: TrophyIcon, module: 'points' },
-  { key: 'rewards',   label: 'Rewards',   to: '/points/rewards', icon: GiftIcon, module: 'points' },
-  { key: 'badges',    label: 'Achievements', to: '/badges', icon: ShieldCheckIcon, module: 'badges' },
-  { key: 'vault',     label: 'Vault',     to: '/vault',     icon: LockClosedIcon, module: 'vault' },
+  { key: 'dashboard', label: 'Дашборд', to: '/dashboard', icon: HomeIcon, module: null },
+  { key: 'chat',      label: 'Ассистент', to: '/chat',      icon: CpuChipIcon, module: 'chat' },
+  { key: 'calendar',  label: 'Календарь',  to: '/calendar',  icon: CalendarIcon, module: 'calendar' },
+  { key: 'tasks',     label: 'Задачи',     to: '/tasks',     icon: CheckCircleIcon, module: 'tasks' },
+  { key: 'food',      label: 'Питание',     to: '/food',      icon: FireIcon, module: 'food' },
+  { key: 'shopping',  label: 'Покупки',  to: '/shopping',  icon: ClipboardDocumentListIcon, module: 'food' },
+  { key: 'points',    label: 'Баллы',    to: '/points',    icon: TrophyIcon, module: 'points' },
+  { key: 'rewards',   label: 'Награды',   to: '/points/rewards', icon: GiftIcon, module: 'points' },
+  { key: 'badges',    label: 'Достижения', to: '/badges', icon: ShieldCheckIcon, module: 'badges' },
+  { key: 'vault',     label: 'Хранилище',     to: '/vault',     icon: LockClosedIcon, module: 'vault' },
 ]
 
 const filteredNavItems = computed(() =>

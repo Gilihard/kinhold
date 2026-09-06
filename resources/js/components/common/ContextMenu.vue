@@ -4,7 +4,7 @@
     <button
       class="p-1.5 rounded-lg text-ink-tertiary hover:text-ink-primary hover:bg-surface-sunken transition-colors"
       :class="triggerClass"
-      aria-label="More actions"
+      aria-label="Ещё действия"
       @click.stop="toggle"
     >
       <slot name="trigger">

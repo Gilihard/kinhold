@@ -1,5 +1,5 @@
 <template>
-  <KinModalSheet :model-value="modelValue" title="More" size="md" @update:model-value="$emit('update:modelValue', $event)">
+  <KinModalSheet :model-value="modelValue" title="Ещё" size="md" @update:model-value="$emit('update:modelValue', $event)">
     <ul class="divide-y divide-border-subtle">
       <li v-for="item in visibleItems" :key="item.key">
         <RouterLink
@@ -18,7 +18,7 @@
           @click="handleLogout"
         >
           <ArrowRightOnRectangleIcon class="w-5 h-5" />
-          <span>Sign Out</span>
+          <span>Выйти</span>
         </button>
       </li>
     </ul>
@@ -52,11 +52,11 @@ const authStore = useAuthStore()
 const { enabledModules } = storeToRefs(authStore)
 
 const ALL_ITEMS = [
-  { key: 'points',   label: 'Points',   to: '/points',         icon: TrophyIcon,               module: 'points' },
-  { key: 'rewards',  label: 'Rewards',  to: '/points/rewards', icon: GiftIcon,                 module: 'points' },
-  { key: 'badges',   label: 'Achievements', to: '/badges',     icon: ShieldCheckIcon,          module: 'badges' },
-  { key: 'vault',    label: 'Vault',    to: '/vault',          icon: LockClosedIcon,           module: 'vault' },
-  { key: 'settings', label: 'Settings', to: '/settings',       icon: Cog6ToothIcon,            module: null },
+  { key: 'points',   label: 'Баллы',   to: '/points',         icon: TrophyIcon,               module: 'points' },
+  { key: 'rewards',  label: 'Награды',  to: '/points/rewards', icon: GiftIcon,                 module: 'points' },
+  { key: 'badges',   label: 'Достижения', to: '/badges',     icon: ShieldCheckIcon,          module: 'badges' },
+  { key: 'vault',    label: 'Хранилище',    to: '/vault',          icon: LockClosedIcon,           module: 'vault' },
+  { key: 'settings', label: 'Настройки', to: '/settings',       icon: Cog6ToothIcon,            module: null },
 ]
 
 const visibleItems = computed(() =>

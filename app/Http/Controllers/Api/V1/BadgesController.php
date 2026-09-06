@@ -217,12 +217,12 @@ class BadgesController extends Controller
 
         // Map egg keys to badge names
         $badgeNameMap = [
-            'konami' => 'Code Breaker',
-            'seven_ate_nine' => 'Number Cruncher',
-            'party_mode' => 'Party Animal',
-            'mirror' => 'Mirror Mirror',
-            'matrix' => 'Red Pill',
-            'disco' => 'Disco Inferno',
+            'konami' => 'Взломщик кода',
+            'seven_ate_nine' => 'Мастер чисел',
+            'party_mode' => 'Душа компании',
+            'mirror' => 'Зеркальце',
+            'matrix' => 'Красная таблетка',
+            'disco' => 'Диско-инферно',
         ];
 
         $badgeName = $badgeNameMap[$validated['egg_key']];
@@ -298,12 +298,12 @@ class BadgesController extends Controller
         }
 
         $badgeNameMap = [
-            'konami' => 'Code Breaker',
-            'seven_ate_nine' => 'Number Cruncher',
-            'party_mode' => 'Party Animal',
-            'mirror' => 'Mirror Mirror',
-            'matrix' => 'Red Pill',
-            'disco' => 'Disco Inferno',
+            'konami' => 'Взломщик кода',
+            'seven_ate_nine' => 'Мастер чисел',
+            'party_mode' => 'Душа компании',
+            'mirror' => 'Зеркальце',
+            'matrix' => 'Красная таблетка',
+            'disco' => 'Диско-инферно',
         ];
 
         foreach ($found as $eggKey) {
@@ -328,12 +328,12 @@ class BadgesController extends Controller
     private function ensureEasterEggBadgesExist(string $familyId, string $createdBy): void
     {
         $easterEggBadges = [
-            ['name' => 'Code Breaker', 'description' => 'Cracked the Konami Code', 'icon' => 'key', 'color' => '#059669'],
-            ['name' => 'Number Cruncher', 'description' => 'Why was 6 afraid of 7?', 'icon' => 'hashtag', 'color' => '#f59e0b'],
-            ['name' => 'Party Animal', 'description' => 'Started a legendary party', 'icon' => 'sun', 'color' => '#ec4899'],
-            ['name' => 'Mirror Mirror', 'description' => 'Saw everything backwards', 'icon' => 'eye', 'color' => '#06b6d4'],
-            ['name' => 'Red Pill', 'description' => 'Entered the digital rain', 'icon' => 'lightning', 'color' => '#22c55e'],
-            ['name' => 'Disco Inferno', 'description' => 'Got the groove going', 'icon' => 'music-note', 'color' => '#a855f7'],
+            ['name' => 'Взломщик кода', 'description' => 'Взломал код Konami', 'icon' => 'key', 'color' => '#059669'],
+            ['name' => 'Мастер чисел', 'description' => 'Почему шестёрка боится семёрки?', 'icon' => 'hashtag', 'color' => '#f59e0b'],
+            ['name' => 'Душа компании', 'description' => 'Задал легендарную вечеринку', 'icon' => 'sun', 'color' => '#ec4899'],
+            ['name' => 'Зеркальце', 'description' => 'Увидел всё наоборот', 'icon' => 'eye', 'color' => '#06b6d4'],
+            ['name' => 'Красная таблетка', 'description' => 'Вошел в цифровой дождь', 'icon' => 'lightning', 'color' => '#22c55e'],
+            ['name' => 'Диско-инферно', 'description' => 'Поймал ритм', 'icon' => 'music-note', 'color' => '#a855f7'],
         ];
 
         foreach ($easterEggBadges as $i => $data) {
@@ -353,11 +353,11 @@ class BadgesController extends Controller
 
         // Master Explorer badge
         Badge::firstOrCreate(
-            ['family_id' => $familyId, 'name' => 'Master Explorer'],
+            ['family_id' => $familyId, 'name' => 'Мастер-исследователь'],
             [
                 'family_id' => $familyId,
                 'created_by' => $createdBy,
-                'description' => 'Found every single easter egg!',
+                'description' => 'Нашёл все пасхалки!',
                 'icon' => 'compass',
                 'color' => '#d97706',
                 'trigger_type' => 'easter_egg',

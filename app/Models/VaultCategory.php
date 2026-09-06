@@ -51,40 +51,40 @@ class VaultCategory extends Model
     {
         return [
             'medical' => [
-                'name' => 'Medical',
+                'name' => 'Медицина',
                 'slug' => 'medical',
                 'icon' => 'heart',
-                'description' => 'Medical records and health information',
+                'description' => 'Медицинские записи и информация о здоровье',
             ],
             'financial' => [
-                'name' => 'Financial',
+                'name' => 'Финансы',
                 'slug' => 'financial',
                 'icon' => 'dollar-sign',
-                'description' => 'Financial accounts and information',
+                'description' => 'Финансовые счета и информация',
             ],
             'insurance' => [
-                'name' => 'Insurance',
+                'name' => 'Страхование',
                 'slug' => 'insurance',
                 'icon' => 'shield',
-                'description' => 'Insurance policies and documents',
+                'description' => 'Страховые полисы и документы',
             ],
             'legal' => [
-                'name' => 'Legal',
+                'name' => 'Юридическое',
                 'slug' => 'legal',
                 'icon' => 'briefcase',
-                'description' => 'Legal documents and agreements',
+                'description' => 'Юридические документы и соглашения',
             ],
             'education' => [
-                'name' => 'Education',
+                'name' => 'Образование',
                 'slug' => 'education',
                 'icon' => 'book',
-                'description' => 'Educational records and transcripts',
+                'description' => 'Образовательные документы и справки',
             ],
             'personal' => [
-                'name' => 'Personal',
+                'name' => 'Личное',
                 'slug' => 'personal',
                 'icon' => 'lock',
-                'description' => 'Personal documents and information',
+                'description' => 'Личные документы и информация',
             ],
         ];
     }

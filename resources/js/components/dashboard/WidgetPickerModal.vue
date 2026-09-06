@@ -1,7 +1,7 @@
 <template>
   <KinModalSheet
     :model-value="show"
-    :title="step === 'pick' ? 'Add Widget' : 'Configure'"
+    :title="step === 'pick' ? 'Добавить виджет' : 'Настройка'"
     size="md"
     @update:model-value="(v) => !v && handleClose()"
   >
@@ -16,7 +16,7 @@
             v-for="wt in widgets"
             :key="wt.key"
             class="flex flex-col items-center gap-2 p-4 rounded-xl border border-border-subtle hover:border-accent-lavender-bold hover:bg-accent-lavender-soft/30 transition-colors text-center"
-            :aria-label="`Add ${wt.name} widget`"
+            :aria-label="`Добавить виджет «${wt.name}»`"
             @click="pickType(wt)"
           >
             <component
@@ -38,7 +38,7 @@
         <template #leading>
           <ArrowLeftIcon class="w-4 h-4" />
         </template>
-        Back
+        Назад
       </KinButton>
 
       <div class="text-center">
@@ -49,19 +49,19 @@
       <!-- Title -->
       <KinInput
         v-model="widgetTitle"
-        label="Title"
+        label="Название"
         size="sm"
-        placeholder="Widget title"
+        placeholder="Название виджета"
       />
 
       <!-- Filtered Tasks config -->
       <template v-if="selectedType.key === 'filtered-tasks'">
         <!-- Tag filter -->
-        <KinFormGroup label="Filter by Tags">
+        <KinFormGroup label="Фильтр по тегам">
           <div v-if="tagsLoading" class="flex gap-2">
             <KinSkeleton v-for="n in 3" :key="n" shape="pill" width="64px" />
           </div>
-          <p v-else-if="tagsError" class="text-xs text-status-failed">Failed to load tags. Try again later.</p>
+          <p v-else-if="tagsError" class="text-xs text-status-failed">Не удалось загрузить теги. Попробуйте позже.</p>
           <div v-else class="flex flex-wrap gap-1.5">
             <button
               v-for="tag in availableTags"
@@ -75,26 +75,26 @@
             >
               {{ tag.name }}
             </button>
-            <p v-if="availableTags.length === 0" class="text-xs text-ink-tertiary">No tags created yet</p>
+            <p v-if="availableTags.length === 0" class="text-xs text-ink-tertiary">Теги ещё не созданы</p>
           </div>
         </KinFormGroup>
 
         <!-- Due date filter -->
-        <KinFormGroup label="Due Within">
+        <KinFormGroup label="Срок выполнения">
           <select
             v-model="dueWithin"
             class="w-full h-8 px-3 text-[13px] rounded-[10px] border-0 bg-surface-sunken text-ink-primary focus:outline-none focus:ring-2 focus:ring-accent-lavender-bold"
           >
-            <option value="">Any time</option>
-            <option value="today">Today</option>
-            <option value="week">This week</option>
-            <option value="month">This month</option>
+            <option value="">В любое время</option>
+            <option value="today">Сегодня</option>
+            <option value="week">На этой неделе</option>
+            <option value="month">В этом месяце</option>
           </select>
         </KinFormGroup>
       </template>
 
       <!-- Size -->
-      <KinFormGroup v-if="sizeOptions.length > 1" label="Size">
+      <KinFormGroup v-if="sizeOptions.length > 1" label="Размер">
         <div class="flex gap-2">
           <button
             v-for="s in sizeOptions"
@@ -113,8 +113,8 @@
 
     <template v-if="step === 'configure'" #actions>
       <div class="flex justify-end gap-2">
-        <KinButton variant="ghost" size="sm" @click="step = 'pick'">Cancel</KinButton>
-        <KinButton variant="primary" size="sm" @click="addWidget">Add to Dashboard</KinButton>
+        <KinButton variant="ghost" size="sm" @click="step = 'pick'">Отмена</KinButton>
+        <KinButton variant="primary" size="sm" @click="addWidget">Добавить на дашборд</KinButton>
       </div>
     </template>
   </KinModalSheet>
@@ -164,12 +164,12 @@ const tagsLoading = ref(false)
 const groupedTypes = widgetTypesByCategory()
 
 const categoryLabels = {
-  general: 'General',
-  tasks: 'Tasks',
-  calendar: 'Calendar',
-  points: 'Points & Gamification',
-  rewards: 'Rewards',
-  badges: 'Achievement Badges',
+  general: 'Общие',
+  tasks: 'Задачи',
+  calendar: 'Календарь',
+  points: 'Баллы и игровые элементы',
+  rewards: 'Награды',
+  badges: 'Достижения',
 }
 
 function categoryLabel(key) {
@@ -194,7 +194,7 @@ function iconFor(name) {
   return iconMap[name] || Squares2X2Icon
 }
 
-const sizeLabels = { sm: 'Small (1 col)', md: 'Medium (2 col)', lg: 'Large (full)' }
+const sizeLabels = { sm: 'Маленький (1 колонка)', md: 'Средний (2 колонки)', lg: 'Большой (на всю ширину)' }
 
 const sizeOptions = computed(() => {
   if (!selectedType.value) return []

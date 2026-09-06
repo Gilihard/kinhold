@@ -41,13 +41,13 @@ const goToSettings = () => {
   >
     <ShieldExclamationIcon class="w-5 h-5 text-status-warning shrink-0 mt-0.5" />
     <div class="flex-1 min-w-0">
-      <p class="text-sm font-medium text-ink-primary">Set up your allergy profile</p>
+      <p class="text-sm font-medium text-ink-primary">Заполните профиль аллергий</p>
       <p class="text-xs text-ink-secondary mt-0.5">
-        Tell Kinhold about any food allergies so the meal planner can warn you. Takes about 30 seconds.
+        Расскажите Kinhold об аллергиях, чтобы планировщик питания мог вас предупредить. Это займёт около 30 секунд.
       </p>
     </div>
     <KinButton variant="secondary" size="sm" @click="goToSettings">
-      Set up
+      Настроить
     </KinButton>
   </div>
 </template>

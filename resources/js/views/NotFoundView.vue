@@ -9,8 +9,8 @@
             <span class="text-xl font-bold text-accent-lavender-bold">Kinhold</span>
           </RouterLink>
           <div class="flex items-center gap-3">
-            <RouterLink to="/login" class="btn-ghost btn-sm">Sign In</RouterLink>
-            <RouterLink to="/register" class="btn-primary btn-sm">Get Started</RouterLink>
+            <RouterLink to="/login" class="btn-ghost btn-sm">Войти</RouterLink>
+            <RouterLink to="/register" class="btn-primary btn-sm">Начать</RouterLink>
           </div>
         </div>
       </div>
@@ -19,11 +19,11 @@
     <!-- Content -->
     <main class="flex flex-col items-center justify-center px-4 py-24 text-center">
       <p class="text-8xl font-heading font-bold text-accent-lavender-bold">404</p>
-      <h1 class="mt-4 text-xl font-semibold text-ink-primary">Page not found</h1>
+      <h1 class="mt-4 text-xl font-semibold text-ink-primary">Страница не найдена</h1>
       <p class="mt-2 text-ink-secondary max-w-md">
-        The page you're looking for doesn't exist or has been moved.
+        Страница, которую вы ищете, не существует или была перемещена.
       </p>
-      <RouterLink to="/login" class="btn-primary mt-8">Go Home</RouterLink>
+      <RouterLink to="/login" class="btn-primary mt-8">На главную</RouterLink>
     </main>
   </div>
 </template>

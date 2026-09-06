@@ -28,13 +28,13 @@ import CelebrationBanner from '@/components/common/CelebrationBanner.vue'
 const authStore = useAuthStore()
 const { birthdayMembers, hasBirthdays, isMyBirthday, todayHoliday, isHoliday } = useCelebrations()
 
-const firstName = computed(() => authStore.currentUser?.name?.split(' ')[0] || 'there')
+const firstName = computed(() => authStore.currentUser?.name?.split(' ')[0] || 'друг')
 
 const greeting = computed(() => {
   const hour = DateTime.now().hour
-  if (hour < 12) return 'Good morning'
-  if (hour < 17) return 'Good afternoon'
-  return 'Good evening'
+  if (hour < 12) return 'Доброе утро'
+  if (hour < 17) return 'Добрый день'
+  return 'Добрый вечер'
 })
 
 const dateMessage = computed(() => {

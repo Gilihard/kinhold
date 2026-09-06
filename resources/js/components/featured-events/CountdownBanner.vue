@@ -40,7 +40,7 @@
             class="kin-countdown__value text-lg md:text-xl font-extrabold leading-tight"
           >
             <template v-if="isToday">
-              {{ countdownEvent.title }} is TODAY!
+              {{ countdownEvent.title }} — уже сегодня!
             </template>
             <template v-else>
               {{ countdownText }}
@@ -61,7 +61,7 @@
           <button
             type="button"
             class="kin-countdown__action p-1.5 rounded-full transition-colors"
-            aria-label="Manage countdown"
+            aria-label="Управлять отсчётом"
             @click.stop="showMenu = !showMenu"
           >
             <EllipsisVerticalIcon class="w-4 h-4" />
@@ -75,14 +75,14 @@
               class="w-full text-left px-3 py-1.5 text-sm text-ink-primary hover:bg-surface-sunken"
               @click="handleEdit"
             >
-              Edit Event
+              Редактировать
             </button>
             <button
               type="button"
               class="w-full text-left px-3 py-1.5 text-sm text-status-failed hover:bg-status-failed/10"
               @click="handleDelete"
             >
-              Delete Event
+              Удалить
             </button>
           </div>
         </div>
@@ -91,7 +91,7 @@
         <button
           type="button"
           class="flex-shrink-0 p-1.5 rounded-full bg-surface-sunken hover:bg-surface-overlay text-ink-secondary hover:text-ink-primary transition-colors"
-          aria-label="Dismiss countdown"
+          aria-label="Скрыть отсчёт"
           @click="dismiss"
         >
           <XMarkIcon class="w-4 h-4" />
@@ -103,7 +103,7 @@
         <p class="kin-countdown__date text-xs">
           {{ formatEventDate(countdownEvent.event_date) }}
           <span v-if="countdownEvent.event_time">
-            at {{ formatTime(countdownEvent.event_time) }}</span>
+            в {{ formatTime(countdownEvent.event_time) }}</span>
         </p>
       </div>
     </div>
@@ -121,9 +121,9 @@
   <!-- Delete Confirmation -->
   <ConfirmDialog
     :show="showDeleteConfirm"
-    title="Delete Event"
-    :message="`Are you sure you want to delete '${countdownEvent?.title}'?`"
-    confirm-text="Delete"
+    title="Удалить событие"
+    :message="`Вы уверены, что хотите удалить «${countdownEvent?.title}»?`"
+    confirm-text="Удалить"
     variant="danger"
     @confirm="confirmDelete"
     @cancel="showDeleteConfirm = false"
@@ -139,6 +139,7 @@ import EventModal from "@/components/common/EventModal.vue";
 import ConfirmDialog from "@/components/common/ConfirmDialog.vue";
 import { useFeaturedEventsStore } from "@/stores/featuredEvents";
 import { useAuthStore } from "@/stores/auth";
+import { pluralRu } from "@/utils/plural";
 
 const props = defineProps({
   countdownEvent: {
@@ -238,13 +239,13 @@ const countdownText = computed(() => {
   const minutes = Math.max(0, Math.floor(diff.minutes || 0));
 
   const parts = [];
-  if (days > 0) parts.push(`${days} day${days !== 1 ? "s" : ""}`);
-  if (hours > 0) parts.push(`${hours} hr${hours !== 1 ? "s" : ""}`);
+  if (days > 0) parts.push(`${days} ${pluralRu(days, "день", "дня", "дней")}`);
+  if (hours > 0) parts.push(`${hours} ${pluralRu(hours, "час", "часа", "часов")}`);
   if (days === 0 && minutes > 0)
-    parts.push(`${minutes} min${minutes !== 1 ? "s" : ""}`);
-  if (parts.length === 0) parts.push("less than a minute");
+    parts.push(`${minutes} ${pluralRu(minutes, "минута", "минуты", "минут")}`);
+  if (parts.length === 0) parts.push("меньше минуты");
 
-  return parts.join(", ") + " to go!";
+  return parts.join(", ") + " до начала";
 });
 
 const dismiss = () => {
@@ -279,7 +280,7 @@ const confirmDelete = async () => {
 };
 
 const formatEventDate = (dateStr) => {
-  return DateTime.fromISO(dateStr).toFormat("EEEE, MMMM d, yyyy");
+  return DateTime.fromISO(dateStr).toFormat("EEEE, d MMMM yyyy");
 };
 
 const formatTime = (timeStr) => {
@@ -287,7 +288,7 @@ const formatTime = (timeStr) => {
   return DateTime.fromObject({
     hour: parseInt(h),
     minute: parseInt(m),
-  }).toFormat("h:mm a");
+  }).toFormat("HH:mm");
 };
 
 // Close menu on click outside

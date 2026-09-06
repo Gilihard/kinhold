@@ -20,22 +20,22 @@
         <div class="flex-1 min-w-0">
           <p class="text-white text-lg md:text-xl font-bold leading-tight">
             <template v-if="isMyBirthday">
-              Happy Birthday! The whole family celebrates you today!
+              С днём рождения! Сегодня вас поздравляет вся семья!
             </template>
             <template v-else>
               <span v-for="(member, idx) in birthdayMembers" :key="member.id">
                 <template v-if="idx > 0 && idx === birthdayMembers.length - 1"> &amp; </template>
                 <template v-else-if="idx > 0">, </template>
-                Today is {{ member.name.split(' ')[0] }}'s birthday!
+                Сегодня у {{ member.name.split(' ')[0] }} день рождения!
               </span>
             </template>
           </p>
           <p class="text-white/80 text-sm mt-1">
             <template v-if="isMyBirthday">
-              Enjoy your special day!
+              Наслаждайтесь своим особенным днём!
             </template>
             <template v-else>
-              Send them some love today!
+              Покажите им немного любви сегодня!
             </template>
           </p>
         </div>
@@ -43,7 +43,7 @@
         <!-- Dismiss button -->
         <button
           class="flex-shrink-0 w-8 h-8 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors"
-          aria-label="Dismiss birthday banner"
+          aria-label="Закрыть баннер дня рождения"
           @click="dismissBirthday"
         >
           <XMarkIcon class="w-5 h-5 text-white" />
@@ -66,7 +66,7 @@
 
         <button
           class="flex-shrink-0 w-6 h-6 rounded-full hover:bg-surface-overlay flex items-center justify-center transition-colors"
-          aria-label="Dismiss holiday banner"
+          aria-label="Закрыть праздничный баннер"
           @click="dismissHoliday"
         >
           <XMarkIcon class="w-4 h-4 text-ink-tertiary" />

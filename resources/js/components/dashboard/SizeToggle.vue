@@ -9,7 +9,7 @@
         : 'text-ink-tertiary hover:text-ink-secondary'
       "
       :title="opt.label"
-      :aria-label="`Set widget size to ${opt.label}`"
+      :aria-label="`Установить размер виджета: ${opt.label}`"
       @click.stop="$emit('resize', opt.value)"
     >
       {{ opt.label }}

@@ -7,7 +7,7 @@
           <img src="/images/logo-100.png" alt="Kinhold" class="w-16 h-16 rounded-2xl" />
           <h1 class="text-4xl font-heading font-bold text-kin-gold">Kinhold</h1>
         </router-link>
-        <p class="kin-muted mt-2">Sign in to your family hub</p>
+        <p class="kin-muted mt-2">Войди в свой семейный центр</p>
       </div>
 
       <!-- Google Link Confirmation (when existing email/password user tries Google sign-in) -->
@@ -16,19 +16,19 @@
           <div class="w-12 h-12 mx-auto mb-3 rounded-full bg-accent-lavender-bold/10 flex items-center justify-center">
             <svg class="w-6 h-6 text-accent-lavender-bold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /></svg>
           </div>
-          <h2 class="text-lg font-semibold text-ink-primary">Link Google Account</h2>
+          <h2 class="text-lg font-semibold text-ink-primary">Привязать аккаунт Google</h2>
           <p class="text-sm kin-muted mt-1">
-            An account exists for <strong>{{ authStore.pendingLink.email }}</strong>.
-            Enter your password to link Google sign-in.
+            Для адреса <strong>{{ authStore.pendingLink.email }}</strong> уже есть аккаунт.
+            Введи пароль, чтобы привязать вход через Google.
           </p>
         </div>
 
         <form class="space-y-4" @submit.prevent="handleConfirmLink">
           <KinInput
             v-model="linkPassword"
-            label="Password"
+            label="Пароль"
             type="password"
-            placeholder="Enter your password"
+            placeholder="Введи пароль"
             required
             :error="linkError"
           />
@@ -38,11 +38,11 @@
           </div>
 
           <KinButton type="submit" variant="primary" size="lg" :loading="isLoading" class="w-full">
-            Link &amp; Sign In
+            Привязать и войти
           </KinButton>
 
           <KinButton type="button" variant="ghost" size="md" class="w-full" @click="authStore.pendingLink = null">
-            Cancel — sign in with password instead
+            Отмена — войти с паролем
           </KinButton>
         </form>
       </KinFlatCard>
@@ -53,7 +53,7 @@
           <!-- Email -->
           <KinInput
             v-model="form.email"
-            label="Email"
+            label="Эл. почта"
             type="email"
             placeholder="name@example.com"
             required
@@ -63,7 +63,7 @@
           <!-- Password -->
           <KinInput
             v-model="form.password"
-            label="Password"
+            label="Пароль"
             type="password"
             placeholder="••••••••"
             required
@@ -71,7 +71,7 @@
           />
 
           <!-- Remember me -->
-          <KinCheckbox v-model="form.remember" label="Remember me" />
+          <KinCheckbox v-model="form.remember" label="Запомнить меня" />
 
           <!-- Success message (e.g. ?verified=1 after email verification) -->
           <div v-if="successMessage" class="p-3 bg-status-success/10 border border-status-success/30 rounded-[10px]">
@@ -91,7 +91,7 @@
             :loading="isLoading"
             class="w-full mt-6"
           >
-            Sign In
+            Войти
           </KinButton>
         </form>
 
@@ -102,7 +102,7 @@
               <div class="w-full border-t border-border-subtle"></div>
             </div>
             <div class="relative flex justify-center text-sm">
-              <span class="px-3 bg-surface-raised kin-muted">or continue with</span>
+              <span class="px-3 bg-surface-raised kin-muted">или войти через</span>
             </div>
           </div>
 
@@ -122,7 +122,7 @@
                 <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
               </svg>
             </template>
-            {{ googleLoading ? 'Redirecting...' : 'Sign in with Google' }}
+            {{ googleLoading ? 'Перенаправление…' : 'Войти через Google' }}
           </KinButton>
         </template>
 
@@ -132,15 +132,15 @@
         <!-- Demo link -->
         <p v-if="demoAvailable" class="text-center mb-4">
           <button class="kin-link font-medium text-sm" @click="showDemoModal = true">
-            Or try the demo instead
+            Или попробуй демо
           </button>
         </p>
 
         <!-- Register link -->
         <p class="text-center kin-muted">
-          Don't have an account?
+          Нет аккаунта?
           <RouterLink to="/register" class="kin-link font-medium">
-            Sign up
+            Зарегистрироваться
           </RouterLink>
         </p>
       </KinFlatCard>
@@ -191,10 +191,10 @@ const successMessage = ref('')
 
 onMounted(() => {
   if (route.query.verified === '1') {
-    successMessage.value = 'Email verified. Sign in to continue.'
+    successMessage.value = 'Эл. почта подтверждена. Войди, чтобы продолжить.'
   }
   if (route.query.verify_error === 'invalid') {
-    errors.general = 'Email verification link is invalid or has expired. Please sign in and request a new verification email.'
+    errors.general = 'Ссылка для подтверждения эл. почты недействительна или истекла. Войди и запроси новое письмо с подтверждением.'
   }
   if (authStore.error) {
     errors.general = authStore.error
@@ -208,15 +208,15 @@ const validateForm = () => {
   errors.general = ''
 
   if (!form.email) {
-    errors.email = 'Email is required'
+    errors.email = 'Укажи эл. почту'
   } else if (!form.email.includes('@')) {
-    errors.email = 'Invalid email format'
+    errors.email = 'Неверный формат эл. почты'
   }
 
   if (!form.password) {
-    errors.password = 'Password is required'
+    errors.password = 'Введи пароль'
   } else if (form.password.length < 6) {
-    errors.password = 'Password must be at least 6 characters'
+    errors.password = 'Пароль должен содержать не менее 6 символов'
   }
 
   return !errors.email && !errors.password
@@ -230,7 +230,7 @@ const handleLogin = async () => {
   if (result.success) {
     router.push({ name: 'Dashboard' })
   } else {
-    errors.general = result.error || 'Login failed. Please try again.'
+    errors.general = result.error || 'Не удалось войти. Попробуй ещё раз.'
     notificationError(errors.general)
   }
 }
@@ -238,7 +238,7 @@ const handleLogin = async () => {
 const handleConfirmLink = async () => {
   linkError.value = ''
   if (!linkPassword.value) {
-    linkError.value = 'Password is required'
+    linkError.value = 'Введи пароль'
     return
   }
 
@@ -263,11 +263,11 @@ const handleGoogleLogin = async () => {
     if (data.url) {
       window.location.href = data.url
     } else {
-      errors.general = 'Failed to get Google login URL.'
+      errors.general = 'Не удалось получить ссылку для входа через Google.'
       googleLoading.value = false
     }
   } catch {
-    errors.general = 'Failed to connect to Google. Please try again.'
+    errors.general = 'Не удалось подключиться к Google. Попробуй ещё раз.'
     googleLoading.value = false
   }
 }

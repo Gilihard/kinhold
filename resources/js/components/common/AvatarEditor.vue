@@ -14,11 +14,11 @@
           >
             <!-- Header -->
             <div class="px-6 py-4 border-b border-border-subtle flex items-center justify-between">
-              <h2 class="text-xl font-semibold text-ink-primary">Choose Avatar</h2>
+              <h2 class="text-xl font-semibold text-ink-primary">Выберите аватар</h2>
               <button
                 type="button"
                 class="p-2 hover:bg-surface-sunken rounded-lg transition-colors text-ink-tertiary hover:text-ink-primary"
-                aria-label="Close"
+                aria-label="Закрыть"
                 @click="$emit('close')"
               >
                 <XMarkIcon class="w-5 h-5" />

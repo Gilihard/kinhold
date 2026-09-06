@@ -38,7 +38,7 @@
           : 'bg-surface-sunken text-ink-tertiary'"
       >
         <StarIcon class="w-3 h-3" />
-        {{ reward.point_cost }} pts
+        {{ reward.point_cost }} {{ ptsWord(reward.point_cost) }}
       </span>
     </button>
   </div>
@@ -46,8 +46,8 @@
   <KinEmptyState
     v-else
     :icon="GiftIcon"
-    title="No rewards yet"
-    :description="isParent ? 'Create rewards your family can earn with points!' : 'Ask a parent to add some rewards to the shop.'"
+    title="Пока нет наград"
+    :description="isParent ? 'Создайте награды, которые семья сможет получать за баллы!' : 'Попросите родителя добавить награды в магазин.'"
     accent-color="peach"
     size="sm"
   >
@@ -56,7 +56,7 @@
         <template #leading>
           <PlusIcon class="w-4 h-4" />
         </template>
-        Create Rewards
+        Создать награды
       </KinButton>
     </template>
   </KinEmptyState>
@@ -67,6 +67,7 @@ import { computed } from 'vue'
 import { StarIcon, PlusIcon } from '@heroicons/vue/24/solid'
 import { GiftIcon } from '@heroicons/vue/24/outline'
 import IconRenderer from '@/components/common/IconRenderer.vue'
+import { ptsWord } from '@/utils/plural'
 import KinEmptyState from '@/components/design-system/KinEmptyState.vue'
 import KinButton from '@/components/design-system/KinButton.vue'
 

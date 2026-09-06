@@ -119,8 +119,8 @@ const brandAttrs = computed(() => {
       <button
         type="button"
         class="kin-sidebar__item w-full flex items-center justify-center py-2.5 text-ink-tertiary"
-        :title="collapsed ? 'Expand sidebar' : 'Collapse sidebar'"
-        :aria-label="collapsed ? 'Expand sidebar' : 'Collapse sidebar'"
+        :title="collapsed ? 'Развернуть боковую панель' : 'Свернуть боковую панель'"
+        :aria-label="collapsed ? 'Развернуть боковую панель' : 'Свернуть боковую панель'"
         :aria-expanded="!collapsed"
         @click="toggle"
       >

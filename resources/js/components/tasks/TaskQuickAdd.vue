@@ -6,14 +6,14 @@
       @click="startEditing"
     >
       <PlusIcon class="w-5 h-5" />
-      <span class="text-sm">Add a task...</span>
+      <span class="text-sm">Добавить задачу...</span>
     </div>
 
     <div v-else class="bg-surface-raised border border-border-subtle rounded-xl p-4 shadow-card">
       <input
         ref="inputRef"
         v-model="title"
-        placeholder="Task name"
+        placeholder="Название задачи"
         class="w-full text-sm font-medium text-ink-primary placeholder-ink-tertiary outline-none bg-transparent"
         @keydown.enter.prevent="submit"
         @keydown.escape="cancel"
@@ -27,7 +27,7 @@
           :class="dueDate ? 'bg-accent-lavender-soft/40 text-accent-lavender-bold' : 'bg-surface-sunken text-ink-secondary hover:bg-surface-overlay'"
         >
           <CalendarIcon class="w-3.5 h-3.5" />
-          {{ dueDate ? formatDueDate(dueDate) : 'Date' }}
+          {{ dueDate ? formatDueDate(dueDate) : 'Дата' }}
           <input
             v-model="dueDate"
             type="date"
@@ -42,7 +42,7 @@
           @click="cyclePriority"
         >
           <FlagIcon class="w-3.5 h-3.5" />
-          {{ priority }}
+          {{ priorityLabel }}
         </button>
 
         <!-- Family task toggle (hidden for children who can't assign to others) -->
@@ -53,7 +53,7 @@
           @click="isFamilyTask = !isFamilyTask"
         >
           <UserGroupIcon class="w-3.5 h-3.5" />
-          {{ isFamilyTask ? 'Anyone' : 'Assign' }}
+          {{ isFamilyTask ? 'Для всех' : 'Назначить' }}
         </button>
 
         <!-- Tag chips -->
@@ -79,7 +79,7 @@
 
         <!-- Actions -->
         <KinButton variant="ghost" size="sm" @click="cancel">
-          Cancel
+          Отмена
         </KinButton>
         <KinButton
           variant="primary"
@@ -87,7 +87,7 @@
           :disabled="!title.trim()"
           @click="submit"
         >
-          Add Task
+          Добавить задачу
         </KinButton>
       </div>
     </div>
@@ -128,6 +128,9 @@ const dueDate = ref('')
 const priority = ref('medium')
 const isFamilyTask = ref(false)
 const selectedTagIds = ref([])
+
+const priorityLabels = { low: 'Низкий', medium: 'Средний', high: 'Высокий' }
+const priorityLabel = computed(() => priorityLabels[priority.value] || priority.value)
 
 const startEditing = async () => {
   isEditing.value = true
@@ -195,8 +198,8 @@ const formatDueDate = (dateStr) => {
   const dueDay = new Date(d)
   dueDay.setHours(0, 0, 0, 0)
 
-  if (dueDay.getTime() === today.getTime()) return 'Today'
-  if (dueDay.getTime() === tomorrow.getTime()) return 'Tomorrow'
-  return dueDay.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  if (dueDay.getTime() === today.getTime()) return 'Сегодня'
+  if (dueDay.getTime() === tomorrow.getTime()) return 'Завтра'
+  return dueDay.toLocaleDateString('ru-RU', { month: 'short', day: 'numeric' })
 }
 </script>

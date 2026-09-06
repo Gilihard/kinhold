@@ -6,9 +6,9 @@
       <div class="px-4 pt-3 pb-1 md:px-6 md:pt-6 md:pb-2">
         <div class="flex items-center justify-between">
           <div>
-            <h1 class="text-lg md:text-2xl font-bold font-heading text-ink-primary">Tasks</h1>
+            <h1 class="text-lg md:text-2xl font-bold font-heading text-ink-primary">Задачи</h1>
             <p class="hidden md:block text-sm text-ink-tertiary mt-0.5">
-              {{ filteredIncompleteTasks.length }} remaining
+              Осталось: {{ filteredIncompleteTasks.length }}
             </p>
           </div>
         </div>
@@ -26,7 +26,7 @@
             class="flex-shrink-0 whitespace-nowrap"
             @click="clearTagFilter"
           >
-            All
+            Все
           </KinChip>
 
           <!-- Tag chips with dynamic hex colors via customColor escape-hatch -->
@@ -48,8 +48,8 @@
           <button
             type="button"
             class="flex-shrink-0 p-1.5 text-ink-tertiary hover:text-ink-primary hover:bg-surface-sunken rounded-full transition-colors"
-            title="Manage tags"
-            aria-label="Manage tags"
+            title="Управление метками"
+            aria-label="Управление метками"
             @click="showTagManager = true"
           >
             <CogIcon class="w-4 h-4" />
@@ -103,7 +103,7 @@
               class="w-3 h-3 transition-transform"
               :class="showCompleted && 'rotate-90'"
             />
-            Completed ({{ filteredCompletedTasks.length }})
+            Выполнено ({{ filteredCompletedTasks.length }})
           </button>
 
           <KinFlatCard v-if="showCompleted" padding="none" class="overflow-hidden">
@@ -126,8 +126,8 @@
         <KinEmptyState
           v-if="tasks.length === 0 && !isLoading"
           :icon="CheckCircleIcon"
-          title="No tasks yet"
-          description="Add your first task to get started."
+          title="Задач пока нет"
+          description="Добавьте первую задачу, чтобы начать."
           accent-color="mint"
           size="md"
         />
@@ -137,7 +137,7 @@
           v-if="tasks.length > 0 && filteredIncompleteTasks.length === 0 && filteredCompletedTasks.length === 0 && selectedTagIds.length > 0"
           class="text-center py-12 text-ink-tertiary text-sm"
         >
-          No tasks match the selected tags.
+          Нет задач, соответствующих выбранным меткам.
         </div>
       </div>
     </div><!-- /main column -->
@@ -153,7 +153,7 @@
             :active="selectedTagIds.length === 0"
             @click="clearTagFilter"
           >
-            All
+            Все
           </KinChip>
           <KinChip
             v-for="tag in tags"
@@ -176,14 +176,14 @@
             <template #leading>
               <PlusIcon class="w-4 h-4" />
             </template>
-            Add Task
+            Добавить задачу
           </KinButton>
           <KinButton
             variant="ghost"
             size="sm"
             icon-only
-            aria-label="Manage tags"
-            title="Manage tags"
+            aria-label="Управление метками"
+            title="Управление метками"
             @click="showTagManager = true"
           >
             <CogIcon class="w-4 h-4" />
@@ -208,9 +208,9 @@
     <!-- Delete Confirmation -->
     <ConfirmDialog
       :show="!!taskToDelete"
-      title="Delete Task?"
-      :message="`&quot;${taskToDelete?.title}&quot; will be permanently deleted.`"
-      confirm-text="Delete"
+      title="Удалить задачу?"
+      :message="`«${taskToDelete?.title}» будет удалена навсегда.`"
+      confirm-text="Удалить"
       @confirm="handleDeleteTask"
       @cancel="taskToDelete = null"
     />
@@ -227,7 +227,7 @@
     <!-- Tag Manager Modal -->
     <KinModalSheet
       :model-value="showTagManager"
-      title="Manage Tags"
+      title="Управление метками"
       size="sm"
       @update:model-value="(v) => !v && (showTagManager = false)"
     >
@@ -258,7 +258,7 @@
                 v-if="editingTag?.id !== tag.id"
                 type="button"
                 class="p-1 text-ink-tertiary hover:text-ink-primary rounded"
-                aria-label="Edit tag"
+                aria-label="Изменить метку"
                 @click="editingTag = { id: tag.id, name: tag.name, color: tag.color }"
               >
                 <PencilIcon class="w-3.5 h-3.5" />
@@ -267,7 +267,7 @@
                 v-else
                 type="button"
                 class="p-1 text-status-success hover:opacity-80 rounded"
-                aria-label="Save tag"
+                aria-label="Сохранить метку"
                 @click="saveEditTag"
               >
                 <CheckIcon class="w-3.5 h-3.5" />
@@ -275,7 +275,7 @@
               <button
                 type="button"
                 class="p-1 text-ink-tertiary hover:text-status-failed rounded"
-                aria-label="Delete tag"
+                aria-label="Удалить метку"
                 @click="handleDeleteTag(tag)"
               >
                 <TrashIcon class="w-3.5 h-3.5" />
@@ -285,7 +285,7 @@
         </div>
 
         <p v-else class="text-sm text-ink-tertiary text-center py-4">
-          No tags yet
+          Меток пока нет
         </p>
 
         <!-- Add new tag -->
@@ -296,12 +296,12 @@
                 type="button"
                 class="w-6 h-6 rounded-full flex-shrink-0 border-2 border-surface-raised shadow-resting"
                 :style="{ backgroundColor: getTagHex(newTagColor) }"
-                aria-label="Cycle tag color"
+                aria-label="Сменить цвет метки"
                 @click="cycleNewTagColor"
               ></button>
               <input
                 v-model="newTagName"
-                placeholder="New tag name..."
+                placeholder="Название новой метки..."
                 class="flex-1 text-sm text-ink-primary placeholder:text-ink-tertiary outline-none bg-transparent border-b border-border-subtle focus:border-accent-lavender-bold py-1"
               />
             </div>
@@ -311,7 +311,7 @@
               size="sm"
               :disabled="!newTagName.trim()"
             >
-              Add
+              Добавить
             </KinButton>
           </form>
         </div>
@@ -388,9 +388,9 @@ const cycleNewTagColor = () => {
 const handleQuickAdd = async (data) => {
   const result = await tasksStore.createTask(data)
   if (result.success) {
-    success('Task added!')
+    success('Задача добавлена!')
   } else {
-    notifyError(result.error || 'Failed to add task')
+    notifyError(result.error || 'Не удалось добавить задачу')
   }
 }
 
@@ -404,10 +404,10 @@ const handleSaveTask = async (formData) => {
 
   const result = await tasksStore.updateTask(selectedTask.value.id, formData)
   if (result.success) {
-    success('Task updated!')
+    success('Задача обновлена!')
     selectedTask.value = null
   } else {
-    notifyError(result.error || 'Failed to update task')
+    notifyError(result.error || 'Не удалось обновить задачу')
   }
   savingTask.value = false
 }
@@ -415,7 +415,7 @@ const handleSaveTask = async (formData) => {
 const handleInlineUpdate = async ({ id, ...data }) => {
   const result = await tasksStore.updateTask(id, data)
   if (!result.success) {
-    notifyError(result.error || 'Failed to update task')
+    notifyError(result.error || 'Не удалось обновить задачу')
   }
 }
 
@@ -425,7 +425,7 @@ const handleToggle = async (task) => {
 
   if (result.success && !wasCompleted) {
     undoAction.value = {
-      message: `"${task.title}" completed`,
+      message: `«${task.title}» выполнена`,
       taskId: task.id,
       type: 'complete',
     }
@@ -444,9 +444,9 @@ const handleDeleteTask = async () => {
   if (!taskToDelete.value) return
   const result = await tasksStore.deleteTask(taskToDelete.value.id)
   if (result.success) {
-    undoAction.value = { message: `"${taskToDelete.value.title}" deleted` }
+    undoAction.value = { message: `«${taskToDelete.value.title}» удалена` }
   } else {
-    notifyError(result.error || 'Failed to delete task')
+    notifyError(result.error || 'Не удалось удалить задачу')
   }
   taskToDelete.value = null
 }
@@ -467,9 +467,9 @@ const handleCreateTag = async () => {
   })
   if (result.success) {
     newTagName.value = ''
-    success('Tag created!')
+    success('Метка создана!')
   } else {
-    notifyError(result.error || 'Failed to create tag')
+    notifyError(result.error || 'Не удалось создать метку')
   }
 }
 
@@ -485,7 +485,7 @@ const saveEditTag = async () => {
 const handleDeleteTag = async (tag) => {
   const result = await tasksStore.deleteTag(tag.id)
   if (result.success) {
-    success(`"${tag.name}" tag deleted`)
+    success(`Метка «${tag.name}» удалена`)
   }
 }
 

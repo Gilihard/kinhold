@@ -4,13 +4,13 @@
     <div class="flex items-center justify-between mb-3 flex-shrink-0">
       <h3 class="text-sm font-semibold text-ink-primary flex items-center gap-2">
         <TrophyIcon class="w-4 h-4 text-accent-lavender-bold" />
-        {{ config.title || 'Leaderboard' }}
+        {{ config.title || 'Рейтинг' }}
       </h3>
       <RouterLink
         to="/points"
         class="text-xs font-medium text-accent-lavender-bold hover:opacity-80 transition-opacity"
       >
-        View Feed
+        Лента
       </RouterLink>
     </div>
 
@@ -23,7 +23,7 @@
     <KinEmptyState
       v-else-if="leaderboard.length === 0"
       :icon="TrophyIcon"
-      title="No activity yet"
+      title="Пока нет активности"
       size="sm"
       accent-color="sun"
       class="flex-1"
@@ -54,7 +54,7 @@
                 {{ firstName(entry) }}
               </span>
               <span class="text-[10px] font-semibold font-mono text-accent-lavender-bold ml-1 flex-shrink-0">
-                {{ entry.total_points }} pts
+                {{ entry.total_points }} {{ ptsWord(entry.total_points) }}
               </span>
             </div>
             <div class="h-1.5 bg-surface-sunken rounded-full overflow-hidden mt-0.5">
@@ -72,6 +72,7 @@ import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useWidgetData } from '@/composables/useWidgetData'
 import { TrophyIcon } from '@heroicons/vue/24/solid'
+import { ptsWord } from '@/utils/plural'
 import LeaderboardStrip from '@/components/points/LeaderboardStrip.vue'
 import LeaderboardPodium from '@/components/points/LeaderboardPodium.vue'
 import KinSkeleton from '@/components/design-system/KinSkeleton.vue'

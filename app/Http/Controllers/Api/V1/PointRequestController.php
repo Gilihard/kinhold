@@ -112,7 +112,7 @@ class PointRequestController extends Controller
             'user_id' => $pointRequest->user_id,
             'type' => PointTransactionType::PointRequest,
             'points' => $pointRequest->points,
-            'description' => "Approved request: {$pointRequest->reason}",
+            'description' => "Запрос одобрен: {$pointRequest->reason}",
             'source_type' => PointRequest::class,
             'source_id' => $pointRequest->id,
             'awarded_by' => $user->id,

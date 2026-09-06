@@ -29,40 +29,40 @@ class DemoShoppingSeeder extends Seeder
         $weekly = ShoppingList::create([
             'family_id' => $family->id,
             'created_by' => $sarah->id,
-            'name' => 'Weekly Groceries',
+            'name' => 'Еженедельные продукты',
             'store_name' => 'Costco',
             'is_active' => true,
         ]);
 
         $weeklyItems = [
             // Produce
-            ['name' => 'Bananas',           'quantity' => '6',          'category' => 'produce', 'is_recurring' => true],
-            ['name' => 'Spinach',           'quantity' => '1 bag',      'category' => 'produce'],
-            ['name' => 'Strawberries',      'quantity' => '1 lb',       'category' => 'produce'],
-            ['name' => 'Bell peppers',      'quantity' => '3',          'category' => 'produce'],
-            ['name' => 'Broccoli florets',  'quantity' => '2 cups',     'category' => 'produce'],
-            ['name' => 'Lemons',            'quantity' => '4',          'category' => 'produce'],
+            ['name' => 'Бананы',             'quantity' => '6',          'category' => 'produce', 'is_recurring' => true],
+            ['name' => 'Шпинат',             'quantity' => '1 пакет',    'category' => 'produce'],
+            ['name' => 'Клубника',           'quantity' => '1 фунт',     'category' => 'produce'],
+            ['name' => 'Болгарский перец',   'quantity' => '3',          'category' => 'produce'],
+            ['name' => 'Соцветия брокколи',  'quantity' => '2 стакана',  'category' => 'produce'],
+            ['name' => 'Лимоны',             'quantity' => '4',          'category' => 'produce'],
             // Dairy
-            ['name' => 'Whole milk',        'quantity' => '1 gallon',   'category' => 'dairy', 'is_recurring' => true],
-            ['name' => 'Greek yogurt',      'quantity' => '32 oz',      'category' => 'dairy'],
-            ['name' => 'Sharp cheddar',     'quantity' => '1 block',    'category' => 'dairy'],
-            ['name' => 'Butter',            'quantity' => '1 lb',       'category' => 'dairy', 'is_recurring' => true],
+            ['name' => 'Цельное молоко',    'quantity' => '1 галлон',   'category' => 'dairy', 'is_recurring' => true],
+            ['name' => 'Греческий йогурт',  'quantity' => '32 унции',   'category' => 'dairy'],
+            ['name' => 'Острый чеддер',     'quantity' => '1 брусок',   'category' => 'dairy'],
+            ['name' => 'Сливочное масло',   'quantity' => '1 фунт',     'category' => 'dairy', 'is_recurring' => true],
             // Meat / Seafood
-            ['name' => 'Ground beef',       'quantity' => '1 lb',       'category' => 'meat'],
-            ['name' => 'Chicken breast',    'quantity' => '1.5 lb',     'category' => 'meat'],
-            ['name' => 'Salmon fillets',    'quantity' => '4 (6oz)',    'category' => 'meat'],
+            ['name' => 'Говяжий фарш',      'quantity' => '1 фунт',     'category' => 'meat'],
+            ['name' => 'Куриная грудка',    'quantity' => '1.5 фунта',  'category' => 'meat'],
+            ['name' => 'Филе лосося',       'quantity' => '4 (по 6 унций)', 'category' => 'meat'],
             // Pantry
-            ['name' => 'Spaghetti',         'quantity' => '1 lb',       'category' => 'pantry'],
-            ['name' => 'Crushed tomatoes',  'quantity' => '28 oz',      'category' => 'pantry'],
-            ['name' => 'Olive oil',         'quantity' => '1 bottle',   'category' => 'pantry', 'is_recurring' => true],
-            ['name' => 'Soy sauce',         'quantity' => '1 bottle',   'category' => 'pantry'],
+            ['name' => 'Спагетти',          'quantity' => '1 фунт',     'category' => 'pantry'],
+            ['name' => 'Протёртые томаты',  'quantity' => '28 унций',   'category' => 'pantry'],
+            ['name' => 'Оливковое масло',   'quantity' => '1 бутылка',  'category' => 'pantry', 'is_recurring' => true],
+            ['name' => 'Соевый соус',       'quantity' => '1 бутылка',  'category' => 'pantry'],
             // Bakery
-            ['name' => 'Bread',             'quantity' => '1 loaf',     'category' => 'bakery', 'is_recurring' => true],
-            ['name' => 'Tortillas',         'quantity' => '1 pack',     'category' => 'bakery'],
+            ['name' => 'Хлеб',              'quantity' => '1 буханка',  'category' => 'bakery', 'is_recurring' => true],
+            ['name' => 'Тортильи',          'quantity' => '1 упаковка', 'category' => 'bakery'],
             // Snacks (already grabbed)
-            ['name' => 'Granola bars',      'quantity' => '1 box',      'category' => 'snacks',  'is_checked' => true,
+            ['name' => 'Мюсли-батончики',  'quantity' => '1 коробка',  'category' => 'snacks',  'is_checked' => true,
                 'checked_by' => $mike->id, 'checked_at' => $now->copy()->subHours(2)],
-            ['name' => 'Goldfish crackers', 'quantity' => '1 carton',   'category' => 'snacks',  'is_checked' => true,
+            ['name' => 'Крекеры Goldfish',  'quantity' => '1 пачка',    'category' => 'snacks',  'is_checked' => true,
                 'checked_by' => $mike->id, 'checked_at' => $now->copy()->subHours(2)],
         ];
 
@@ -92,19 +92,19 @@ class DemoShoppingSeeder extends Seeder
         $target = ShoppingList::create([
             'family_id' => $family->id,
             'created_by' => $mike->id,
-            'name' => 'Target Run',
+            'name' => 'Поездка в Target',
             'store_name' => 'Target',
             'is_active' => false,
         ]);
 
         $targetItems = [
-            ['name' => 'Paper towels',      'quantity' => '6 pack',     'category' => 'household', 'is_recurring' => true],
-            ['name' => 'Dish soap',         'quantity' => '1',          'category' => 'household'],
-            ['name' => 'Trash bags',        'quantity' => '1 box',      'category' => 'household'],
-            ['name' => 'Toothpaste',        'quantity' => '2 tubes',    'category' => 'personal-care'],
-            ['name' => 'Shampoo',           'quantity' => '1',          'category' => 'personal-care'],
-            ['name' => 'Lily\'s school glue', 'quantity' => '2 bottles',  'category' => 'school'],
-            ['name' => 'Birthday card',     'quantity' => '1',          'category' => 'misc'],
+            ['name' => 'Бумажные полотенца',   'quantity' => '6 рулонов', 'category' => 'household', 'is_recurring' => true],
+            ['name' => 'Средство для мытья посуды', 'quantity' => '1',     'category' => 'household'],
+            ['name' => 'Мусорные пакеты',       'quantity' => '1 коробка', 'category' => 'household'],
+            ['name' => 'Зубная паста',          'quantity' => '2 тюбика',  'category' => 'personal-care'],
+            ['name' => 'Шампунь',               'quantity' => '1',         'category' => 'personal-care'],
+            ['name' => 'Школьный клей Лили',    'quantity' => '2 бутылочки', 'category' => 'school'],
+            ['name' => 'Открытка на день рождения', 'quantity' => '1',     'category' => 'misc'],
         ];
 
         foreach ($targetItems as $idx => $def) {

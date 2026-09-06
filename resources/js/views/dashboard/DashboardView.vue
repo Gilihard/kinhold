@@ -18,8 +18,8 @@
         variant="ghost"
         size="sm"
         icon-only
-        aria-label="Edit Dashboard"
-        title="Edit Dashboard"
+        aria-label="Настроить дашборд"
+        title="Настроить дашборд"
         @click="dashboardStore.enterEditMode()"
       >
         <PencilSquareIcon class="w-5 h-5" />
@@ -49,8 +49,8 @@
     <KinEmptyState
       v-if="!dashboardStore.loading && dashboardStore.widgets.length === 0"
       :icon="Squares2X2Icon"
-      title="No widgets yet"
-      description="Add widgets to customize your dashboard, or ask the Assistant to build one for you."
+      title="Пока нет виджетов"
+      description="Добавьте виджеты, чтобы настроить свой дашборд, или попросите Ассистента создать его для вас."
       accent-color="lavender"
       size="md"
     >
@@ -62,7 +62,7 @@
           <template #leading>
             <PlusIcon class="w-4 h-4" />
           </template>
-          Add Widget
+          Добавить виджет
         </KinButton>
       </template>
     </KinEmptyState>
@@ -114,9 +114,9 @@ const { success: notifySuccess, error: notifyError } = useNotification()
 async function saveDashboard() {
   try {
     await dashboardStore.saveConfig()
-    notifySuccess('Dashboard saved')
+    notifySuccess('Дашборд сохранён')
   } catch {
-    notifyError('Failed to save dashboard. Please try again.')
+    notifyError('Не удалось сохранить дашборд. Попробуйте ещё раз.')
   }
 }
 

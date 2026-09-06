@@ -1,0 +1,19 @@
+# Local dev override — builds Kinhold from the source in this directory
+# instead of pulling the prebuilt gregqualls/kinhold image from Docker Hub.
+#
+# Usage:
+#   docker compose -f docker-compose.simple.yml -f docker-compose.local.yml up -d --build
+#   docker compose -f docker-compose.simple.yml -f docker-compose.local.yml exec app php artisan db:seed --force
+#   Open http://localhost:8000
+
+name: kinhold
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: kinhold:local
+    environment:
+      APP_ENV: local
+      APP_DEBUG: "true"

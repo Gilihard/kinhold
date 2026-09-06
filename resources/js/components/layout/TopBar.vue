@@ -4,8 +4,8 @@
     <button
       type="button"
       class="p-2 rounded-[10px] text-ink-tertiary hover:bg-surface-sunken transition-colors"
-      :title="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
-      aria-label="Toggle dark mode"
+      :title="isDark ? 'Включить светлую тему' : 'Включить тёмную тему'"
+      aria-label="Переключить тёмную тему"
       @click="toggleDarkMode"
     >
       <MoonIcon v-if="!isDark" class="w-5 h-5" />

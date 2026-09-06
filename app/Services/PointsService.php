@@ -30,7 +30,7 @@ class PointsService
             'user_id' => $user->id,
             'type' => PointTransactionType::TaskCompletion,
             'points' => $points,
-            'description' => "Completed: {$task->title}",
+            'description' => "Выполнено: {$task->title}",
             'source_type' => Task::class,
             'source_id' => $task->id,
         ]);
@@ -46,7 +46,7 @@ class PointsService
             'user_id' => $user->id,
             'type' => PointTransactionType::TaskReversal,
             'points' => -$task->getEffectivePoints(),
-            'description' => "Reversed: {$task->title}",
+            'description' => "Отменено: {$task->title}",
             'source_type' => Task::class,
             'source_id' => $task->id,
         ]);
@@ -72,7 +72,7 @@ class PointsService
                 'user_id' => $from->id,
                 'type' => PointTransactionType::Deduction,
                 'points' => -1,
-                'description' => "Kudos cost: gave kudos to {$to->name}",
+                'description' => "Стоимость похвалы: {$to->name}",
                 'awarded_by' => $from->id,
             ]);
         }
@@ -133,7 +133,7 @@ class PointsService
                 'user_id' => $user->id,
                 'type' => PointTransactionType::Redemption,
                 'points' => -$reward->point_cost,
-                'description' => "Purchased: {$reward->title}",
+                'description' => "Куплено: {$reward->title}",
                 'source_type' => Reward::class,
                 'source_id' => $reward->id,
             ]);

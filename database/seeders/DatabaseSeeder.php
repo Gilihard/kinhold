@@ -66,7 +66,7 @@ class DatabaseSeeder extends Seeder
         // ─────────────────────────────────────────────
 
         $family = Family::create([
-            'name' => 'The Ellis Family',
+            'name' => 'Семья Эллис',
             'slug' => 'q32-demo-family',
             'invite_code' => 'ELLIS2026',
             'settings' => [
@@ -184,19 +184,19 @@ class DatabaseSeeder extends Seeder
 
         $tagDefs = [
             // Task tags
-            ['name' => 'Chores',     'color' => '#10B981', 'sort_order' => 0,  'scope' => 'task'],
-            ['name' => 'School',     'color' => '#F59E0B', 'sort_order' => 1,  'scope' => 'task'],
-            ['name' => 'Sports',     'color' => '#EF4444', 'sort_order' => 2,  'scope' => 'task'],
-            ['name' => 'Shopping',   'color' => '#8B5CF6', 'sort_order' => 3,  'scope' => 'task'],
-            ['name' => 'Family Fun', 'color' => '#EC4899', 'sort_order' => 4,  'scope' => 'task'],
-            ['name' => 'Yard Work',  'color' => '#059669', 'sort_order' => 5,  'scope' => 'task'],
-            ['name' => 'Pets',       'color' => '#D97706', 'sort_order' => 6,  'scope' => 'task'],
+            ['name' => 'Домашние дела',     'color' => '#10B981', 'sort_order' => 0,  'scope' => 'task'],
+            ['name' => 'Школа',     'color' => '#F59E0B', 'sort_order' => 1,  'scope' => 'task'],
+            ['name' => 'Спорт',     'color' => '#EF4444', 'sort_order' => 2,  'scope' => 'task'],
+            ['name' => 'Покупки',   'color' => '#8B5CF6', 'sort_order' => 3,  'scope' => 'task'],
+            ['name' => 'Семейные развлечения', 'color' => '#EC4899', 'sort_order' => 4,  'scope' => 'task'],
+            ['name' => 'Работа во дворе',  'color' => '#059669', 'sort_order' => 5,  'scope' => 'task'],
+            ['name' => 'Питомцы',       'color' => '#D97706', 'sort_order' => 6,  'scope' => 'task'],
             // Food tags (recipes + restaurants)
-            ['name' => 'Breakfast',  'color' => '#F59E0B', 'sort_order' => 7,  'scope' => 'food'],
-            ['name' => 'Lunch',      'color' => '#10B981', 'sort_order' => 8,  'scope' => 'food'],
-            ['name' => 'Dinner',     'color' => '#3B82F6', 'sort_order' => 9,  'scope' => 'food'],
-            ['name' => 'Dessert',    'color' => '#EC4899', 'sort_order' => 10, 'scope' => 'food'],
-            ['name' => 'Snack',      'color' => '#8B5CF6', 'sort_order' => 11, 'scope' => 'food'],
+            ['name' => 'Завтрак',  'color' => '#F59E0B', 'sort_order' => 7,  'scope' => 'food'],
+            ['name' => 'Обед',      'color' => '#10B981', 'sort_order' => 8,  'scope' => 'food'],
+            ['name' => 'Ужин',     'color' => '#3B82F6', 'sort_order' => 9,  'scope' => 'food'],
+            ['name' => 'Десерт',    'color' => '#EC4899', 'sort_order' => 10, 'scope' => 'food'],
+            ['name' => 'Перекус',      'color' => '#8B5CF6', 'sort_order' => 11, 'scope' => 'food'],
         ];
 
         foreach ($tagDefs as $td) {

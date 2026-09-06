@@ -2,7 +2,7 @@
   <div class="bg-surface-raised rounded-card shadow-resting border border-border-subtle overflow-hidden">
     <!-- All-day events -->
     <div v-if="allDayEvents.length > 0" class="border-b border-border-subtle p-3">
-      <p class="text-[10px] font-semibold text-ink-tertiary uppercase tracking-wider mb-2">All Day</p>
+      <p class="text-[10px] font-semibold text-ink-tertiary uppercase tracking-wider mb-2">Весь день</p>
       <div class="flex flex-wrap gap-1.5">
         <div
           v-for="event in allDayEvents"
@@ -144,15 +144,11 @@ const totalHeight = computed(() => (props.endHour - props.startHour + 1) * props
 
 const getHourOffset = (hour) => (hour - props.startHour) * props.hourHeight
 
-const formatHourLabel = (hour) => {
-  if (hour === 0 || hour === 24) return '12 AM'
-  if (hour === 12) return '12 PM'
-  return hour > 12 ? `${hour - 12} PM` : `${hour} AM`
-}
+const formatHourLabel = (hour) => `${String(hour % 24).padStart(2, '0')}:00`
 
 const formatTime = (dateStr) => {
   if (!dateStr) return ''
-  return DateTime.fromISO(dateStr).toFormat('h:mm a')
+  return DateTime.fromISO(dateStr).toFormat('HH:mm')
 }
 
 // Current time line

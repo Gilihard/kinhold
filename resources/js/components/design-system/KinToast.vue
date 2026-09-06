@@ -98,7 +98,7 @@ const resolvedIcon = computed(() => props.icon || DEFAULT_ICONS[props.status])
         v-if="closable"
         type="button"
         class="kin-toast__close flex-shrink-0 mt-0.5 rounded p-0.5"
-        aria-label="Close"
+        aria-label="Закрыть"
         @click="$emit('close')"
       >
         <XMarkIcon class="w-4 h-4" />

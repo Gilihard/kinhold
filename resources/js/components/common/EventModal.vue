@@ -4,12 +4,12 @@
       <!-- Title -->
       <div>
         <label class="block text-sm font-medium text-ink-primary mb-1">
-          Title <span class="text-status-failed">*</span>
+          Название <span class="text-status-failed">*</span>
         </label>
         <input
           v-model="form.title"
           type="text"
-          :placeholder="mode === 'featured' ? 'Birthday, Game Day, Vacation...' : 'Doctor appointment, Family dinner...'"
+          :placeholder="mode === 'featured' ? 'День рождения, игровой день, отпуск...' : 'Визит к врачу, семейный ужин...'"
           class="input-base"
           required
         />
@@ -17,7 +17,7 @@
 
       <!-- All-day toggle (calendar mode only) -->
       <div v-if="mode === 'calendar'" class="flex items-center justify-between">
-        <label class="text-sm font-medium text-ink-primary">All-day event</label>
+        <label class="text-sm font-medium text-ink-primary">Весь день</label>
         <ToggleSwitch v-model="form.all_day" />
       </div>
 
@@ -25,7 +25,7 @@
       <div class="grid gap-3" :class="mode === 'calendar' && !form.all_day ? 'grid-cols-2' : 'grid-cols-1'">
         <div>
           <label class="block text-sm font-medium text-ink-primary mb-1">
-            {{ mode === 'calendar' ? 'Start Date' : 'Date' }} <span class="text-status-failed">*</span>
+            {{ mode === 'calendar' ? 'Дата начала' : 'Дата' }} <span class="text-status-failed">*</span>
           </label>
           <input
             v-model="form.start_date"
@@ -36,7 +36,7 @@
         </div>
         <div v-if="mode === 'calendar' && !form.all_day">
           <label class="block text-sm font-medium text-ink-primary mb-1">
-            Start Time
+            Время начала
           </label>
           <input
             v-model="form.start_time"
@@ -50,7 +50,7 @@
       <div v-if="mode === 'calendar' && !form.all_day" class="grid grid-cols-2 gap-3">
         <div>
           <label class="block text-sm font-medium text-ink-primary mb-1">
-            End Date
+            Дата окончания
           </label>
           <input
             v-model="form.end_date"
@@ -60,7 +60,7 @@
         </div>
         <div>
           <label class="block text-sm font-medium text-ink-primary mb-1">
-            End Time
+            Время окончания
           </label>
           <input
             v-model="form.end_time"
@@ -73,7 +73,7 @@
       <!-- Time (featured mode only — optional) -->
       <div v-if="mode === 'featured'">
         <label class="block text-sm font-medium text-ink-primary mb-1">
-          Time <span class="text-ink-tertiary text-xs">(optional)</span>
+          Время <span class="text-ink-tertiary text-xs">(необязательно)</span>
         </label>
         <input
           v-model="form.event_time"
@@ -85,12 +85,12 @@
       <!-- Location (calendar mode only) -->
       <div v-if="mode === 'calendar'">
         <label class="block text-sm font-medium text-ink-primary mb-1">
-          Location <span class="text-ink-tertiary text-xs">(optional)</span>
+          Место <span class="text-ink-tertiary text-xs">(необязательно)</span>
         </label>
         <input
           v-model="form.location"
           type="text"
-          placeholder="Address or link..."
+          placeholder="Адрес или ссылка..."
           class="input-base"
         />
       </div>
@@ -98,33 +98,33 @@
       <!-- Recurrence -->
       <div>
         <label class="block text-sm font-medium text-ink-primary mb-1">
-          Repeats
+          Повтор
         </label>
         <select v-model="form.recurrence" class="input-base">
-          <option value="none">One-time event</option>
-          <option value="yearly">Every year (birthdays, anniversaries)</option>
-          <option value="monthly">Every month</option>
-          <option value="weekly">Every week</option>
+          <option value="none">Однократное событие</option>
+          <option value="yearly">Каждый год (дни рождения, годовщины)</option>
+          <option value="monthly">Каждый месяц</option>
+          <option value="weekly">Каждую неделю</option>
         </select>
       </div>
 
       <!-- Visibility (calendar mode only) -->
       <div v-if="mode === 'calendar'">
         <label class="block text-sm font-medium text-ink-primary mb-1">
-          Who can see this?
+          Кто может это видеть?
         </label>
         <select v-model="form.visibility" class="input-base">
-          <option value="visible">Everyone — full details</option>
-          <option value="busy">Everyone — show as busy (no details)</option>
-          <option value="private">Only me</option>
+          <option value="visible">Все — полные детали</option>
+          <option value="busy">Все — видно как «занят» (без деталей)</option>
+          <option value="private">Только я</option>
         </select>
       </div>
 
       <!-- Feature this event toggle (calendar mode) -->
       <div v-if="mode === 'calendar'" class="flex items-center justify-between">
         <div>
-          <label class="text-sm font-medium text-ink-primary">Feature this event</label>
-          <p class="text-xs text-ink-tertiary">Show on dashboard with countdown</p>
+          <label class="text-sm font-medium text-ink-primary">Сделать избранным событием</label>
+          <p class="text-xs text-ink-tertiary">Показывать на главной с обратным отсчётом</p>
         </div>
         <ToggleSwitch v-model="form.is_featured" />
       </div>
@@ -132,23 +132,23 @@
       <!-- Featured scope (when featured is enabled, or in featured mode) -->
       <div v-if="form.is_featured || mode === 'featured'">
         <label class="block text-sm font-medium text-ink-primary mb-1">
-          Feature for
+          Избранное для
         </label>
         <select v-model="form.featured_scope" class="input-base">
-          <option value="family">Whole family</option>
-          <option value="personal">Just me</option>
+          <option value="family">Всей семьи</option>
+          <option value="personal">Только меня</option>
         </select>
       </div>
 
       <!-- Description -->
       <div>
         <label class="block text-sm font-medium text-ink-primary mb-1">
-          Description <span class="text-ink-tertiary text-xs">(optional)</span>
+          Описание <span class="text-ink-tertiary text-xs">(необязательно)</span>
         </label>
         <textarea
           v-model="form.description"
           rows="2"
-          placeholder="Add details..."
+          placeholder="Добавьте детали..."
           class="input-base resize-none"
         ></textarea>
       </div>
@@ -156,7 +156,7 @@
       <!-- Icon picker (featured mode or when featured enabled) -->
       <div v-if="form.is_featured || mode === 'featured'">
         <label class="block text-sm font-medium text-ink-primary mb-2">
-          Icon
+          Иконка
         </label>
         <IconPicker v-model="form.icon" />
       </div>
@@ -164,7 +164,7 @@
       <!-- Color picker -->
       <div>
         <label class="block text-sm font-medium text-ink-primary mb-2">
-          Color
+          Цвет
         </label>
         <div class="flex flex-wrap gap-2">
           <button
@@ -189,14 +189,14 @@
         class="px-4 py-2 text-sm font-medium text-ink-secondary hover:bg-surface-sunken rounded-[10px] transition-colors"
         @click="$emit('close')"
       >
-        Cancel
+        Отмена
       </button>
       <button
         :disabled="!isValid || isSaving"
         class="px-4 py-2 text-sm font-medium text-white bg-accent-lavender-bold hover:brightness-110 rounded-[10px] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         @click="handleSubmit"
       >
-        {{ isSaving ? 'Saving...' : (event ? 'Update' : 'Create') }}
+        {{ isSaving ? 'Сохранение...' : (event ? 'Сохранить' : 'Создать') }}
       </button>
     </template>
   </BaseModal>
@@ -229,14 +229,14 @@ const props = defineProps({
 const emit = defineEmits(['close', 'save'])
 
 const colorOptions = [
-  { value: '#8B5CF6', label: 'Wisteria' },
-  { value: '#D4A843', label: 'Golden Sand' },
-  { value: '#EF4444', label: 'Red' },
-  { value: '#3B82F6', label: 'Blue' },
-  { value: '#10B981', label: 'Green' },
-  { value: '#F97316', label: 'Orange' },
-  { value: '#EC4899', label: 'Pink' },
-  { value: '#14B8A6', label: 'Teal' },
+  { value: '#8B5CF6', label: 'Глициния' },
+  { value: '#D4A843', label: 'Золотой песок' },
+  { value: '#EF4444', label: 'Красный' },
+  { value: '#3B82F6', label: 'Синий' },
+  { value: '#10B981', label: 'Зелёный' },
+  { value: '#F97316', label: 'Оранжевый' },
+  { value: '#EC4899', label: 'Розовый' },
+  { value: '#14B8A6', label: 'Бирюзовый' },
 ]
 
 const defaultForm = () => ({
@@ -262,8 +262,8 @@ const isSaving = ref(false)
 const error = ref(null)
 
 const modalTitle = computed(() => {
-  if (props.event) return 'Edit Event'
-  return props.mode === 'featured' ? 'Add Featured Event' : 'Add Event'
+  if (props.event) return 'Редактировать событие'
+  return props.mode === 'featured' ? 'Новое избранное событие' : 'Новое событие'
 })
 
 const isValid = computed(() => {

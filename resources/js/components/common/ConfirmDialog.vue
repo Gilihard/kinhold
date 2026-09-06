@@ -48,7 +48,7 @@
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none" />
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                   </svg>
-                  Working...
+                  Загрузка...
                 </span>
                 <span v-else>{{ confirmText }}</span>
               </button>
@@ -66,10 +66,10 @@ import { ExclamationTriangleIcon, InformationCircleIcon } from '@heroicons/vue/2
 
 const props = defineProps({
   show: Boolean,
-  title: { type: String, default: 'Are you sure?' },
-  message: { type: String, default: 'This action cannot be undone.' },
-  confirmText: { type: String, default: 'Confirm' },
-  cancelText: { type: String, default: 'Cancel' },
+  title: { type: String, default: 'Вы уверены?' },
+  message: { type: String, default: 'Это действие нельзя отменить.' },
+  confirmText: { type: String, default: 'Подтвердить' },
+  cancelText: { type: String, default: 'Отмена' },
   variant: { type: String, default: 'danger', validator: (v) => ['danger', 'info'].includes(v) },
   loading: Boolean,
 })

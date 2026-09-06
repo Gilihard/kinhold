@@ -4,9 +4,9 @@
     <div
       v-if="topThree.length > 1"
       class="flex flex-col items-center animate-slide-up-delayed"
-      :aria-label="`2nd place: ${firstName(topThree[1])}, ${topThree[1].total_points} points`"
+      :aria-label="`2-е место: ${firstName(topThree[1])}, ${placePoints(topThree[1].total_points)}`"
     >
-      <div class="text-[10px] sm:text-xs font-bold text-ink-tertiary mb-1" aria-hidden="true">2nd</div>
+      <div class="text-[10px] sm:text-xs font-bold text-ink-tertiary mb-1" aria-hidden="true">2-е</div>
       <div
         class="relative mb-1"
         :class="{ 'ring-2 ring-accent-lavender-bold ring-offset-2 ring-offset-surface-raised rounded-full': isCurrentUser(topThree[1]) }"
@@ -29,7 +29,7 @@
     <!-- 1st Place — sun (gold) medal tier with trophy crown -->
     <div
       class="flex flex-col items-center animate-slide-up"
-      :aria-label="`1st place: ${firstName(topThree[0])}, ${topThree[0].total_points} points`"
+      :aria-label="`1-е место: ${firstName(topThree[0])}, ${placePoints(topThree[0].total_points)}`"
     >
       <div class="relative mb-1 mt-3 sm:mt-4">
         <div
@@ -62,9 +62,9 @@
     <div
       v-if="topThree.length > 2"
       class="flex flex-col items-center animate-slide-up-delayed-2"
-      :aria-label="`3rd place: ${firstName(topThree[2])}, ${topThree[2].total_points} points`"
+      :aria-label="`3-е место: ${firstName(topThree[2])}, ${placePoints(topThree[2].total_points)}`"
     >
-      <div class="text-[10px] sm:text-xs font-bold text-ink-tertiary mb-1" aria-hidden="true">3rd</div>
+      <div class="text-[10px] sm:text-xs font-bold text-ink-tertiary mb-1" aria-hidden="true">3-е</div>
       <div
         class="relative mb-1"
         :class="{ 'ring-2 ring-accent-peach-bold ring-offset-2 ring-offset-surface-raised rounded-full': isCurrentUser(topThree[2]) }"
@@ -91,6 +91,7 @@ import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { TrophyIcon } from '@heroicons/vue/24/solid'
 import UserAvatar from '@/components/common/UserAvatar.vue'
+import { ptsWord } from '@/utils/plural'
 
 const props = defineProps({
   entries: {
@@ -104,6 +105,7 @@ const authStore = useAuthStore()
 const topThree = computed(() => props.entries.slice(0, 3))
 
 const firstName = (entry) => entry.user?.name?.split(' ')[0] || '?'
+const placePoints = (n) => `${n} ${ptsWord(n)}`
 
 const isCurrentUser = (entry) => entry.user_id === authStore.currentUser?.id
 </script>

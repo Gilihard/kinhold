@@ -27,7 +27,7 @@ class DemoVaultSeeder extends Seeder
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['medical']->id,
             'created_by' => $this->sarah->id,
-            'title' => 'Family Pediatrician',
+            'title' => 'Семейный педиатр',
             'encrypted_data' => $vault->encrypt([
                 'Doctor' => 'Dr. Rebecca Chen',
                 'Practice' => 'Sunshine Pediatrics',
@@ -35,56 +35,56 @@ class DemoVaultSeeder extends Seeder
                 'Address' => '4521 Medical Center Dr, Suite 200',
                 'Patient Portal' => 'sunshinepeds.myportal.com',
             ]),
-            'notes' => 'Annual checkups in August. Naia has a follow-up in April.',
+            'notes' => 'Ежегодные осмотры в августе. У Найи повторный приём в апреле.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['medical']->id,
             'created_by' => $this->sarah->id,
-            'title' => 'Zara — Allergies & Medications',
+            'title' => 'Зара — аллергии и лекарства',
             'encrypted_data' => $vault->encrypt([
-                'Allergies' => 'Penicillin, tree nuts',
+                'Allergies' => 'Пенициллин, древесные орехи',
                 'EpiPen Rx' => 'EpiPen Jr Auto-Injector',
                 'Pharmacy' => 'CVS #4892 — (555) 345-6789',
                 'Allergist' => 'Dr. Alan Park — (555) 456-7890',
             ]),
-            'notes' => 'EpiPen expires Sept 2026. Refill in August.',
+            'notes' => 'EpiPen истекает в сентябре 2026. Переоформить в августе.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['medical']->id,
             'created_by' => $this->mike->id,
-            'title' => 'Family Dentist',
+            'title' => 'Семейный стоматолог',
             'encrypted_data' => $vault->encrypt([
                 'Dentist' => 'Dr. Maria Lopez',
                 'Practice' => 'Bright Smiles Family Dental',
                 'Phone' => '(555) 567-8901',
-                'Next Appointments' => 'Kenji & Naia: April 15. Zara: May 3.',
+                'Next Appointments' => 'Кенджи и Найя: 15 апреля. Зара: 3 мая.',
             ]),
-            'notes' => 'Kenji may need braces evaluation this summer.',
+            'notes' => 'Кенджи, возможно, понадобится консультация по поводу брекетов этим летом.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['medical']->id,
             'created_by' => $this->sarah->id,
-            'title' => 'Kenji — Medications',
+            'title' => 'Кенджи — лекарства',
             'encrypted_data' => $vault->encrypt([
-                'Medication' => 'Concerta 36mg (daily)',
+                'Medication' => 'Concerta 36mg (ежедневно)',
                 'Prescribing Doctor' => 'Dr. Priya Sharma — (555) 678-1234',
                 'Pharmacy' => 'Walgreens #2291 — (555) 234-8765',
-                'Refill Due' => 'First of each month',
+                'Refill Due' => 'Первое число каждого месяца',
             ]),
-            'notes' => 'Do not skip on school days. 3-month supply requested at each visit.',
+            'notes' => 'Не пропускать в учебные дни. На каждом приёме запрашивается запас на 3 месяца.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['medical']->id,
             'created_by' => $this->mike->id,
-            'title' => 'Vision — Eye Prescriptions',
+            'title' => 'Зрение — рецепты на очки',
             'encrypted_data' => $vault->encrypt([
                 'Zara (right)' => '-1.25 / -0.50 x 180',
                 'Zara (left)' => '-1.50 / -0.25 x 175',
@@ -92,14 +92,14 @@ class DemoVaultSeeder extends Seeder
                 'Naia (left)' => '-0.75 sphere',
                 'Optometrist' => 'Dr. Kim — Clear Vision Center (555) 789-3210',
             ]),
-            'notes' => 'Both need glasses updated. Next exam: September.',
+            'notes' => 'Обоим нужны новые очки. Следующий осмотр: сентябрь.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['medical']->id,
             'created_by' => $this->sarah->id,
-            'title' => 'Family Doctor (Adults)',
+            'title' => 'Семейный врач (взрослые)',
             'encrypted_data' => $vault->encrypt([
                 'Doctor' => 'Dr. James Okafor',
                 'Practice' => 'Westside Primary Care',
@@ -108,7 +108,7 @@ class DemoVaultSeeder extends Seeder
                 'Adaeze Login' => 'aellis_patient',
                 'Marcus Login' => 'mellis_patient',
             ]),
-            'notes' => 'Annual physicals in October for both adults.',
+            'notes' => 'Ежегодные медосмотры в октябре для обоих взрослых.',
         ]);
 
         // ─────────────────────────────────────────────
@@ -119,7 +119,7 @@ class DemoVaultSeeder extends Seeder
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['financial']->id,
             'created_by' => $this->mike->id,
-            'title' => 'Joint Checking Account',
+            'title' => 'Совместный расчётный счёт',
             'encrypted_data' => $vault->encrypt([
                 'Bank' => 'First National Bank',
                 'Account Number' => '****4829',
@@ -127,14 +127,14 @@ class DemoVaultSeeder extends Seeder
                 'Online Banking' => 'fnb.com',
                 'Login' => 'aellis_primary',
             ]),
-            'notes' => 'Primary household account. Auto-pay for mortgage and utilities.',
+            'notes' => 'Основной семейный счёт. Автоплатёж за ипотеку и коммунальные услуги.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['financial']->id,
             'created_by' => $this->mike->id,
-            'title' => 'College Savings — 529 Plans',
+            'title' => 'Сбережения на колледж — планы 529',
             'encrypted_data' => $vault->encrypt([
                 'Provider' => 'Vanguard 529',
                 'Zara Account' => '****8812',
@@ -142,36 +142,36 @@ class DemoVaultSeeder extends Seeder
                 'Naia Account' => '****8814',
                 'Login' => 'vanguard.com — aellis',
             ]),
-            'notes' => 'Contributing $200/month per child. Review allocation annually.',
+            'notes' => 'Ежемесячные взносы $200 на каждого ребёнка. Ежегодно пересматривать распределение.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['financial']->id,
             'created_by' => $this->sarah->id,
-            'title' => 'Car Loan — Honda Odyssey',
+            'title' => 'Автокредит — Honda Odyssey',
             'encrypted_data' => $vault->encrypt([
                 'Lender' => 'Chase Auto Finance',
                 'Account Number' => '****3341',
                 'Monthly Payment' => '$487',
-                'Payoff Date' => 'March 2027',
+                'Payoff Date' => 'март 2027',
                 'Online Portal' => 'chase.com/auto',
             ]),
-            'notes' => 'Auto-pay from joint checking on the 3rd.',
+            'notes' => 'Автоплатёж с общего счёта 3-го числа каждого месяца.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['financial']->id,
             'created_by' => $this->mike->id,
-            'title' => 'Emergency Fund — High-Yield Savings',
+            'title' => 'Резервный фонд — высокодоходный накопительный счёт',
             'encrypted_data' => $vault->encrypt([
                 'Bank' => 'Marcus by Goldman Sachs',
                 'Account Number' => '****9201',
                 'APY' => '4.5%',
                 'Login' => 'marcus.com — aellis@email.com',
             ]),
-            'notes' => 'Goal: 6 months of expenses ($28,000). Currently at $22,500.',
+            'notes' => 'Цель: 6 месяцев расходов ($28,000). Сейчас накоплено $22,500.',
         ]);
 
         // ─────────────────────────────────────────────
@@ -182,7 +182,7 @@ class DemoVaultSeeder extends Seeder
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['insurance']->id,
             'created_by' => $this->mike->id,
-            'title' => 'Health Insurance',
+            'title' => 'Медицинская страховка',
             'encrypted_data' => $vault->encrypt([
                 'Provider' => 'Blue Cross Blue Shield',
                 'Policy Number' => 'BCBS-****3947',
@@ -190,64 +190,64 @@ class DemoVaultSeeder extends Seeder
                 'Member Services' => '1-800-555-0199',
                 'Portal' => 'bcbs.com/members',
             ]),
-            'notes' => 'Through Adaeze\'s employer. Open enrollment in November.',
+            'notes' => 'Через работодателя Адаэзе. Открытая запись — в ноябре.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['insurance']->id,
             'created_by' => $this->mike->id,
-            'title' => 'Auto Insurance',
+            'title' => 'Автостраховка',
             'encrypted_data' => $vault->encrypt([
                 'Provider' => 'State Farm',
                 'Policy Number' => 'SF-****7722',
                 'Agent' => 'Tom Bradley — (555) 678-9012',
                 'Vehicles' => '2022 Honda Odyssey, 2020 Toyota RAV4',
             ]),
-            'notes' => 'Renewal in July. Zara will need to be added when she gets her license.',
+            'notes' => 'Продление в июле. Зару нужно будет добавить, когда она получит права.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['insurance']->id,
             'created_by' => $this->sarah->id,
-            'title' => 'Homeowners Insurance',
+            'title' => 'Страховка жилья',
             'encrypted_data' => $vault->encrypt([
                 'Provider' => 'State Farm',
                 'Policy Number' => 'SF-HOME-****3318',
                 'Agent' => 'Tom Bradley — (555) 678-9012',
-                'Coverage' => '$350,000 dwelling / $100,000 personal property',
+                'Coverage' => '$350,000 жильё / $100,000 личное имущество',
             ]),
-            'notes' => 'Renewal in September. Consider increasing coverage.',
+            'notes' => 'Продление в сентябре. Рассмотреть увеличение покрытия.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['insurance']->id,
             'created_by' => $this->sarah->id,
-            'title' => 'Dental Insurance',
+            'title' => 'Стоматологическая страховка',
             'encrypted_data' => $vault->encrypt([
                 'Provider' => 'Delta Dental',
                 'Policy Number' => 'DD-****6614',
                 'Group Number' => 'GRP-****5590',
                 'Member Services' => '1-800-555-3344',
-                'Annual Max' => '$1,500 per person',
+                'Annual Max' => '$1,500 на человека',
             ]),
-            'notes' => 'Covers 100% preventive, 80% basic, 50% major. Orthodontia has separate lifetime max.',
+            'notes' => 'Покрытие: 100% профилактика, 80% базовые процедуры, 50% крупные. На ортодонтию действует отдельный пожизненный максимум.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['insurance']->id,
             'created_by' => $this->mike->id,
-            'title' => 'Life Insurance',
+            'title' => 'Страхование жизни',
             'encrypted_data' => $vault->encrypt([
-                'Adaeze Policy' => 'Northwestern Mutual — ****2210 — $500k term',
-                'Marcus Policy' => 'Northwestern Mutual — ****2211 — $500k term',
+                'Adaeze Policy' => 'Northwestern Mutual — ****2210 — $500k term (срочное)',
+                'Marcus Policy' => 'Northwestern Mutual — ****2211 — $500k term (срочное)',
                 'Agent' => 'Sandra Reyes — (555) 456-0011',
-                'Beneficiaries' => 'Each other (primary), kids (contingent)',
+                'Beneficiaries' => 'Друг друга (основные), дети (резервные)',
             ]),
-            'notes' => 'Both 20-year term, expire 2038. Review coverage when Naia turns 18.',
+            'notes' => 'Оба полиса срочные, на 20 лет, действуют до 2038 года. Пересмотреть покрытие, когда Найе исполнится 18.',
         ]);
 
         // ─────────────────────────────────────────────
@@ -258,45 +258,45 @@ class DemoVaultSeeder extends Seeder
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['legal']->id,
             'created_by' => $this->mike->id,
-            'title' => 'Wills & Estate Plan',
+            'title' => 'Завещания и план наследования',
             'encrypted_data' => $vault->encrypt([
                 'Attorney' => 'Jennifer Walsh, Esq.',
                 'Firm' => 'Walsh & Associates',
                 'Phone' => '(555) 789-0123',
-                'Last Updated' => 'October 2025',
-                'Guardian Designee' => 'Uncle David & Aunt Karen',
+                'Last Updated' => 'октябрь 2025',
+                'Guardian Designee' => 'Дядя Дэвид и тётя Карен',
             ]),
-            'notes' => 'Review and update in 2027. Copies in safe deposit box at First National.',
+            'notes' => 'Пересмотреть и обновить в 2027 году. Копии в банковской ячейке в First National.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['legal']->id,
             'created_by' => $this->sarah->id,
-            'title' => 'Passports',
+            'title' => 'Загранпаспорта',
             'encrypted_data' => $vault->encrypt([
-                'Adaeze' => 'Expires June 2030 — stored in fireproof safe',
-                'Marcus' => 'Expires February 2029 — stored in fireproof safe',
-                'Zara' => 'Expires November 2028',
-                'Kenji' => 'Expires March 2031',
-                'Naia' => 'Expires August 2030',
+                'Adaeze' => 'Истекает в июне 2030 — хранится в несгораемом сейфе',
+                'Marcus' => 'Истекает в феврале 2029 — хранится в несгораемом сейфе',
+                'Zara' => 'Истекает в ноябре 2028',
+                'Kenji' => 'Истекает в марте 2031',
+                'Naia' => 'Истекает в августе 2030',
             ]),
-            'notes' => 'Marcus passport needs renewal before the 2029 family trip. Naia may need updated photo.',
+            'notes' => 'Паспорт Маркуса нужно обновить до семейной поездки 2029 года. Найе, возможно, понадобится новая фотография.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['legal']->id,
             'created_by' => $this->mike->id,
-            'title' => 'Property Deed & Mortgage',
+            'title' => 'Документы на недвижимость и ипотека',
             'encrypted_data' => $vault->encrypt([
                 'Lender' => 'Wells Fargo Home Mortgage',
                 'Loan Number' => '****8847',
-                'Rate' => '3.25% fixed (30-year)',
+                'Rate' => '3.25% фиксированная (на 30 лет)',
                 'Monthly Payment' => '$1,842',
-                'Maturity Date' => 'April 2051',
+                'Maturity Date' => 'апрель 2051',
             ]),
-            'notes' => 'Deed copy in fireproof safe. Digital copy in this vault.',
+            'notes' => 'Копия документа на недвижимость в несгораемом сейфе. Цифровая копия в этом хранилище.',
         ]);
 
         // ─────────────────────────────────────────────
@@ -307,7 +307,7 @@ class DemoVaultSeeder extends Seeder
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['education']->id,
             'created_by' => $this->sarah->id,
-            'title' => 'Zara — Lakewood High School',
+            'title' => 'Зара — Lakewood High School',
             'encrypted_data' => $vault->encrypt([
                 'School' => 'Lakewood High School',
                 'Student ID' => '2024-****8831',
@@ -316,14 +316,14 @@ class DemoVaultSeeder extends Seeder
                 'Portal Login' => 'aellis_parent',
                 'GPA' => '3.8',
             ]),
-            'notes' => 'Junior year. SAT scheduled for May. Looking at colleges this summer.',
+            'notes' => '11-й класс. SAT назначен на май. Этим летом будут смотреть колледжи.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['education']->id,
             'created_by' => $this->sarah->id,
-            'title' => 'Kenji — Riverside Middle School',
+            'title' => 'Кенджи — Riverside Middle School',
             'encrypted_data' => $vault->encrypt([
                 'School' => 'Riverside Middle School',
                 'Student ID' => '2024-****5547',
@@ -331,37 +331,37 @@ class DemoVaultSeeder extends Seeder
                 'Parent Portal' => 'riverside.powerschool.com',
                 'Portal Login' => 'aellis_parent',
             ]),
-            'notes' => '7th grade. Soccer team tryouts in August. IEP meeting in March.',
+            'notes' => '7-й класс. Отбор в футбольную команду в августе. IEP-собрание в марте.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['education']->id,
             'created_by' => $this->sarah->id,
-            'title' => 'Naia — Cedar Ridge Elementary',
+            'title' => 'Найя — Cedar Ridge Elementary',
             'encrypted_data' => $vault->encrypt([
                 'School' => 'Cedar Ridge Elementary',
                 'Student ID' => '2024-****2293',
-                'Teacher' => 'Mrs. Amanda Foster (4th grade)',
+                'Teacher' => 'Mrs. Amanda Foster (4-й класс)',
                 'Parent Portal' => 'cedarridge.powerschool.com',
                 'Portal Login' => 'aellis_parent',
             ]),
-            'notes' => '4th grade. Art show in May. Spelling bee champion 2025!',
+            'notes' => '4-й класс. Выставка рисунков в мае. Чемпион конкурса по правописанию в 2025!',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['education']->id,
             'created_by' => $this->mike->id,
-            'title' => 'Zara — SAT & College Prep',
+            'title' => 'Зара — подготовка к SAT и колледжу',
             'encrypted_data' => $vault->encrypt([
-                'SAT Test Date' => 'May 2026',
+                'SAT Test Date' => 'май 2026',
                 'Test Center' => 'Lakewood High School',
                 'Khan Academy Login' => 'zara.ellis.sat',
                 'College Board Login' => 'zellis2026',
                 'Target Schools' => 'U of Michigan, Northwestern, UVA, Howard',
             ]),
-            'notes' => 'Practice scores: 1320 composite. Target 1400+. Retake in October if needed.',
+            'notes' => 'Результаты пробных тестов: 1320 суммарно. Цель: 1400+. Пересдача в октябре при необходимости.',
         ]);
 
         // ─────────────────────────────────────────────
@@ -372,37 +372,37 @@ class DemoVaultSeeder extends Seeder
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['personal']->id,
             'created_by' => $this->mike->id,
-            'title' => 'Wi-Fi & Home Network',
+            'title' => 'Wi-Fi и домашняя сеть',
             'encrypted_data' => $vault->encrypt([
                 'Network Name' => 'EllisFam5G',
                 'Password' => 'Tr33house-2025!',
                 'Router Admin' => '192.168.1.1 — admin / ****router',
-                'ISP' => 'Comcast Xfinity — account ****4412',
+                'ISP' => 'Comcast Xfinity — аккаунт ****4412',
                 'ISP Support' => '1-800-XFINITY',
             ]),
-            'notes' => 'Guest network: EllisGuest / Welcome2025',
+            'notes' => 'Гостевая сеть: EllisGuest / Welcome2025',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['personal']->id,
             'created_by' => $this->sarah->id,
-            'title' => 'Streaming Services',
+            'title' => 'Стриминговые сервисы',
             'encrypted_data' => $vault->encrypt([
                 'Netflix' => 'adaeze.ellis@email.com (Premium)',
-                'Disney+' => 'marcus.ellis@email.com (annual)',
-                'Spotify Family' => 'marcus.ellis@email.com (6 members)',
-                'YouTube Premium' => 'family plan',
+                'Disney+' => 'marcus.ellis@email.com (годовая)',
+                'Spotify Family' => 'marcus.ellis@email.com (6 участников)',
+                'YouTube Premium' => 'семейный план',
                 'Apple TV+' => 'adaeze.ellis@email.com',
             ]),
-            'notes' => 'Netflix and Disney+ are annual plans. Spotify renews monthly on the 15th.',
+            'notes' => 'Подписки Netflix и Disney+ годовые. Платёж за Spotify списывается ежемесячно 15-го числа.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['personal']->id,
             'created_by' => $this->mike->id,
-            'title' => 'Emergency Contacts',
+            'title' => 'Экстренные контакты',
             'encrypted_data' => $vault->encrypt([
                 'Grandma Joan' => '(555) 111-2222',
                 'Uncle David' => '(555) 333-4444',
@@ -410,50 +410,50 @@ class DemoVaultSeeder extends Seeder
                 'Neighbor (Sue Miller)' => '(555) 777-8888',
                 'Poison Control' => '1-800-222-1222',
             ]),
-            'notes' => 'Grandma Joan is 15 min away. David & Karen are designated guardians.',
+            'notes' => 'Бабушка Джоан живёт в 15 минутах езды. Дэвид и Карен — назначенные опекуны.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['personal']->id,
             'created_by' => $this->sarah->id,
-            'title' => 'Vehicle Records — Honda Odyssey',
+            'title' => 'Документы на автомобиль — Honda Odyssey',
             'encrypted_data' => $vault->encrypt([
                 'VIN' => '5FNRL6H79NB****312',
                 'License Plate' => '****-7RK',
-                'Oil Change Due' => 'Every 5,000 miles — next at 62,400',
-                'Tire Rotation' => 'Every 7,500 miles',
+                'Oil Change Due' => 'Каждые 5,000 миль — следующая при пробеге 62,400',
+                'Tire Rotation' => 'Каждые 7,500 миль',
                 'Mechanic' => 'Garcia Auto — (555) 210-4488',
             ]),
-            'notes' => 'Registration renews in August. Insurance card in glove box.',
+            'notes' => 'Регистрация продлевается в августе. Страховой полис в бардачке.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['personal']->id,
             'created_by' => $this->mike->id,
-            'title' => 'Vehicle Records — Toyota RAV4',
+            'title' => 'Документы на автомобиль — Toyota RAV4',
             'encrypted_data' => $vault->encrypt([
                 'VIN' => 'JTMRWRFV4LD****889',
                 'License Plate' => '****-4WP',
-                'Oil Change Due' => 'Every 5,000 miles — next at 48,200',
+                'Oil Change Due' => 'Каждые 5,000 миль — следующая при пробеге 48,200',
                 'Mechanic' => 'Garcia Auto — (555) 210-4488',
             ]),
-            'notes' => 'Zara using it for driving practice. Note any new scratches.',
+            'notes' => 'Зара учится водить на этой машине. Отмечать новые царапины.',
         ]);
 
         VaultEntry::create([
             'family_id' => $this->familyId(),
             'vault_category_id' => $categories['personal']->id,
             'created_by' => $this->sarah->id,
-            'title' => 'Appliance Warranties',
+            'title' => 'Гарантии на бытовую технику',
             'encrypted_data' => $vault->encrypt([
-                'Refrigerator' => 'Samsung RF28 — warranty until Dec 2026 — (800) 726-7864',
-                'Washer/Dryer' => 'LG WM4000H — warranty until Oct 2025 — (800) 243-0000',
-                'Dishwasher' => 'Bosch SHPM88Z — warranty until Aug 2026 — (800) 944-2904',
-                'HVAC' => 'Carrier — 10-year parts — (800) 227-7437',
+                'Refrigerator' => 'Samsung RF28 — гарантия до декабря 2026 — (800) 726-7864',
+                'Washer/Dryer' => 'LG WM4000H — гарантия до октября 2025 — (800) 243-0000',
+                'Dishwasher' => 'Bosch SHPM88Z — гарантия до августа 2026 — (800) 944-2904',
+                'HVAC' => 'Carrier — запчасти 10 лет — (800) 227-7437',
             ]),
-            'notes' => 'Washer warranty expired. Consider extended plan — LG has been making a noise.',
+            'notes' => 'Гарантия на стиральную машину истекла. Рассмотреть расширенный план — LG начала издавать шум.',
         ]);
     }
 }

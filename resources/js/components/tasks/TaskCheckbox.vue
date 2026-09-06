@@ -3,7 +3,7 @@
     class="checkbox-custom"
     role="checkbox"
     :aria-checked="visualChecked"
-    :aria-label="visualChecked ? 'Mark as incomplete' : 'Mark as complete'"
+    :aria-label="visualChecked ? 'Отметить как невыполненную' : 'Отметить как выполненную'"
     @click.stop="$emit('toggle')"
   >
     <span

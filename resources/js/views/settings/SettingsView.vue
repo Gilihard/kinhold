@@ -1,13 +1,13 @@
 <template>
   <div class="p-4 md:p-6 max-w-4xl">
     <!-- Header -->
-    <h1 class="text-2xl font-bold font-heading text-ink-primary mb-6">{{ isParent ? 'Family Settings' : 'My Settings' }}</h1>
+    <h1 class="text-2xl font-bold font-heading text-ink-primary mb-6">{{ isParent ? 'Настройки семьи' : 'Мои настройки' }}</h1>
 
     <!-- Kid-friendly Profile Section (shown for non-parent users) -->
     <div v-if="!isParent" class="card-lg mb-6">
-      <h2 class="text-lg font-semibold font-heading text-ink-primary mb-4">My Profile</h2>
+      <h2 class="text-lg font-semibold font-heading text-ink-primary mb-4">Мой профиль</h2>
       <div class="flex items-center gap-4 p-4 bg-surface-sunken rounded-lg">
-        <button class="flex-shrink-0 rounded-full hover:ring-2 hover:ring-[#C4975A] hover:ring-offset-2 dark:hover:ring-offset-surface-sunken transition-all" title="Change avatar" @click="openAvatarEditor(currentUser)">
+        <button class="flex-shrink-0 rounded-full hover:ring-2 hover:ring-[#C4975A] hover:ring-offset-2 dark:hover:ring-offset-surface-sunken transition-all" title="Сменить аватар" @click="openAvatarEditor(currentUser)">
           <UserAvatar :user="currentUser" size="lg" />
         </button>
         <div>
@@ -26,9 +26,9 @@
            SubscriptionPaywall escape hatch. Hide everything except the export
            and danger sections so they can't bypass the paywall via Settings. -->
       <div v-if="gdprMode" class="card-lg mb-6 p-4 bg-surface-sunken">
-        <p class="text-sm font-medium text-ink-primary mb-1">Account management</p>
+        <p class="text-sm font-medium text-ink-primary mb-1">Управление аккаунтом</p>
         <p class="text-xs text-ink-secondary">
-          Your subscription has ended. You can still export a copy of your data or delete your account here.
+          Ваша подписка закончилась. Вы всё ещё можете выгрузить копию своих данных или удалить здесь свой аккаунт.
         </p>
       </div>
 
@@ -36,8 +36,8 @@
         <!-- Section 1: Family -->
         <SettingsSection
           id="family"
-          title="Family"
-          description="Manage your family info, members, and invites"
+          title="Семья"
+          description="Управляйте информацией о семье, участниках и приглашениях"
           :icon="UsersIcon"
           :model-value="expandedSections.has('family')"
           @update:model-value="val => toggleSection('family', val)"
@@ -46,21 +46,21 @@
           <form class="space-y-4 mb-6" @submit.prevent="updateFamily">
             <BaseInput
               v-model="familyForm.name"
-              label="Family Name"
-              placeholder="The Johnsons"
+              label="Название семьи"
+              placeholder="Ивановы"
               :error="familyErrors.name"
             />
             <div class="flex gap-3 justify-end">
-              <BaseButton variant="ghost" @click="cancelEditFamily">Cancel</BaseButton>
-              <BaseButton variant="primary" :loading="savingFamily">Save Changes</BaseButton>
+              <BaseButton variant="ghost" @click="cancelEditFamily">Отмена</BaseButton>
+              <BaseButton variant="primary" :loading="savingFamily">Сохранить изменения</BaseButton>
             </div>
           </form>
 
           <!-- Invite Code -->
           <div class="border-t border-border-subtle pt-4 mb-6">
-            <h3 class="font-semibold text-ink-primary mb-2">Family Invite Code</h3>
+            <h3 class="font-semibold text-ink-primary mb-2">Код приглашения семьи</h3>
             <p class="text-sm text-ink-secondary mb-4">
-              Share this code with family members so they can join during registration.
+              Поделитесь этим кодом с членами семьи, чтобы они могли присоединиться при регистрации.
             </p>
 
             <div class="flex items-center gap-3">
@@ -69,13 +69,13 @@
               </div>
               <BaseButton variant="secondary" size="sm" :disabled="!inviteCode" @click="copyInviteCode">
                 <ClipboardDocumentIcon class="w-4 h-4 mr-1" />
-                {{ copied ? 'Copied!' : 'Copy' }}
+                {{ copied ? 'Скопировано!' : 'Копировать' }}
               </BaseButton>
             </div>
 
             <!-- Send invite by email -->
             <div class="mt-4 pt-4 border-t border-border-subtle">
-              <p class="text-sm font-medium text-ink-secondary mb-2">Send Invite by Email</p>
+              <p class="text-sm font-medium text-ink-secondary mb-2">Отправить приглашение по эл. почте</p>
               <form class="flex items-end gap-3" @submit.prevent="handleSendInviteEmail">
                 <div class="flex-1">
                   <KinInput
@@ -87,11 +87,11 @@
                 </div>
                 <BaseButton variant="secondary" size="sm" :loading="sendingInvite" :disabled="!inviteCode">
                   <EnvelopeIcon class="w-4 h-4 mr-1" />
-                  Send
+                  Отправить
                 </BaseButton>
               </form>
               <p v-if="inviteEmailSent" class="text-sm text-status-success dark:text-status-success mt-2">
-                Invite sent!
+                Приглашение отправлено!
               </p>
             </div>
           </div>
@@ -99,10 +99,10 @@
           <!-- Family Members -->
           <div class="border-t border-border-subtle pt-4 mb-6">
             <div class="flex items-center justify-between mb-4">
-              <h3 class="font-semibold text-ink-primary">Family Members</h3>
+              <h3 class="font-semibold text-ink-primary">Участники семьи</h3>
               <BaseButton variant="secondary" size="sm" @click="openAddMemberModal">
                 <PlusIcon class="w-4 h-4 mr-2" />
-                Add Member
+                Добавить участника
               </BaseButton>
             </div>
 
@@ -115,7 +115,7 @@
                 <div class="flex items-center gap-3">
                   <button
                     class="flex-shrink-0 rounded-full hover:ring-2 hover:ring-[#C4975A] hover:ring-offset-2 dark:hover:ring-offset-surface-sunken transition-all"
-                    title="Change avatar"
+                    title="Сменить аватар"
                     @click="openAvatarEditor(member)"
                   >
                     <UserAvatar :user="member" size="md" />
@@ -123,7 +123,7 @@
                   <div>
                     <p class="font-semibold text-ink-primary">{{ member.name }}</p>
                     <p v-if="member.email" class="text-xs text-ink-secondary">{{ member.email }}</p>
-                    <p v-else class="text-xs text-ink-secondary italic">Managed account</p>
+                    <p v-else class="text-xs text-ink-secondary italic">Управляемый аккаунт</p>
                     <div class="flex items-center gap-2 mt-1">
                       <span
                         :class="[
@@ -133,10 +133,10 @@
                             : 'bg-surface-sunken text-ink-secondary dark:bg-surface-overlay dark:text-ink-tertiary'
                         ]"
                       >
-                        {{ (member.family_role || member.role) === 'parent' ? 'Parent' : 'Child' }}
+                        {{ (member.family_role || member.role) === 'parent' ? 'Родитель' : 'Ребёнок' }}
                       </span>
                       <span v-if="member.is_managed" class="text-xs px-2 py-0.5 rounded-full bg-accent-peach-soft/60 text-accent-peach-bold font-medium">
-                        Managed
+                        Управляемый
                       </span>
                     </div>
                   </div>
@@ -146,21 +146,21 @@
                   <button
                     v-if="member.is_managed"
                     class="p-2 hover:bg-accent-lavender-soft/40 rounded-lg transition-colors"
-                    title="Switch to this profile"
+                    title="Переключиться на этот профиль"
                     @click="openSwitchToModal(member)"
                   >
                     <ArrowsRightLeftIcon class="w-4 h-4 text-accent-lavender-bold" />
                   </button>
                   <button
                     class="p-2 hover:bg-surface-overlay rounded-lg transition-colors"
-                    title="Edit member"
+                    title="Изменить участника"
                     @click="openEditMemberModal(member)"
                   >
                     <PencilIcon class="w-4 h-4 text-ink-secondary dark:text-ink-tertiary" />
                   </button>
                   <button
                     class="p-2 hover:bg-red-100 dark:hover:bg-red-900/20 rounded-lg transition-colors"
-                    title="Remove member"
+                    title="Удалить участника"
                     @click="confirmRemoveMember(member)"
                   >
                     <TrashIcon class="w-4 h-4 text-status-failed" />
@@ -172,12 +172,12 @@
 
           <!-- Setup Wizard (relocated here from bottom) -->
           <div class="border-t border-border-subtle pt-4">
-            <h3 class="font-semibold text-ink-primary mb-2">Setup Wizard</h3>
+            <h3 class="font-semibold text-ink-primary mb-2">Мастер настройки</h3>
             <p class="text-sm text-ink-secondary mb-4">
-              Re-run the setup wizard to invite members, connect calendars, or configure features.
+              Повторно запустите мастер настройки, чтобы пригласить участников, подключить календари или настроить функции.
             </p>
             <BaseButton variant="secondary" @click="$router.push({ name: 'Onboarding' })">
-              Re-run Setup Wizard
+              Повторно запустить мастер настройки
             </BaseButton>
           </div>
         </SettingsSection>
@@ -186,8 +186,8 @@
         <SettingsSection
           v-if="moduleToggles.tasks || moduleToggles.points"
           id="tasks-points"
-          title="Tasks & Points"
-          description="Configure task behavior, points, and rewards"
+          title="Задачи и баллы"
+          description="Настройте поведение задач, баллы и награды"
           :icon="ClipboardDocumentListIcon"
           :model-value="expandedSections.has('tasks-points')"
           @update:model-value="val => toggleSection('tasks-points', val)"
@@ -209,32 +209,32 @@
                     :class="['px-2.5 py-1 text-xs font-medium rounded-full transition-colors', moduleAccessState[module.id]?.mode === 'all' ? 'bg-accent-lavender-bold text-ink-inverse shadow-resting' : 'bg-surface-raised text-ink-secondary border border-border-subtle hover:bg-surface-overlay']"
                     @click="setModuleMode(module.id, 'all')"
                   >
-                    Everyone
+                    Все
                   </button>
                   <button
                     :class="['px-2.5 py-1 text-xs font-medium rounded-full transition-colors', moduleAccessState[module.id]?.mode === 'roles' ? 'bg-accent-lavender-bold text-ink-inverse shadow-resting' : 'bg-surface-raised text-ink-secondary border border-border-subtle hover:bg-surface-overlay']"
                     @click="setModuleMode(module.id, 'roles', ['parent'])"
                   >
-                    Parents Only
+                    Только родители
                   </button>
                   <button
                     :class="['px-2.5 py-1 text-xs font-medium rounded-full transition-colors', moduleAccessState[module.id]?.mode === 'off' ? 'bg-status-failed text-white shadow-resting' : 'bg-surface-raised text-ink-secondary border border-border-subtle hover:bg-surface-overlay']"
                     @click="setModuleMode(module.id, 'off')"
                   >
-                    Off
+                    Выкл.
                   </button>
                   <button
                     :class="['px-2.5 py-1 text-xs font-medium rounded-full transition-colors', moduleAccessState[module.id]?.mode === 'users' ? 'bg-accent-lavender-bold text-ink-inverse shadow-resting' : 'bg-surface-raised text-ink-secondary border border-border-subtle hover:bg-surface-overlay']"
                     @click="setModuleMode(module.id, 'users', getSelectedUserIds(module.id))"
                   >
-                    Custom
+                    Выборочно
                   </button>
                 </div>
               </div>
 
               <!-- Per-member checkboxes -->
               <div v-if="moduleAccessState[module.id]?.mode === 'users'" class="mt-3 pt-3 border-t border-border-subtle dark:border-border-subtle">
-                <p class="text-xs font-medium text-ink-secondary mb-2">Select family members:</p>
+                <p class="text-xs font-medium text-ink-secondary mb-2">Выберите участников семьи:</p>
                 <div class="flex flex-wrap gap-2">
                   <label
                     v-for="member in familyMembers"
@@ -244,16 +244,16 @@
                     <input type="checkbox" :checked="isMemberSelected(module.id, member.id)" class="rounded" :disabled="(member.family_role || member.role) === 'parent'" @change="toggleMemberAccess(module.id, member.id)" />
                     <UserAvatar :user="member" size="xs" />
                     <span class="text-sm text-ink-primary">{{ member.name }}</span>
-                    <span v-if="(member.family_role || member.role) === 'parent'" class="text-xs text-ink-tertiary italic">(always)</span>
+                    <span v-if="(member.family_role || member.role) === 'parent'" class="text-xs text-ink-tertiary italic">(всегда)</span>
                   </label>
                 </div>
               </div>
 
               <p class="text-xs text-ink-primary mt-2">
-                <template v-if="moduleAccessState[module.id]?.mode === 'all'">All family members can access this feature.</template>
-                <template v-else-if="moduleAccessState[module.id]?.mode === 'off'">This feature is disabled for everyone.</template>
-                <template v-else-if="moduleAccessState[module.id]?.mode === 'roles'">Only parents can access this feature.</template>
-                <template v-else-if="moduleAccessState[module.id]?.mode === 'users'">{{ getSelectedMemberNames(module.id) || 'No members selected (parents always have access).' }}</template>
+                <template v-if="moduleAccessState[module.id]?.mode === 'all'">Все члены семьи могут пользоваться этой функцией.</template>
+                <template v-else-if="moduleAccessState[module.id]?.mode === 'off'">Эта функция отключена для всех.</template>
+                <template v-else-if="moduleAccessState[module.id]?.mode === 'roles'">Только родители могут пользоваться этой функцией.</template>
+                <template v-else-if="moduleAccessState[module.id]?.mode === 'users'">{{ getSelectedMemberNames(module.id) || 'Никто не выбран (у родителей доступ есть всегда).' }}</template>
               </p>
             </div>
           </div>
@@ -261,7 +261,7 @@
           <!-- Leaderboard Period -->
           <div v-if="moduleToggles.points" class="border-t border-border-subtle pt-4 mb-4">
             <label class="block text-sm font-medium text-ink-secondary mb-2">
-              Leaderboard Reset Period
+              Период сброса рейтинга
             </label>
             <KinSelect
               v-model="leaderboardPeriod"
@@ -269,15 +269,15 @@
               :options="leaderboardPeriodOptions"
             />
             <p class="text-xs text-ink-secondary mt-1">
-              How often the leaderboard resets. Does not affect point balances.
+              Как часто сбрасывается рейтинг. На баллы это не влияет.
             </p>
 
             <!-- Kudos Cost Toggle -->
             <div class="mt-4">
               <div class="flex items-center justify-between p-4 bg-surface-sunken rounded-lg gap-4">
                 <div class="flex-1">
-                  <p class="font-medium text-ink-primary">Kudos cost points</p>
-                  <p class="text-xs text-ink-secondary mt-0.5">Giving kudos deducts 1 point from the giver's bank. Prevents trading kudos back and forth.</p>
+                  <p class="font-medium text-ink-primary">Похвала стоит баллов</p>
+                  <p class="text-xs text-ink-secondary mt-0.5">Отправка похвалы списывает 1 балл со счёта отправителя. Не даёт обмениваться похвалой в обе стороны.</p>
                 </div>
                 <KinSwitch
                   :model-value="kudosCostEnabled"
@@ -290,41 +290,38 @@
 
           <!-- Default Task Points -->
           <div v-if="moduleToggles.tasks && moduleToggles.points" class="border-t border-border-subtle pt-4 mb-4">
-            <h3 class="font-semibold text-ink-primary mb-2">Default Task Points</h3>
+            <h3 class="font-semibold text-ink-primary mb-2">Баллы по умолчанию за задачи</h3>
             <p class="text-sm text-ink-secondary mb-4">
-              Set how many points are awarded by default for each task priority level. Tasks with explicitly set points are not affected.
+              Укажите, сколько баллов начисляется по умолчанию за каждый уровень приоритета. Задачи с явно заданными баллами не затрагиваются.
             </p>
 
             <div class="space-y-3">
               <div class="flex items-center gap-4 p-4 bg-surface-sunken rounded-lg">
                 <div class="flex-1">
-                  <label class="block text-sm font-medium text-ink-secondary">Low Priority</label>
+                  <label class="block text-sm font-medium text-ink-secondary">Низкий приоритет</label>
                 </div>
                 <KinInput v-model.number="defaultPoints.low" type="number" min="0" max="1000" class="w-24 text-center" />
-                <span class="text-sm text-ink-secondary">pts</span>
               </div>
               <div class="flex items-center gap-4 p-4 bg-surface-sunken rounded-lg">
                 <div class="flex-1">
-                  <label class="block text-sm font-medium text-ink-secondary">Medium Priority</label>
+                  <label class="block text-sm font-medium text-ink-secondary">Средний приоритет</label>
                 </div>
                 <KinInput v-model.number="defaultPoints.medium" type="number" min="0" max="1000" class="w-24 text-center" />
-                <span class="text-sm text-ink-secondary">pts</span>
               </div>
               <div class="flex items-center gap-4 p-4 bg-surface-sunken rounded-lg">
                 <div class="flex-1">
-                  <label class="block text-sm font-medium text-ink-secondary">High Priority</label>
+                  <label class="block text-sm font-medium text-ink-secondary">Высокий приоритет</label>
                 </div>
                 <KinInput v-model.number="defaultPoints.high" type="number" min="0" max="1000" class="w-24 text-center" />
-                <span class="text-sm text-ink-secondary">pts</span>
               </div>
             </div>
           </div>
 
           <!-- Task Assignment -->
           <div v-if="moduleToggles.tasks" class="border-t border-border-subtle pt-4 mb-4">
-            <h3 class="font-semibold text-ink-primary mb-2">Task Assignment</h3>
+            <h3 class="font-semibold text-ink-primary mb-2">Назначение задач</h3>
             <p class="text-sm text-ink-secondary mb-4">
-              Control which family members can assign tasks to others. Parents can always assign tasks to anyone.
+              Управляйте тем, кто из членов семьи может назначать задачи другим. Родители могут назначать задачи кому угодно.
             </p>
 
             <div class="space-y-3">
@@ -342,7 +339,7 @@
             </div>
 
             <div v-if="taskAssignment.mode === 'users'" class="mt-4 pl-4 border-l-2 border-accent-lavender-soft">
-              <p class="text-sm font-medium text-ink-secondary mb-3">Select which children can assign tasks to others:</p>
+              <p class="text-sm font-medium text-ink-secondary mb-3">Выберите, какие дети могут назначать задачи другим:</p>
               <div class="space-y-2">
                 <label
                   v-for="child in childMembers"
@@ -353,7 +350,7 @@
                   <span class="text-sm font-medium text-ink-primary">{{ child.name }}</span>
                 </label>
                 <p v-if="childMembers.length === 0" class="text-sm text-ink-secondary italic">
-                  No child members in the family yet.
+                  В семье пока нет детей.
                 </p>
               </div>
             </div>
@@ -362,7 +359,7 @@
           <!-- Save button -->
           <div class="flex justify-end pt-4 border-t border-border-subtle">
             <BaseButton variant="primary" :loading="savingTasksPoints" @click="saveTasksPointsSection">
-              Save Changes
+              Сохранить изменения
             </BaseButton>
           </div>
         </SettingsSection>
@@ -370,8 +367,8 @@
         <!-- Section 3: AI & Integrations -->
         <SettingsSection
           id="ai-integrations"
-          title="AI & Integrations"
-          description="API keys, calendar connections, and MCP"
+          title="ИИ и интеграции"
+          description="API-ключи, подключения календарей и MCP"
           :icon="CpuChipIcon"
           :model-value="expandedSections.has('ai-integrations')"
           @update:model-value="val => toggleSection('ai-integrations', val)"
@@ -379,7 +376,7 @@
           <!-- AI Mode Toggle -->
           <div class="mb-6">
             <label class="block text-sm font-medium text-ink-secondary mb-3">
-              AI Access
+              Доступ к ИИ
             </label>
 
             <!-- Two-tab selector — hidden on self-hosted (BYOK is the only option) -->
@@ -404,8 +401,8 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
-                <p class="text-sm font-semibold text-ink-primary">Use Kinhold AI</p>
-                <p class="text-xs text-ink-secondary mt-0.5">Powered by Claude · Included with your trial</p>
+                <p class="text-sm font-semibold text-ink-primary">Использовать Kinhold AI</p>
+                <p class="text-xs text-ink-secondary mt-0.5">На базе Claude · Входит в пробную версию</p>
               </button>
 
               <!-- BYOK tab -->
@@ -428,8 +425,8 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
                   </svg>
                 </div>
-                <p class="text-sm font-semibold text-ink-primary">My Own API Key</p>
-                <p class="text-xs text-ink-secondary mt-0.5">Anthropic Claude (others coming soon)</p>
+                <p class="text-sm font-semibold text-ink-primary">Мой собственный API-ключ</p>
+                <p class="text-xs text-ink-secondary mt-0.5">Anthropic Claude (остальные скоро появятся)</p>
               </button>
             </div>
 
@@ -440,9 +437,9 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <div>
-                  <p class="text-sm font-medium text-accent-lavender-bold">You're all set</p>
+                  <p class="text-sm font-medium text-accent-lavender-bold">Всё готово</p>
                   <p class="text-xs text-accent-lavender-bold mt-0.5">
-                    Kinhold AI is powered by Anthropic's Claude. No API key needed — we handle it for you. Included free with your 14-day trial; pick a paid AI tier from the Billing panel to keep using it after.
+                    Kinhold AI работает на базе Claude от Anthropic. API-ключ не нужен — мы обо всём позаботимся. Входит в вашу 14-дневную пробную версию бесплатно; чтобы продолжать пользоваться после неё, выберите платный тариф ИИ в разделе «Оплата».
                   </p>
                 </div>
               </div>
@@ -459,8 +456,8 @@
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
                 <div class="text-xs text-ink-secondary leading-relaxed">
-                  <span class="font-semibold text-ink-primary">Your key stays private.</span>
-                  Encrypted with AES-256 before it touches the database, decrypted only in memory the instant a chat request runs, and never logged or shown back to you in plaintext — only a masked preview.
+                  <span class="font-semibold text-ink-primary">Ваш ключ остаётся приватным.</span>
+                  Он шифруется с помощью AES-256 до записи в базу данных, расшифровывается только в памяти в момент запроса в чате и никогда не сохраняется в журналах и не показывается вам открытым текстом — только в виде маскированного предпросмотра.
                 </div>
               </div>
 
@@ -488,7 +485,7 @@
               <!-- API Key -->
               <div>
                 <label class="block text-sm font-medium text-ink-secondary mb-1.5">
-                  {{ selectedProviderName }} API Key
+                  {{ selectedProviderName }} API-ключ
                 </label>
                 <div class="relative">
                   <KinInput
@@ -500,23 +497,23 @@
                     type="button" class="absolute right-2 top-1/2 -translate-y-1/2 px-2 py-1 text-xs font-medium text-ink-secondary hover:text-ink-primary transition-colors z-10"
                     @click="showAiKey = !showAiKey"
                   >
-                    {{ showAiKey ? 'Hide' : 'Show' }}
+                    {{ showAiKey ? 'Скрыть' : 'Показать' }}
                   </button>
                 </div>
                 <div class="flex items-center justify-between mt-1">
                   <p class="text-xs text-ink-secondary">
                     <template v-if="aiConfig.hasSavedKey && !aiConfig.apiKey">
-                      Current key: <span class="font-mono">{{ aiConfig.maskedKey }}</span>
+                      Текущий ключ: <span class="font-mono">{{ aiConfig.maskedKey }}</span>
                     </template>
                     <template v-else>
-                      Find your key at <a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer" class="text-accent-lavender-bold hover:underline">console.anthropic.com</a>. We encrypt it at rest and never see your key in plaintext.
+                      Найдите свой ключ на <a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer" class="text-accent-lavender-bold hover:underline">console.anthropic.com</a>. Мы шифруем его при хранении и никогда не видим ваш ключ в открытом виде.
                     </template>
                   </p>
                   <a
                     :href="selectedProviderHelpUrl" target="_blank" rel="noopener noreferrer"
                     class="text-xs text-accent-lavender-bold hover:underline whitespace-nowrap ml-2"
                   >
-                    Get API key →
+                    Получить API-ключ →
                   </a>
                 </div>
 
@@ -533,18 +530,18 @@
                   <svg v-else class="w-4 h-4 mt-0.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                   </svg>
-                  <span>{{ aiTestStatus.valid ? 'Key is valid.' : aiTestStatus.error }}</span>
+                  <span>{{ aiTestStatus.valid ? 'Ключ действителен.' : aiTestStatus.error }}</span>
                 </div>
               </div>
 
               <!-- Model override -->
               <div>
                 <label class="block text-sm font-medium text-ink-secondary mb-1.5">
-                  Model Override <span class="font-normal text-ink-tertiary">(optional)</span>
+                  Переопределение модели <span class="font-normal text-ink-tertiary">(необязательно)</span>
                 </label>
                 <KinInput v-model="aiConfig.model" type="text" :placeholder="selectedProviderDefaultModel" />
                 <p class="text-xs text-ink-secondary mt-1">
-                  Leave blank to use {{ selectedProviderDefaultModel }}.
+                  Оставьте пустым, чтобы использовать {{ selectedProviderDefaultModel }}.
                 </p>
               </div>
             </div>
@@ -556,7 +553,7 @@
                 :loading="clearingAi"
                 @click="showClearKeyModal = true"
               >
-                Clear saved key
+                Очистить сохранённый ключ
               </BaseButton>
               <BaseButton
                 v-if="!billingEnabled || aiMode === 'byok'"
@@ -565,29 +562,29 @@
                 :loading="testingAi"
                 @click="testAiKey"
               >
-                Test key
+                Проверить ключ
               </BaseButton>
-              <BaseButton variant="ghost" @click="resetAiConfig">Reset</BaseButton>
-              <BaseButton variant="primary" :loading="savingAi" @click="saveAiSettings">Save AI Settings</BaseButton>
+              <BaseButton variant="ghost" @click="resetAiConfig">Сбросить</BaseButton>
+              <BaseButton variant="primary" :loading="savingAi" @click="saveAiSettings">Сохранить настройки ИИ</BaseButton>
             </div>
           </div>
 
           <!-- Connect AI Assistant (MCP Token) -->
           <div class="border-t border-border-subtle pt-4 mb-6">
-            <h3 class="font-semibold text-ink-primary mb-2">Connect AI Assistant</h3>
+            <h3 class="font-semibold text-ink-primary mb-2">Подключить ИИ-ассистента</h3>
             <p class="text-sm text-ink-secondary mb-4">
-              Connect any MCP-compatible AI assistant to manage your family hub.
+              Подключите любого совместимого с MCP ИИ-ассистента для управления семейным центром.
             </p>
 
             <!-- OAuth quick-connect info -->
             <div class="p-4 bg-accent-lavender-soft/30 border border-accent-lavender-soft rounded-lg mb-4">
-              <p class="text-sm font-medium text-accent-lavender-bold mb-1">Quick Connect (Claude Desktop / ChatGPT)</p>
+              <p class="text-sm font-medium text-accent-lavender-bold mb-1">Быстрое подключение (Claude Desktop / ChatGPT)</p>
               <p class="text-xs text-accent-lavender-bold mb-2">
-                Add Kinhold as a custom connector using OAuth — no token needed:
+                Добавьте Kinhold как настраиваемый коннектор через OAuth — токен не нужен:
               </p>
               <div class="space-y-1 text-xs text-accent-lavender-bold dark:text-accent-lavender-bold">
                 <div class="flex items-start gap-2">
-                  <span class="font-medium min-w-[40px]">Name</span>
+                  <span class="font-medium min-w-[40px]">Название</span>
                   <code class="font-mono bg-accent-lavender-soft/40 px-1.5 py-0.5 rounded">Kinhold</code>
                 </div>
                 <div class="flex items-start gap-2">
@@ -596,33 +593,33 @@
                 </div>
               </div>
               <p class="text-xs text-accent-lavender-bold dark:text-accent-lavender-bold mt-2">
-                Leave OAuth fields blank. You'll be prompted to sign in with Google when you connect.
+                Оставьте поля OAuth пустыми. При подключении вам будет предложено войти через Google.
               </p>
             </div>
 
             <!-- Bearer token fallback (Claude Code / manual) -->
-            <p class="text-xs text-ink-secondary mb-2 font-medium">Advanced: Bearer Token (for Claude Code / manual setup)</p>
+            <p class="text-xs text-ink-secondary mb-2 font-medium">Расширенно: Bearer-токен (для Claude Code / ручной настройки)</p>
             <div class="flex items-center justify-between p-4 bg-surface-sunken rounded-lg">
               <div>
                 <div class="flex items-center gap-2">
-                  <p class="font-medium text-ink-primary">MCP Connection</p>
+                  <p class="font-medium text-ink-primary">MCP-подключение</p>
                   <span v-if="mcpToken.hasToken" class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-status-success">
-                    Connected
+                    Подключено
                   </span>
                   <span v-else class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-surface-sunken text-ink-secondary dark:bg-surface-overlay dark:text-ink-tertiary">
-                    Not Connected
+                    Не подключено
                   </span>
                 </div>
                 <p v-if="mcpToken.lastUsedAt" class="text-xs text-ink-secondary mt-1">
-                  Last used: {{ new Date(mcpToken.lastUsedAt).toLocaleDateString() }}
+                  Последнее использование: {{ new Date(mcpToken.lastUsedAt).toLocaleDateString() }}
                 </p>
               </div>
               <div class="flex items-center gap-2">
                 <BaseButton v-if="mcpToken.hasToken" variant="ghost" size="sm" :loading="mcpRevoking" @click="handleRevokeMcpToken">
-                  Revoke
+                  Отозвать
                 </BaseButton>
                 <BaseButton variant="secondary" size="sm" :loading="mcpGenerating" @click="handleGenerateMcpToken">
-                  {{ mcpToken.hasToken ? 'Regenerate Token' : 'Generate Token' }}
+                  {{ mcpToken.hasToken ? 'Пересоздать токен' : 'Создать токен' }}
                 </BaseButton>
               </div>
             </div>
@@ -631,16 +628,16 @@
             <div v-if="mcpGenerated.show" class="mt-4 space-y-4">
               <div class="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
                 <p class="text-sm text-amber-800 dark:text-amber-200 font-medium">
-                  This token is shown only once. Copy what you need now — you won't be able to see it again.
+                  Этот токен показывается только один раз. Скопируйте всё нужное сейчас — увидеть его снова будет нельзя.
                 </p>
               </div>
 
               <div>
                 <div class="flex items-center justify-between mb-1">
-                  <label class="block text-sm font-medium text-ink-secondary">Bearer Token</label>
+                  <label class="block text-sm font-medium text-ink-secondary">Bearer-токен</label>
                   <BaseButton variant="ghost" size="sm" @click="copyMcpSnippet('token', mcpGenerated.plainToken)">
                     <ClipboardDocumentIcon class="w-4 h-4 mr-1" />
-                    {{ mcpCopied.token ? 'Copied!' : 'Copy' }}
+                    {{ mcpCopied.token ? 'Скопировано!' : 'Копировать' }}
                   </BaseButton>
                 </div>
                 <div class="font-mono text-sm bg-surface-raised dark:bg-surface-app text-status-success p-3 rounded-lg overflow-x-auto">
@@ -683,7 +680,7 @@
                     </div>
                     <BaseButton variant="ghost" size="sm" @click="copyMcpSnippet(client.id, Object.entries(client.details).map(([k, v]) => k + ': ' + v).join('\n'))">
                       <ClipboardDocumentIcon class="w-4 h-4 mr-1" />
-                      {{ mcpCopied[client.id] ? 'Copied!' : 'Copy Details' }}
+                      {{ mcpCopied[client.id] ? 'Скопировано!' : 'Копировать данные' }}
                     </BaseButton>
                   </template>
 
@@ -691,7 +688,7 @@
                     <div class="flex items-center justify-end mb-1">
                       <BaseButton variant="ghost" size="sm" @click="copyMcpSnippet(client.id, client.command || client.configJson)">
                         <ClipboardDocumentIcon class="w-4 h-4 mr-1" />
-                        {{ mcpCopied[client.id] ? 'Copied!' : 'Copy' }}
+                        {{ mcpCopied[client.id] ? 'Скопировано!' : 'Копировать' }}
                       </BaseButton>
                     </div>
                     <pre class="font-mono text-sm bg-surface-raised dark:bg-surface-app text-ink-secondary p-3 rounded-lg overflow-x-auto whitespace-pre">{{ client.command || client.configJson }}</pre>
@@ -703,48 +700,48 @@
 
           <!-- Google Account Linking -->
           <div class="border-t border-border-subtle pt-4 mb-6">
-            <h3 class="font-semibold text-ink-primary mb-3">Google Account</h3>
+            <h3 class="font-semibold text-ink-primary mb-3">Аккаунт Google</h3>
             <p class="text-sm text-ink-secondary mb-4">
-              Link your Google account for quick sign-in. Your Google email must match your account email.
+              Привяжите аккаунт Google для быстрого входа. Эл. почта Google должна совпадать с эл. почтой вашего аккаунта.
             </p>
 
             <div v-if="currentUser?.google_id" class="flex items-center justify-between p-3 bg-status-success/10 rounded-lg">
               <div class="flex items-center gap-2">
                 <svg class="w-5 h-5 text-status-success dark:text-status-success" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
-                <span class="text-sm font-medium text-green-800 dark:text-green-300">Google account linked</span>
+                <span class="text-sm font-medium text-green-800 dark:text-green-300">Аккаунт Google привязан</span>
               </div>
-              <BaseButton variant="ghost" size="sm" :loading="unlinkingGoogle" @click="handleUnlinkGoogle">Unlink</BaseButton>
+              <BaseButton variant="ghost" size="sm" :loading="unlinkingGoogle" @click="handleUnlinkGoogle">Отвязать</BaseButton>
             </div>
 
             <div v-else class="flex items-center justify-between p-3 bg-surface-sunken rounded-lg">
               <div>
-                <p class="text-sm font-medium text-ink-primary">Not linked</p>
-                <p class="text-xs text-ink-secondary mt-0.5">Sign in faster with Google</p>
+                <p class="text-sm font-medium text-ink-primary">Не привязан</p>
+                <p class="text-xs text-ink-secondary mt-0.5">Входите быстрее с помощью Google</p>
               </div>
-              <BaseButton variant="secondary" size="sm" :loading="linkingGoogle" @click="handleLinkGoogle">Link Google</BaseButton>
+              <BaseButton variant="secondary" size="sm" :loading="linkingGoogle" @click="handleLinkGoogle">Привязать Google</BaseButton>
             </div>
 
             <div v-if="googleLinkError" class="mt-2 p-2 bg-status-failed/10 border border-status-failed/30 rounded-lg">
               <p class="text-xs text-status-failed">{{ googleLinkError }}</p>
             </div>
             <div v-if="googleLinked" class="mt-2 p-2 bg-status-success/10 border border-green-200 dark:border-green-800 rounded-lg">
-              <p class="text-xs text-status-success dark:text-green-300">Google account linked successfully!</p>
+              <p class="text-xs text-status-success dark:text-green-300">Аккаунт Google успешно привязан!</p>
             </div>
           </div>
 
           <!-- Google Calendar -->
           <div class="border-t border-border-subtle pt-4 mb-6">
-            <h3 class="font-semibold text-ink-primary mb-3">Google Calendar Sync</h3>
+            <h3 class="font-semibold text-ink-primary mb-3">Синхронизация с Google Календарём</h3>
             <p class="text-sm text-ink-secondary mb-4">
-              Connect your Google Calendar to sync events into the family hub.
+              Подключите свой Google Календарь, чтобы синхронизировать события в семейный центр.
             </p>
 
             <!-- Google OAuth not configured notice -->
             <div v-if="authStore.services && !authStore.services.google_calendar" class="p-4 bg-golden-50 dark:bg-golden-900/20 rounded-xl mb-4">
-              <p class="text-sm font-medium text-golden-800 dark:text-golden-300 mb-1">Google Calendar Not Configured</p>
+              <p class="text-sm font-medium text-golden-800 dark:text-golden-300 mb-1">Google Календарь не настроен</p>
               <p class="text-xs text-golden-700 dark:text-golden-400">
-                This server doesn't have Google OAuth credentials set up. You can still create manual events from the calendar page.
-                <template v-if="authStore.isParent"> Set <code class="bg-golden-100 dark:bg-golden-900/40 px-1 rounded">GOOGLE_CLIENT_ID</code> and <code class="bg-golden-100 dark:bg-golden-900/40 px-1 rounded">GOOGLE_CLIENT_SECRET</code> in your environment to enable Google Calendar sync.</template>
+                На этом сервере не настроены учётные данные Google OAuth. Вы по-прежнему можете создавать события вручную на странице календаря.
+                <template v-if="authStore.isParent"> Задайте <code class="bg-golden-100 dark:bg-golden-900/40 px-1 rounded">GOOGLE_CLIENT_ID</code> и <code class="bg-golden-100 dark:bg-golden-900/40 px-1 rounded">GOOGLE_CLIENT_SECRET</code> в переменных окружения, чтобы включить синхронизацию с Google Календарём.</template>
               </p>
             </div>
 
@@ -755,25 +752,25 @@
                 class="flex items-center justify-between p-3 bg-surface-sunken rounded-lg"
               >
                 <div>
-                  <p class="font-medium text-ink-primary">{{ conn.calendar_name || 'Google Calendar' }}</p>
+                  <p class="font-medium text-ink-primary">{{ conn.calendar_name || 'Google Календарь' }}</p>
                   <p class="text-xs text-ink-secondary mt-0.5">{{ currentUser?.name }}</p>
                 </div>
-                <BaseButton variant="ghost" size="sm" @click="handleDisconnectCalendar(conn.id)">Disconnect</BaseButton>
+                <BaseButton variant="ghost" size="sm" @click="handleDisconnectCalendar(conn.id)">Отключить</BaseButton>
               </div>
 
               <div v-if="userCalendarConnections.length === 0" class="flex items-center justify-between p-3 bg-surface-sunken rounded-lg">
                 <div>
                   <p class="font-medium text-ink-primary">{{ currentUser?.name }}</p>
                   <p class="text-xs text-ink-secondary mt-0.5">
-                    <span class="badge badge-warning">Not Connected</span>
+                    <span class="badge badge-warning">Не подключено</span>
                   </p>
                 </div>
-                <BaseButton variant="secondary" size="sm" :loading="connectingCalendar" @click="handleConnectCalendar">Connect</BaseButton>
+                <BaseButton variant="secondary" size="sm" :loading="connectingCalendar" @click="handleConnectCalendar">Подключить</BaseButton>
               </div>
 
               <div v-if="userCalendarConnections.length > 0" class="flex justify-end">
                 <BaseButton variant="secondary" size="sm" :loading="connectingCalendar" @click="handleConnectCalendar">
-                  Reconnect / Add Calendars
+                  Переподключить / Добавить календари
                 </BaseButton>
               </div>
 
@@ -783,8 +780,8 @@
                 class="flex items-center justify-between p-3 bg-surface-sunken rounded-lg"
               >
                 <div>
-                  <p class="font-medium text-ink-primary">{{ conn.calendar_name || 'Google Calendar' }}</p>
-                  <p class="text-xs text-ink-secondary mt-0.5">{{ conn.user?.name || 'Family Member' }}</p>
+                  <p class="font-medium text-ink-primary">{{ conn.calendar_name || 'Google Календарь' }}</p>
+                  <p class="text-xs text-ink-secondary mt-0.5">{{ conn.user?.name || 'Член семьи' }}</p>
                 </div>
               </div>
             </div>
@@ -796,23 +793,23 @@
 
           <!-- ICS URL Subscription -->
           <div class="border-t border-border-subtle pt-4">
-            <h3 class="font-semibold text-ink-primary mb-3">Subscribe via URL</h3>
+            <h3 class="font-semibold text-ink-primary mb-3">Подписка по URL</h3>
             <p class="text-sm text-ink-secondary mb-4">
-              Add a calendar by pasting its ICS feed URL (works with any .ics calendar link).
+              Добавьте календарь, вставив URL его ICS-ленты (работает с любой ссылкой на .ics-календарь).
             </p>
 
             <form class="space-y-3" @submit.prevent="handleSubscribeUrl">
               <div>
-                <label class="block text-sm font-medium text-ink-secondary mb-1">Calendar URL</label>
+                <label class="block text-sm font-medium text-ink-secondary mb-1">URL календаря</label>
                 <KinInput v-model="icsForm.url" type="url" placeholder="https://example.com/calendar.ics" required />
               </div>
               <div>
-                <label class="block text-sm font-medium text-ink-secondary mb-1">Calendar Name (optional)</label>
-                <KinInput v-model="icsForm.name" type="text" placeholder="My Calendar" />
-                <p class="text-xs text-ink-secondary mt-1">If left blank, the name will be auto-detected from the calendar data.</p>
+                <label class="block text-sm font-medium text-ink-secondary mb-1">Название календаря (необязательно)</label>
+                <KinInput v-model="icsForm.name" type="text" placeholder="Мой календарь" />
+                <p class="text-xs text-ink-secondary mt-1">Если оставить пустым, название определится автоматически из данных календаря.</p>
               </div>
               <div class="flex justify-end">
-                <BaseButton variant="secondary" size="sm" :loading="subscribingUrl">Subscribe</BaseButton>
+                <BaseButton variant="secondary" size="sm" :loading="subscribingUrl">Подписаться</BaseButton>
               </div>
             </form>
 
@@ -821,17 +818,17 @@
             </div>
 
             <div v-if="icsConnections.length > 0" class="mt-4 space-y-2">
-              <p class="text-sm font-medium text-ink-secondary">Subscribed Calendars</p>
+              <p class="text-sm font-medium text-ink-secondary">Календари по подписке</p>
               <div
                 v-for="conn in icsConnections"
                 :key="conn.id"
                 class="flex items-center justify-between p-3 bg-surface-sunken rounded-lg"
               >
                 <div>
-                  <p class="font-medium text-ink-primary">{{ conn.calendar_name || 'ICS Calendar' }}</p>
-                  <p class="text-xs text-ink-secondary mt-0.5">URL subscription</p>
+                  <p class="font-medium text-ink-primary">{{ conn.calendar_name || 'ICS-календарь' }}</p>
+                  <p class="text-xs text-ink-secondary mt-0.5">Подписка по URL</p>
                 </div>
-                <BaseButton variant="ghost" size="sm" @click="handleDisconnectCalendar(conn.id)">Unsubscribe</BaseButton>
+                <BaseButton variant="ghost" size="sm" @click="handleDisconnectCalendar(conn.id)">Отписаться</BaseButton>
               </div>
             </div>
           </div>
@@ -840,10 +837,10 @@
         <!-- Section 4: Feature Access -->
         <SettingsSection
           id="feature-access"
-          title="Feature Access"
-          description="Control which features each family member can access"
+          title="Доступ к функциям"
+          description="Управляйте тем, к каким функциям имеет доступ каждый член семьи"
           :icon="ShieldCheckIcon"
-          badge="Parent"
+          badge="Родитель"
           :model-value="expandedSections.has('feature-access')"
           @update:model-value="val => toggleSection('feature-access', val)"
         >
@@ -863,31 +860,31 @@
                     :class="['px-2.5 py-1 text-xs font-medium rounded-full transition-colors', moduleAccessState[module.id]?.mode === 'all' ? 'bg-accent-lavender-bold text-ink-inverse shadow-resting' : 'bg-surface-raised text-ink-secondary border border-border-subtle hover:bg-surface-overlay']"
                     @click="setModuleMode(module.id, 'all')"
                   >
-                    Everyone
+                    Все
                   </button>
                   <button
                     :class="['px-2.5 py-1 text-xs font-medium rounded-full transition-colors', moduleAccessState[module.id]?.mode === 'roles' ? 'bg-accent-lavender-bold text-ink-inverse shadow-resting' : 'bg-surface-raised text-ink-secondary border border-border-subtle hover:bg-surface-overlay']"
                     @click="setModuleMode(module.id, 'roles', ['parent'])"
                   >
-                    Parents Only
+                    Только родители
                   </button>
                   <button
                     :class="['px-2.5 py-1 text-xs font-medium rounded-full transition-colors', moduleAccessState[module.id]?.mode === 'off' ? 'bg-status-failed text-white shadow-resting' : 'bg-surface-raised text-ink-secondary border border-border-subtle hover:bg-surface-overlay']"
                     @click="setModuleMode(module.id, 'off')"
                   >
-                    Off
+                    Выкл.
                   </button>
                   <button
                     :class="['px-2.5 py-1 text-xs font-medium rounded-full transition-colors', moduleAccessState[module.id]?.mode === 'users' ? 'bg-accent-lavender-bold text-ink-inverse shadow-resting' : 'bg-surface-raised text-ink-secondary border border-border-subtle hover:bg-surface-overlay']"
                     @click="setModuleMode(module.id, 'users', getSelectedUserIds(module.id))"
                   >
-                    Custom
+                    Выборочно
                   </button>
                 </div>
               </div>
 
               <div v-if="moduleAccessState[module.id]?.mode === 'users'" class="mt-3 pt-3 border-t border-border-subtle dark:border-border-subtle">
-                <p class="text-xs font-medium text-ink-secondary mb-2">Select family members:</p>
+                <p class="text-xs font-medium text-ink-secondary mb-2">Выберите участников семьи:</p>
                 <div class="flex flex-wrap gap-2">
                   <label
                     v-for="member in familyMembers"
@@ -897,23 +894,23 @@
                     <input type="checkbox" :checked="isMemberSelected(module.id, member.id)" class="rounded" :disabled="(member.family_role || member.role) === 'parent'" @change="toggleMemberAccess(module.id, member.id)" />
                     <UserAvatar :user="member" size="xs" />
                     <span class="text-sm text-ink-primary">{{ member.name }}</span>
-                    <span v-if="(member.family_role || member.role) === 'parent'" class="text-xs text-ink-tertiary italic">(always)</span>
+                    <span v-if="(member.family_role || member.role) === 'parent'" class="text-xs text-ink-tertiary italic">(всегда)</span>
                   </label>
                 </div>
               </div>
 
               <p class="text-xs text-ink-primary mt-2">
-                <template v-if="moduleAccessState[module.id]?.mode === 'all'">All family members can access this feature.</template>
-                <template v-else-if="moduleAccessState[module.id]?.mode === 'off'">This feature is disabled for everyone.</template>
-                <template v-else-if="moduleAccessState[module.id]?.mode === 'roles'">Only parents can access this feature.</template>
-                <template v-else-if="moduleAccessState[module.id]?.mode === 'users'">{{ getSelectedMemberNames(module.id) || 'No members selected (parents always have access).' }}</template>
+                <template v-if="moduleAccessState[module.id]?.mode === 'all'">Все члены семьи могут пользоваться этой функцией.</template>
+                <template v-else-if="moduleAccessState[module.id]?.mode === 'off'">Эта функция отключена для всех.</template>
+                <template v-else-if="moduleAccessState[module.id]?.mode === 'roles'">Только родители могут пользоваться этой функцией.</template>
+                <template v-else-if="moduleAccessState[module.id]?.mode === 'users'">{{ getSelectedMemberNames(module.id) || 'Никто не выбран (у родителей доступ есть всегда).' }}</template>
               </p>
             </div>
           </div>
 
           <div class="flex gap-3 justify-end pt-4 border-t border-border-subtle mt-4">
             <BaseButton variant="primary" :loading="savingModules" @click="saveModuleSettings">
-              Save Preferences
+              Сохранить предпочтения
             </BaseButton>
           </div>
         </SettingsSection>
@@ -921,15 +918,15 @@
         <!-- Section 5: Food -->
         <SettingsSection
           id="food"
-          title="Food"
-          description="Meal planning preferences"
+          title="Питание"
+          description="Предпочтения планирования питания"
           :icon="FireIcon"
           :model-value="expandedSections.has('food')"
           @update:model-value="val => toggleSection('food', val)"
         >
           <div class="mb-4">
             <label class="block text-sm font-medium text-ink-secondary mb-2">
-              Week Starts On
+              Неделя начинается с
             </label>
             <KinSelect
               v-model="weekStartDay"
@@ -937,12 +934,12 @@
               :options="weekStartDayOptions"
             />
             <p class="text-xs text-ink-secondary mt-1">
-              Controls the meal planner calendar and weekly shopping list boundaries.
+              Определяет границы недели для календаря планировщика питания и еженедельного списка покупок.
             </p>
           </div>
           <div class="mb-4">
             <label class="block text-sm font-medium text-ink-secondary mb-2">
-              Visible Meal Slots
+              Отображаемые приёмы пищи
             </label>
             <div class="flex flex-wrap gap-2">
               <button
@@ -959,11 +956,11 @@
               </button>
             </div>
             <p class="text-xs text-ink-secondary mt-1">
-              Choose which meals to show on your planner. Hidden slots keep their data.
+              Выберите, какие приёмы пищи показывать в планере. Скрытые приёмы пищи сохраняют свои данные.
             </p>
           </div>
           <BaseButton variant="primary" size="sm" :loading="savingFood" @click="saveFoodSection">
-            Save
+            Сохранить
           </BaseButton>
         </SettingsSection>
 
@@ -971,8 +968,8 @@
         <SettingsSection
           v-if="foodModuleEnabled"
           id="allergens"
-          title="Allergens"
-          description="Family allergens and per-member allergy profiles"
+          title="Аллергены"
+          description="Аллергены семьи и профили аллергии участников"
           :icon="ShieldExclamationIcon"
           :model-value="expandedSections.has('allergens')"
           @update:model-value="val => toggleSection('allergens', val)"
@@ -982,9 +979,9 @@
 
             <div class="space-y-6 pt-2 border-t border-border-subtle">
               <div>
-                <h3 class="text-base font-semibold text-ink-primary">Member profiles</h3>
+                <h3 class="text-base font-semibold text-ink-primary">Профили участников</h3>
                 <p class="text-xs text-ink-secondary mt-1">
-                  Tag each family member's allergies so the meal planner can warn you when a recipe is unsafe.
+                  Отметьте аллергии каждого члена семьи, чтобы планировщик питания предупреждал вас, когда рецепт небезопасен.
                 </p>
               </div>
               <div v-for="member in familyMembers" :key="member.id" class="p-4 bg-surface-sunken rounded-lg">
@@ -997,8 +994,8 @@
         <!-- Section 6: Appearance -->
         <SettingsSection
           id="appearance"
-          title="Appearance"
-          description="Dark mode and color themes"
+          title="Оформление"
+          description="Тёмная тема и цветовые темы"
           :icon="SwatchIcon"
           :model-value="expandedSections.has('appearance')"
           @update:model-value="val => toggleSection('appearance', val)"
@@ -1006,8 +1003,8 @@
           <!-- Dark Mode -->
           <div class="flex items-center justify-between p-4 bg-surface-sunken dark:bg-surface-raised rounded-lg">
             <div>
-              <p class="font-medium text-ink-primary">Dark Mode</p>
-              <p class="text-xs text-ink-secondary mt-0.5">Switch between light and dark themes</p>
+              <p class="font-medium text-ink-primary">Тёмная тема</p>
+              <p class="text-xs text-ink-secondary mt-0.5">Переключайтесь между светлой и тёмной темами</p>
             </div>
             <ToggleSwitch :model-value="isDark" @update:model-value="toggleDarkMode">
               <template #thumb>
@@ -1019,8 +1016,8 @@
 
           <!-- Color Theme Picker -->
           <div class="mt-4 pt-4 border-t border-border-subtle">
-            <p class="font-medium text-ink-primary mb-1">Color Theme</p>
-            <p class="text-xs text-ink-secondary mb-3">Choose a color palette for the app</p>
+            <p class="font-medium text-ink-primary mb-1">Цветовая тема</p>
+            <p class="text-xs text-ink-secondary mb-3">Выберите цветовую палитру приложения</p>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               <button
@@ -1058,8 +1055,8 @@
         <!-- Section 6: Notifications -->
         <SettingsSection
           id="notifications"
-          title="Notifications"
-          description="Push, email, quiet hours, and per-type preferences"
+          title="Уведомления"
+          description="Push, эл. почта, тихие часы и настройки по типам уведомлений"
           :icon="BellIcon"
           :model-value="expandedSections.has('notifications')"
           @update:model-value="val => toggleSection('notifications', val)"
@@ -1071,8 +1068,8 @@
         <SettingsSection
           v-if="canSeeBilling"
           id="billing"
-          title="Billing & subscription"
-          description="Manage your plan, payment method, and invoices"
+          title="Оплата и подписка"
+          description="Управление тарифом, способом оплаты и счетами"
           :icon="CreditCardIcon"
           :model-value="expandedSections.has('billing')"
           @update:model-value="val => toggleSection('billing', val)"
@@ -1083,8 +1080,8 @@
         <!-- Section 7: About -->
         <SettingsSection
           id="about"
-          title="About Kinhold"
-          description="Version info and updates"
+          title="О Kinhold"
+          description="Информация о версии и обновлениях"
           :icon="InformationCircleIcon"
           :model-value="expandedSections.has('about')"
           @update:model-value="val => toggleSection('about', val)"
@@ -1096,10 +1093,10 @@
           >
             <div class="flex-1">
               <p class="font-semibold text-sand-800 dark:text-sand-200">
-                Update available: v{{ updateAvailable.latest_version }}
+                Доступно обновление: v{{ updateAvailable.latest_version }}
               </p>
               <p class="text-sm text-sand-700 dark:text-sand-400 mt-1">
-                You're running v{{ appVersion }}. A newer version is available on GitHub.
+                У вас установлена версия v{{ appVersion }}. На GitHub доступна более новая версия.
               </p>
               <a
                 :href="updateAvailable.url"
@@ -1107,13 +1104,13 @@
                 rel="noopener"
                 class="inline-flex items-center gap-1 text-sm font-medium text-accent-lavender-bold hover:underline mt-2"
               >
-                View release notes
+                Посмотреть заметки о выпуске
                 <ArrowTopRightOnSquareIcon class="w-3.5 h-3.5" />
               </a>
             </div>
             <button
               class="p-1 text-sand-500 hover:text-sand-700 dark:text-sand-400 dark:hover:text-sand-200 rounded transition-colors"
-              title="Dismiss"
+              title="Скрыть"
               @click="dismissUpdate"
             >
               <XMarkIcon class="w-5 h-5" />
@@ -1123,11 +1120,11 @@
           <!-- Version Info -->
           <div class="space-y-3">
             <div class="flex items-center justify-between p-3 bg-surface-sunken rounded-lg">
-              <span class="text-sm font-medium text-ink-primary">Version</span>
+              <span class="text-sm font-medium text-ink-primary">Версия</span>
               <span class="text-sm font-mono text-ink-secondary">v{{ appVersion }}</span>
             </div>
             <div class="flex items-center justify-between p-3 bg-surface-sunken rounded-lg">
-              <span class="text-sm font-medium text-ink-primary">License</span>
+              <span class="text-sm font-medium text-ink-primary">Лицензия</span>
               <span class="text-sm text-ink-secondary">Elastic License 2.0</span>
             </div>
             <div class="flex items-center gap-4 pt-2">
@@ -1146,7 +1143,7 @@
                 rel="noopener"
                 class="inline-flex items-center gap-1.5 text-sm text-accent-lavender-bold hover:underline"
               >
-                Release Notes
+                Заметки о выпуске
                 <ArrowTopRightOnSquareIcon class="w-3.5 h-3.5" />
               </a>
               <a
@@ -1155,7 +1152,7 @@
                 rel="noopener"
                 class="inline-flex items-center gap-1.5 text-sm text-accent-lavender-bold hover:underline"
               >
-                Website
+                Сайт
                 <ArrowTopRightOnSquareIcon class="w-3.5 h-3.5" />
               </a>
             </div>
@@ -1166,8 +1163,8 @@
       <!-- Your Data (GDPR export) -->
       <SettingsSection
         id="your-data"
-        title="Your Data"
-        description="Download a copy of your data"
+        title="Ваши данные"
+        description="Скачайте копию своих данных"
         :icon="ArrowDownTrayIcon"
         :model-value="expandedSections.has('your-data')"
         @update:model-value="val => toggleSection('your-data', val)"
@@ -1175,13 +1172,13 @@
         <div class="p-4 bg-surface-sunken rounded-lg">
           <div class="flex items-start justify-between gap-4">
             <div>
-              <p class="font-medium text-ink-primary">Export My Data</p>
+              <p class="font-medium text-ink-primary">Выгрузить мои данные</p>
               <p class="text-sm text-ink-secondary mt-1">
-                Download a ZIP of everything you've created in Kinhold: tasks, vault entries, points, recipes, and more.
+                Скачайте ZIP-архив всего, что вы создали в Kinhold: задачи, записи сейфа, баллы, рецепты и многое другое.
               </p>
             </div>
             <BaseButton variant="primary" size="sm" :loading="exportingData" @click="openExportModal">
-              Export My Data
+              Выгрузить мои данные
             </BaseButton>
           </div>
         </div>
@@ -1190,8 +1187,8 @@
       <!-- Section 8: Danger Zone -->
       <SettingsSection
         id="danger"
-        title="Danger Zone"
-        description="Irreversible actions — delete account or family"
+        title="Опасная зона"
+        description="Необратимые действия — удаление аккаунта или семьи"
         :icon="ExclamationTriangleIcon"
         :model-value="expandedSections.has('danger')"
         @update:model-value="val => toggleSection('danger', val)"
@@ -1200,14 +1197,14 @@
           <div class="p-4 border border-status-failed/30 rounded-lg">
             <div class="flex items-start justify-between gap-4">
               <div>
-                <p class="font-medium text-ink-primary">Delete My Account</p>
+                <p class="font-medium text-ink-primary">Удалить мой аккаунт</p>
                 <p class="text-sm text-ink-secondary mt-1">
-                  Permanently delete your account and all your personal data (tasks, vault entries, chat history).
-                  <span v-if="managedChildrenNames.length"> Your managed children ({{ managedChildrenNames.join(', ') }}) will also be deleted.</span>
+                  Навсегда удалить ваш аккаунт и все личные данные (задачи, записи сейфа, историю чатов).
+                  <span v-if="managedChildrenNames.length"> Ваши управляемые дети ({{ managedChildrenNames.join(', ') }}) также будут удалены.</span>
                 </p>
               </div>
               <BaseButton variant="danger" size="sm" @click="isDemoFamily ? showDemoDeletePopup = true : showDeleteAccountModal = true">
-                Delete Account
+                Удалить аккаунт
               </BaseButton>
             </div>
           </div>
@@ -1215,13 +1212,13 @@
           <div class="p-4 border border-status-failed/30 rounded-lg">
             <div class="flex items-start justify-between gap-4">
               <div>
-                <p class="font-medium text-ink-primary">Delete Entire Family</p>
+                <p class="font-medium text-ink-primary">Удалить всю семью</p>
                 <p class="text-sm text-ink-secondary mt-1">
-                  Permanently delete the <strong>{{ family?.name }}</strong> family, all members, and all shared data. This cannot be undone.
+                  Навсегда удалить семью <strong>{{ family?.name }}</strong>, всех участников и все общие данные. Это действие необратимо.
                 </p>
               </div>
               <BaseButton variant="danger" size="sm" @click="isDemoFamily ? showDemoDeletePopup = true : showDeleteFamilyModal = true">
-                Delete Family
+                Удалить семью
               </BaseButton>
             </div>
           </div>
@@ -1237,18 +1234,18 @@
       <div v-if="foodModuleEnabled" id="allergens" class="card-lg mb-6">
         <div class="flex items-center gap-2 mb-4">
           <ShieldExclamationIcon class="w-5 h-5 text-accent-lavender-bold" />
-          <h2 class="text-lg font-semibold font-heading text-ink-primary">My Allergies</h2>
+          <h2 class="text-lg font-semibold font-heading text-ink-primary">Мои аллергии</h2>
         </div>
         <AllergyProfileEditor :user="currentUser" :can-edit="true" />
       </div>
 
       <!-- Appearance -->
       <div class="card-lg mb-6">
-        <h2 class="text-lg font-semibold font-heading text-ink-primary mb-4">Appearance</h2>
+        <h2 class="text-lg font-semibold font-heading text-ink-primary mb-4">Оформление</h2>
         <div class="flex items-center justify-between p-4 bg-surface-sunken dark:bg-surface-raised rounded-lg">
           <div>
-            <p class="font-medium text-ink-primary">Dark Mode</p>
-            <p class="text-xs text-ink-secondary mt-0.5">Switch between light and dark themes</p>
+            <p class="font-medium text-ink-primary">Тёмная тема</p>
+            <p class="text-xs text-ink-secondary mt-0.5">Переключайтесь между светлой и тёмной темами</p>
           </div>
           <ToggleSwitch :model-value="isDark" @update:model-value="toggleDarkMode">
             <template #thumb>
@@ -1263,7 +1260,7 @@
       <div class="card-lg mb-6">
         <div class="flex items-center gap-2 mb-4">
           <BellIcon class="w-5 h-5 text-accent-lavender-bold" />
-          <h2 class="text-lg font-semibold font-heading text-ink-primary">Notifications</h2>
+          <h2 class="text-lg font-semibold font-heading text-ink-primary">Уведомления</h2>
         </div>
         <NotificationsPanel />
       </div>
@@ -1272,10 +1269,10 @@
       <div class="card-lg mb-6">
         <div class="flex items-center gap-2 mb-3">
           <InformationCircleIcon class="w-5 h-5 text-accent-lavender-bold" />
-          <h2 class="text-lg font-semibold font-heading text-ink-primary">About</h2>
+          <h2 class="text-lg font-semibold font-heading text-ink-primary">О приложении</h2>
         </div>
         <div class="flex items-center justify-between p-3 bg-surface-sunken rounded-lg">
-          <span class="text-sm font-medium text-ink-primary">Version</span>
+          <span class="text-sm font-medium text-ink-primary">Версия</span>
           <span class="text-sm font-mono text-ink-secondary">v{{ appVersion }}</span>
         </div>
       </div>
@@ -1284,14 +1281,14 @@
       <div class="card-lg mb-6">
         <div class="flex items-center gap-2 mb-3">
           <ArrowDownTrayIcon class="w-5 h-5 text-accent-lavender-bold" />
-          <h2 class="text-lg font-semibold font-heading text-ink-primary">Your Data</h2>
+          <h2 class="text-lg font-semibold font-heading text-ink-primary">Ваши данные</h2>
         </div>
         <div class="flex items-start justify-between gap-4">
           <p class="text-sm text-ink-secondary">
-            Download a ZIP of everything you've created in Kinhold: tasks, points, badges, chat history, and more.
+            Скачайте ZIP-архив всего, что вы создали в Kinhold: задачи, баллы, значки, историю чатов и многое другое.
           </p>
           <BaseButton variant="primary" size="sm" :loading="exportingData" @click="openExportModal">
-            Export My Data
+            Выгрузить мои данные
           </BaseButton>
         </div>
       </div>
@@ -1300,14 +1297,14 @@
       <div v-if="!currentUser?.is_managed" class="card-lg mb-6 border border-status-failed/30">
         <div class="flex items-center gap-2 mb-3">
           <ExclamationTriangleIcon class="w-5 h-5 text-status-failed dark:text-status-failed" />
-          <h2 class="text-lg font-semibold font-heading text-status-failed dark:text-status-failed">Danger Zone</h2>
+          <h2 class="text-lg font-semibold font-heading text-status-failed dark:text-status-failed">Опасная зона</h2>
         </div>
         <div class="flex items-start justify-between gap-4">
           <p class="text-sm text-ink-secondary">
-            Permanently delete your account and all your data. This cannot be undone.
+            Навсегда удалить ваш аккаунт и все ваши данные. Это действие необратимо.
           </p>
           <BaseButton variant="danger" size="sm" @click="isDemoFamily ? showDemoDeletePopup = true : showDeleteAccountModal = true">
-            Delete Account
+            Удалить аккаунт
           </BaseButton>
         </div>
       </div>
@@ -1320,35 +1317,35 @@
     <!-- Add/Edit Member Modal -->
     <BaseModal
       :show="showMemberModal"
-      :title="editingMember ? 'Edit Family Member' : 'Add Family Member'"
+      :title="editingMember ? 'Изменить участника семьи' : 'Добавить участника семьи'"
       @close="closeMemberModal"
     >
       <form class="space-y-4" @submit.prevent="handleSaveMember">
         <BaseInput
           v-model="memberForm.name"
-          label="Name"
-          placeholder="First name"
+          label="Имя"
+          placeholder="Имя"
           required
           :error="memberErrors.name"
         />
 
         <BaseInput
           v-model="memberForm.email"
-          label="Email (optional for managed accounts)"
+          label="Эл. почта (необязательно для управляемых аккаунтов)"
           type="email"
           placeholder="email@example.com"
           :error="memberErrors.email"
         />
         <p class="text-xs text-ink-secondary -mt-2">
-          Leave blank for young kids — creates a managed account you can switch into.
+          Оставьте пустым для маленьких детей — будет создан управляемый аккаунт, в который вы сможете переключаться.
         </p>
 
         <BaseInput
           v-if="!editingMember && memberForm.email"
           v-model="memberForm.password"
-          label="Password (optional)"
+          label="Пароль (необязательно)"
           type="password"
-          placeholder="Leave blank to set later"
+          placeholder="Оставьте пустым, чтобы задать позже"
           :error="memberErrors.password"
         />
 
@@ -1358,13 +1355,13 @@
         >
           <input v-model="memberForm.sendEmail" type="checkbox" class="rounded" />
           <div>
-            <p class="text-sm font-medium text-ink-primary">Send welcome email</p>
-            <p class="text-xs text-ink-secondary">Send an email with login instructions</p>
+            <p class="text-sm font-medium text-ink-primary">Отправить приветственное письмо</p>
+            <p class="text-xs text-ink-secondary">Отправить эл. письмо с инструкциями для входа</p>
           </div>
         </label>
 
         <div>
-          <label class="block text-sm font-medium text-ink-secondary mb-2">Role</label>
+          <label class="block text-sm font-medium text-ink-secondary mb-2">Роль</label>
           <KinSelect
             v-model="memberForm.role"
             class="w-full"
@@ -1375,14 +1372,14 @@
 
         <BaseInput
           v-model="memberForm.date_of_birth"
-          label="Date of Birth (optional)"
+          label="Дата рождения (необязательно)"
           type="date"
         />
 
         <div class="flex gap-2 justify-end pt-4">
-          <BaseButton variant="ghost" @click="closeMemberModal">Cancel</BaseButton>
+          <BaseButton variant="ghost" @click="closeMemberModal">Отмена</BaseButton>
           <BaseButton variant="primary" :loading="savingMember">
-            {{ editingMember ? 'Save Changes' : 'Add Member' }}
+            {{ editingMember ? 'Сохранить изменения' : 'Добавить участника' }}
           </BaseButton>
         </div>
       </form>
@@ -1391,46 +1388,46 @@
     <!-- Remove Member Confirm -->
     <BaseModal
       :show="showRemoveConfirm"
-      title="Remove Family Member"
+      title="Удалить участника семьи"
       @close="showRemoveConfirm = false"
     >
       <p class="text-ink-primary dark:text-ink-tertiary">
-        Are you sure you want to remove <strong>{{ removingMember?.name }}</strong> from your family?
+        Вы уверены, что хотите удалить <strong>{{ removingMember?.name }}</strong> из семьи?
       </p>
       <p v-if="removingMember?.is_managed" class="text-sm text-status-failed dark:text-status-failed mt-2">
-        This is a managed account and will be permanently deleted.
+        Это управляемый аккаунт, и он будет удалён навсегда.
       </p>
       <p v-else class="text-sm text-ink-secondary mt-2">
-        Their account will be unlinked from your family but not deleted.
+        Его аккаунт будет отвязан от вашей семьи, но не удалён.
       </p>
       <div class="flex gap-2 justify-end pt-4">
-        <BaseButton variant="ghost" @click="showRemoveConfirm = false">Cancel</BaseButton>
-        <BaseButton variant="danger" :loading="removingLoading" @click="handleRemoveMember">Remove</BaseButton>
+        <BaseButton variant="ghost" @click="showRemoveConfirm = false">Отмена</BaseButton>
+        <BaseButton variant="danger" :loading="removingLoading" @click="handleRemoveMember">Удалить</BaseButton>
       </div>
     </BaseModal>
 
     <!-- Switch To Child Confirmation Modal -->
     <BaseModal
       :show="showSwitchToModal"
-      title="Switch to Child Profile"
+      title="Переключиться на профиль ребёнка"
       @close="closeSwitchToModal"
     >
       <div class="space-y-3">
         <p class="text-sm text-ink-primary dark:text-ink-tertiary">
-          You're about to switch this device to <strong>{{ switchingToMember?.name }}</strong>'s profile.
+          Вы собираетесь переключить это устройство на профиль <strong>{{ switchingToMember?.name }}</strong>.
         </p>
         <div class="p-3 bg-sand-50 dark:bg-sand-900/20 border border-sand-200 dark:border-sand-800 rounded-lg">
-          <p class="text-sm text-sand-800 dark:text-sand-200 font-medium">What will happen:</p>
+          <p class="text-sm text-sand-800 dark:text-sand-200 font-medium">Что произойдёт:</p>
           <ul class="text-sm text-sand-700 dark:text-sand-300 mt-1 space-y-1 list-disc list-inside">
-            <li>This device will be logged in as {{ switchingToMember?.name }}</li>
-            <li>To switch back, sign out and sign back in as your parent account</li>
+            <li>На этом устройстве будет выполнен вход как {{ switchingToMember?.name }}</li>
+            <li>Чтобы вернуться, выйдите из аккаунта и снова войдите в родительский аккаунт</li>
           </ul>
         </div>
       </div>
       <div class="flex gap-2 justify-end pt-4">
-        <BaseButton variant="ghost" @click="closeSwitchToModal">Cancel</BaseButton>
+        <BaseButton variant="ghost" @click="closeSwitchToModal">Отмена</BaseButton>
         <BaseButton variant="primary" :loading="switchingTo" @click="handleSwitchToProfile">
-          Switch to {{ switchingToMember?.name }}
+          Переключиться на {{ switchingToMember?.name }}
         </BaseButton>
       </div>
     </BaseModal>
@@ -1448,24 +1445,24 @@
     <!-- Demo Family Deletion Popup -->
     <BaseModal
       :show="showDemoDeletePopup"
-      title="Demo Family"
+      title="Демо-семья"
       @close="showDemoDeletePopup = false"
     >
       <p class="text-sm text-ink-secondary">
-        Account and family deletion is disabled for the demo family.
+        Удаление аккаунта и семьи отключено для демо-семьи.
       </p>
       <p class="text-sm text-ink-secondary mt-2">
-        Create your own family to try all features!
+        Создайте собственную семью, чтобы попробовать все функции!
       </p>
       <template #footer>
-        <BaseButton variant="primary" @click="showDemoDeletePopup = false">Got it</BaseButton>
+        <BaseButton variant="primary" @click="showDemoDeletePopup = false">Понятно</BaseButton>
       </template>
     </BaseModal>
 
     <!-- Export Data Modal -->
     <BaseModal
       :show="showExportDataModal"
-      title="Export Your Data"
+      title="Выгрузить ваши данные"
       @close="closeExportModal"
     >
       <div class="space-y-4">
@@ -1474,29 +1471,29 @@
         </p>
         <div class="p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg">
           <p class="text-sm text-amber-700 dark:text-amber-300">
-            <strong>Heads up:</strong> the file contains decrypted vault data (passwords, SSNs, medical info). It is plaintext on your disk. Store it securely and delete it when no longer needed.
+            <strong>Внимание:</strong> файл содержит расшифрованные данные сейфа (пароли, номера SSN, медицинские данные). На вашем диске он хранится открытым текстом. Храните его в надёжном месте и удалите, когда он больше не нужен.
           </p>
         </div>
         <BaseInput
           v-if="currentUser?.has_password !== false"
           v-model="exportPassword"
-          label="Confirm your password"
+          label="Подтвердите свой пароль"
           type="password"
-          placeholder="Current password"
+          placeholder="Текущий пароль"
           :error="exportError"
           @keydown.enter="handleExportData"
         />
       </div>
 
       <div class="flex gap-2 justify-end pt-4">
-        <BaseButton variant="ghost" @click="closeExportModal">Cancel</BaseButton>
+        <BaseButton variant="ghost" @click="closeExportModal">Отмена</BaseButton>
         <BaseButton
           variant="primary"
           :loading="exportingData"
           :disabled="currentUser?.has_password !== false && !exportPassword"
           @click="handleExportData"
         >
-          Download My Data
+          Скачать мои данные
         </BaseButton>
       </div>
     </BaseModal>
@@ -1504,40 +1501,40 @@
     <!-- Delete Account Modal -->
     <BaseModal
       :show="showDeleteAccountModal"
-      title="Delete Your Account"
+      title="Удалить ваш аккаунт"
       @close="closeDeleteAccountModal"
     >
       <div class="space-y-4">
         <div class="p-3 bg-status-failed/10 border border-status-failed/30 rounded-lg">
-          <p class="text-sm text-status-failed font-medium">This action is permanent and cannot be undone.</p>
+          <p class="text-sm text-status-failed font-medium">Это действие окончательное, его нельзя отменить.</p>
           <ul class="text-sm text-status-failed mt-2 space-y-1 list-disc list-inside">
-            <li>All your tasks, vault entries, and chat history will be deleted</li>
-            <li>Your calendar connections will be revoked</li>
-            <li>Your uploaded documents will be permanently removed</li>
+            <li>Все ваши задачи, записи сейфа и история чатов будут удалены</li>
+            <li>Подключения ваших календарей будут отозваны</li>
+            <li>Ваши загруженные документы будут удалены навсегда</li>
             <li v-if="managedChildrenNames.length">
-              Your managed children ({{ managedChildrenNames.join(', ') }}) will also be deleted
+              Ваши управляемые дети ({{ managedChildrenNames.join(', ') }}) также будут удалены
             </li>
           </ul>
         </div>
 
         <BaseInput
           v-model="deleteAccountPassword"
-          label="Enter your password to confirm"
+          label="Введите ваш пароль для подтверждения"
           type="password"
-          placeholder="Current password"
+          placeholder="Текущий пароль"
           :error="deleteAccountError"
         />
       </div>
 
       <div class="flex gap-2 justify-end pt-4">
-        <BaseButton variant="ghost" @click="closeDeleteAccountModal">Cancel</BaseButton>
+        <BaseButton variant="ghost" @click="closeDeleteAccountModal">Отмена</BaseButton>
         <BaseButton
           variant="danger"
           :loading="deletingAccount"
           :disabled="!deleteAccountPassword"
           @click="handleDeleteAccount"
         >
-          Permanently Delete Account
+          Навсегда удалить аккаунт
         </BaseButton>
       </div>
     </BaseModal>
@@ -1545,46 +1542,46 @@
     <!-- Delete Family Modal -->
     <BaseModal
       :show="showDeleteFamilyModal"
-      title="Delete Entire Family"
+      title="Удалить всю семью"
       @close="closeDeleteFamilyModal"
     >
       <div class="space-y-4">
         <div class="p-3 bg-status-failed/10 border border-status-failed/30 rounded-lg">
           <p class="text-sm text-status-failed font-medium">
-            This will permanently delete the "{{ family?.name }}" family and ALL data.
+            Это действие навсегда удалит семью «{{ family?.name }}» и ВСЕ данные.
           </p>
           <ul class="text-sm text-status-failed mt-2 space-y-1 list-disc list-inside">
-            <li>All {{ familyMembers?.length || 0 }} family members will be removed</li>
-            <li>All tasks, vault entries, calendar events, and chat history</li>
-            <li>All points, rewards, badges, and achievements</li>
-            <li>All uploaded documents and files</li>
+            <li>Будут удалены все участники семьи ({{ familyMembers?.length || 0 }})</li>
+            <li>Все задачи, записи сейфа, события календаря и история чатов</li>
+            <li>Все баллы, награды, значки и достижения</li>
+            <li>Все загруженные документы и файлы</li>
           </ul>
         </div>
 
         <BaseInput
           v-model="deleteFamilyPassword"
-          label="Enter your password"
+          label="Введите ваш пароль"
           type="password"
-          placeholder="Current password"
+          placeholder="Текущий пароль"
         />
 
         <BaseInput
           v-model="deleteFamilyConfirmation"
-          :label="`Type &quot;${family?.name}&quot; to confirm`"
+          :label="`Введите &quot;${family?.name}&quot; для подтверждения`"
           :placeholder="family?.name"
           :error="deleteFamilyError"
         />
       </div>
 
       <div class="flex gap-2 justify-end pt-4">
-        <BaseButton variant="ghost" @click="closeDeleteFamilyModal">Cancel</BaseButton>
+        <BaseButton variant="ghost" @click="closeDeleteFamilyModal">Отмена</BaseButton>
         <BaseButton
           variant="danger"
           :loading="deletingFamily"
           :disabled="!deleteFamilyPassword || deleteFamilyConfirmation !== family?.name"
           @click="handleDeleteFamily"
         >
-          Permanently Delete Family
+          Навсегда удалить семью
         </BaseButton>
       </div>
     </BaseModal>
@@ -1593,16 +1590,16 @@
          removed from families.settings; chat falls back to platform key. -->
     <BaseModal
       :show="showClearKeyModal"
-      title="Clear saved API key?"
+      title="Удалить сохранённый API-ключ?"
       size="sm"
       @close="showClearKeyModal = false"
     >
       <p class="text-sm text-ink-secondary">
-        Your encrypted Anthropic key will be removed from this family. AI features will fall back to Kinhold's hosted key (subject to daily limits).
+        Ваш зашифрованный ключ Anthropic будет удалён из этой семьи. Функции ИИ вернутся к размещённому ключу Kinhold (с учётом дневных лимитов).
       </p>
       <template #footer>
-        <BaseButton variant="ghost" @click="showClearKeyModal = false">Cancel</BaseButton>
-        <BaseButton variant="danger" :loading="clearingAi" @click="clearAiKey">Clear key</BaseButton>
+        <BaseButton variant="ghost" @click="showClearKeyModal = false">Отмена</BaseButton>
+        <BaseButton variant="danger" :loading="clearingAi" @click="clearAiKey">Удалить ключ</BaseButton>
       </template>
     </BaseModal>
   </div>
@@ -1673,17 +1670,17 @@ const { connections } = storeToRefs(calendarStore)
 
 // ---- KinSelect option arrays ----
 const leaderboardPeriodOptions = [
-  { value: 'daily', label: 'Daily' },
-  { value: 'weekly', label: 'Weekly' },
-  { value: 'monthly', label: 'Monthly' },
+  { value: 'daily', label: 'Ежедневно' },
+  { value: 'weekly', label: 'Еженедельно' },
+  { value: 'monthly', label: 'Ежемесячно' },
 ]
 const weekStartDayOptions = [
-  { value: 'monday', label: 'Monday' },
-  { value: 'sunday', label: 'Sunday' },
+  { value: 'monday', label: 'Понедельник' },
+  { value: 'sunday', label: 'Воскресенье' },
 ]
 const memberRoleOptions = [
-  { value: 'child', label: 'Child' },
-  { value: 'parent', label: 'Parent' },
+  { value: 'child', label: 'Ребёнок' },
+  { value: 'parent', label: 'Родитель' },
 ]
 
 // ---- Version & Update Check ----
@@ -1845,9 +1842,9 @@ const taskAssignment = reactive({
   users: [],
 })
 const taskAssignmentOptions = [
-  { value: 'all', label: 'Everyone', description: 'All family members can assign tasks to anyone.' },
-  { value: 'parents_only', label: 'Parents Only', description: 'Only parents can assign tasks to other members. Children can only create tasks for themselves.' },
-  { value: 'users', label: 'Custom', description: 'Choose which children can assign tasks to others.' },
+  { value: 'all', label: 'Все', description: 'Все члены семьи могут назначать задачи кому угодно.' },
+  { value: 'parents_only', label: 'Только родители', description: 'Назначать задачи другим могут только родители. Дети могут создавать задачи только для себя.' },
+  { value: 'users', label: 'Выборочно', description: 'Выберите, какие дети могут назначать задачи другим.' },
 ]
 const childMembers = computed(() =>
   familyMembers.value.filter((m) => (m.family_role || m.role) === 'child')
@@ -1855,13 +1852,13 @@ const childMembers = computed(() =>
 
 // Split modules: tasks/points vs everything else
 const availableModules = [
-  { id: 'calendar', name: 'Calendar', description: 'View and manage family events' },
-  { id: 'tasks', name: 'Tasks', description: 'Create and assign tasks' },
-  { id: 'vault', name: 'Family Vault', description: 'Secure information storage' },
-  { id: 'chat', name: 'Kinhold AI', description: 'AI-powered assistant' },
-  { id: 'points', name: 'Points & Rewards', description: 'Earn points, give kudos, purchase rewards' },
-  { id: 'badges', name: 'Achievement Badges', description: 'Earned by completing tasks, hitting streaks, and discovering hidden milestones' },
-  { id: 'avatars', name: 'Avatar Changes', description: 'Who can change profile avatars' },
+  { id: 'calendar', name: 'Календарь', description: 'Просмотр семейных событий и управление ими' },
+  { id: 'tasks', name: 'Задачи', description: 'Создание и назначение задач' },
+  { id: 'vault', name: 'Семейный сейф', description: 'Безопасное хранение информации' },
+  { id: 'chat', name: 'Kinhold AI', description: 'ИИ-ассистент' },
+  { id: 'points', name: 'Баллы и награды', description: 'Зарабатывайте баллы, отправляйте похвалу и покупайте награды' },
+  { id: 'badges', name: 'Значки достижений', description: 'Выдаются за выполнение задач, серии и скрытые достижения' },
+  { id: 'avatars', name: 'Смена аватаров', description: 'Кто может менять аватары в профилях' },
 ]
 const tasksPointsModules = computed(() =>
   availableModules.filter((m) => m.id === 'tasks' || m.id === 'points')
@@ -1971,20 +1968,20 @@ const getSelectedMemberNames = (moduleId) => {
   const members = (familyMembers.value || []).filter((m) => userIds.includes(m.id))
   if (members.length === 0) return ''
   const names = members.map((m) => m.name).join(', ')
-  return `Access: ${names}`
+  return `Доступ: ${names}`
 }
 
 // ---- Family name ----
 const updateFamily = async () => {
   familyErrors.name = ''
   if (!familyForm.name) {
-    familyErrors.name = 'Family name is required'
+    familyErrors.name = 'Введите название семьи'
     return
   }
   savingFamily.value = true
   const result = await authStore.updateFamilyName(familyForm.name)
   if (result.success) {
-    success('Family name updated!')
+    success('Название семьи обновлено!')
   } else {
     notificationError(result.error)
   }
@@ -2014,7 +2011,7 @@ const copyInviteCode = async () => {
     copied.value = true
     setTimeout(() => { copied.value = false }, 2000)
   } catch {
-    notificationError('Failed to copy')
+    notificationError('Не удалось скопировать')
   }
 }
 
@@ -2027,10 +2024,10 @@ const handleSendInviteEmail = async () => {
     await api.post('/family/invite', { email: inviteEmail.value })
     inviteEmailSent.value = true
     inviteEmail.value = ''
-    success('Invite email sent!')
+    success('Приглашение отправлено!')
     setTimeout(() => { inviteEmailSent.value = false }, 3000)
   } catch (err) {
-    notificationError(err.response?.data?.message || 'Failed to send invite email')
+    notificationError(err.response?.data?.message || 'Не удалось отправить приглашение по эл. почте')
   }
   sendingInvite.value = false
 }
@@ -2074,7 +2071,7 @@ const handleSaveMember = async () => {
   memberErrors.password = ''
 
   if (!memberForm.name) {
-    memberErrors.name = 'Name is required'
+    memberErrors.name = 'Введите имя'
     return
   }
 
@@ -2090,7 +2087,7 @@ const handleSaveMember = async () => {
 
     const result = await authStore.updateFamilyMember(editingMember.value.id, data)
     if (result.success) {
-      success('Member updated!')
+      success('Участник обновлён!')
       closeMemberModal()
     } else {
       notificationError(result.error)
@@ -2107,7 +2104,7 @@ const handleSaveMember = async () => {
 
     const result = await authStore.addFamilyMember(data)
     if (result.success) {
-      success(result.message || 'Member added!')
+      success(result.message || 'Участник добавлен!')
       closeMemberModal()
     } else {
       notificationError(result.error)
@@ -2127,7 +2124,7 @@ const handleRemoveMember = async () => {
   removingLoading.value = true
   const result = await authStore.removeFamilyMember(removingMember.value.id)
   if (result.success) {
-    success('Member removed!')
+    success('Участник удалён!')
     showRemoveConfirm.value = false
     removingMember.value = null
   } else {
@@ -2171,7 +2168,7 @@ const handleLinkGoogle = async () => {
       window.location.href = response.data.url
     }
   } catch {
-    googleLinkError.value = 'Failed to start Google linking. Please try again.'
+    googleLinkError.value = 'Не удалось начать привязку Google. Попробуйте ещё раз.'
   }
   linkingGoogle.value = false
 }
@@ -2182,9 +2179,9 @@ const handleUnlinkGoogle = async () => {
   try {
     await api.delete('/auth/google/unlink')
     await authStore.fetchUser()
-    success('Google account unlinked')
+    success('Аккаунт Google отвязан')
   } catch (err) {
-    googleLinkError.value = err.response?.data?.message || 'Failed to unlink Google account.'
+    googleLinkError.value = err.response?.data?.message || 'Не удалось отвязать аккаунт Google.'
   }
   unlinkingGoogle.value = false
 }
@@ -2196,7 +2193,7 @@ const handleConnectCalendar = async () => {
   if (result.success && result.authUrl) {
     window.location.href = result.authUrl
   } else {
-    calendarError.value = result.error || 'Failed to start Google Calendar connection.'
+    calendarError.value = result.error || 'Не удалось начать подключение Google Календаря.'
   }
   connectingCalendar.value = false
 }
@@ -2206,9 +2203,9 @@ const handleDisconnectCalendar = async (connectionId) => {
   calendarError.value = ''
   const result = await calendarStore.disconnect(connectionId)
   if (result.success) {
-    success('Calendar disconnected!')
+    success('Календарь отключён!')
   } else {
-    calendarError.value = result.error || 'Failed to disconnect calendar'
+    calendarError.value = result.error || 'Не удалось отключить календарь'
   }
   disconnectingCalendar.value = false
 }
@@ -2218,11 +2215,11 @@ const handleSubscribeUrl = async () => {
   icsError.value = ''
   const result = await calendarStore.subscribeUrl(icsForm.url, icsForm.name || null)
   if (result.success) {
-    success(result.message || 'Calendar subscribed!')
+    success(result.message || 'Подписка на календарь оформлена!')
     icsForm.url = ''
     icsForm.name = ''
   } else {
-    icsError.value = result.error || 'Failed to subscribe to calendar'
+    icsError.value = result.error || 'Не удалось оформить подписку на календарь'
   }
   subscribingUrl.value = false
 }
@@ -2273,7 +2270,7 @@ const testAiKey = async () => {
   } catch (err) {
     aiTestStatus.value = {
       valid: false,
-      error: err.response?.data?.message || 'Could not reach the test endpoint.',
+      error: err.response?.data?.message || 'Не удалось связаться с тестовым сервером.',
     }
   }
   testingAi.value = false
@@ -2292,9 +2289,9 @@ const clearAiKey = async () => {
     showClearKeyModal.value = false
     await authStore.fetchUser()
     authStore.fetchAiReady()
-    success('API key cleared.')
+    success('API-ключ удалён.')
   } catch (err) {
-    notificationError(err.response?.data?.message || 'Failed to clear API key.')
+    notificationError(err.response?.data?.message || 'Не удалось удалить API-ключ.')
   }
   clearingAi.value = false
 }
@@ -2320,9 +2317,9 @@ const saveAiSettings = async () => {
     showAiKey.value = false
     await authStore.fetchUser()
     authStore.fetchAiReady()
-    success('AI settings saved!')
+    success('Настройки ИИ сохранены!')
   } catch (err) {
-    notificationError(err.response?.data?.message || 'Failed to save AI settings')
+    notificationError(err.response?.data?.message || 'Не удалось сохранить настройки ИИ')
   }
   savingAi.value = false
 }
@@ -2352,9 +2349,9 @@ const saveModuleSettings = async () => {
       children_can_change_avatar,
     })
     await authStore.fetchUser()
-    success('Preferences saved!')
+    success('Предпочтения сохранены!')
   } catch (err) {
-    notificationError(err.response?.data?.message || 'Failed to save preferences')
+    notificationError(err.response?.data?.message || 'Не удалось сохранить предпочтения')
   }
   savingModules.value = false
 }
@@ -2394,9 +2391,9 @@ const saveTasksPointsSection = async () => {
 
     await api.put('/settings', payload)
     await authStore.fetchUser()
-    success('Tasks & points settings saved!')
+    success('Настройки задач и баллов сохранены!')
   } catch (err) {
-    notificationError(err.response?.data?.message || 'Failed to save settings')
+    notificationError(err.response?.data?.message || 'Не удалось сохранить настройки')
   }
   savingTasksPoints.value = false
 }
@@ -2405,10 +2402,10 @@ const saveTasksPointsSection = async () => {
 
 // ---- Food Settings ----
 const allMealSlots = [
-  { key: 'breakfast', label: 'Breakfast', icon: SunIcon },
-  { key: 'lunch', label: 'Lunch', icon: CloudIcon },
-  { key: 'dinner', label: 'Dinner', icon: MoonIcon },
-  { key: 'snack', label: 'Snack', icon: CakeIcon },
+  { key: 'breakfast', label: 'Завтрак', icon: SunIcon },
+  { key: 'lunch', label: 'Обед', icon: CloudIcon },
+  { key: 'dinner', label: 'Ужин', icon: MoonIcon },
+  { key: 'snack', label: 'Перекус', icon: CakeIcon },
 ]
 
 const toggleMealSlot = (key) => {
@@ -2426,9 +2423,9 @@ const saveFoodSection = async () => {
   try {
     await api.put('/settings', { week_start_day: weekStartDay.value, meal_slots: mealSlots.value })
     await authStore.fetchUser()
-    success('Food settings saved!')
+    success('Настройки питания сохранены!')
   } catch (err) {
-    notificationError(err.response?.data?.message || 'Failed to save food settings')
+    notificationError(err.response?.data?.message || 'Не удалось сохранить настройки питания')
   }
   savingFood.value = false
 }
@@ -2464,9 +2461,9 @@ const handleGenerateMcpToken = async () => {
     mcpActiveClient.value = data.clients[0]?.id || 'claude_desktop'
     mcpCopied.token = false
     data.clients.forEach(c => { mcpCopied[c.id] = false })
-    success('MCP token generated!')
+    success('MCP-токен создан!')
   } catch (err) {
-    notificationError(err.response?.data?.message || 'Failed to generate token')
+    notificationError(err.response?.data?.message || 'Не удалось создать токен')
   }
   mcpGenerating.value = false
 }
@@ -2480,9 +2477,9 @@ const handleRevokeMcpToken = async () => {
     mcpToken.lastUsedAt = null
     mcpGenerated.show = false
     mcpGenerated.plainToken = ''
-    success('MCP token revoked.')
+    success('MCP-токен отозван.')
   } catch (err) {
-    notificationError(err.response?.data?.message || 'Failed to revoke token')
+    notificationError(err.response?.data?.message || 'Не удалось отозвать токен')
   }
   mcpRevoking.value = false
 }
@@ -2493,7 +2490,7 @@ const copyMcpSnippet = async (field, text) => {
     mcpCopied[field] = true
     setTimeout(() => { mcpCopied[field] = false }, 2000)
   } catch {
-    notificationError('Failed to copy to clipboard')
+    notificationError('Не удалось скопировать в буфер обмена')
   }
 }
 
@@ -2538,7 +2535,7 @@ const handleDeleteAccount = async () => {
     authStore.logout()
     router.push('/login')
   } catch (err) {
-    const msg = err.response?.data?.message || 'Failed to delete account'
+    const msg = err.response?.data?.message || 'Не удалось удалить аккаунт'
     deleteAccountError.value = msg
     notificationError(msg)
   }
@@ -2581,7 +2578,7 @@ const handleExportData = async () => {
     URL.revokeObjectURL(url)
     closeExportModal()
   } catch (err) {
-    let msg = 'Failed to export data'
+    let msg = 'Не удалось выгрузить данные'
     // Error response is a Blob (responseType=blob); parse it as JSON.
     if (err.response?.data instanceof Blob) {
       try {
@@ -2611,7 +2608,7 @@ const handleDeleteFamily = async () => {
     authStore.logout()
     router.push('/login')
   } catch (err) {
-    const msg = err.response?.data?.message || 'Failed to delete family'
+    const msg = err.response?.data?.message || 'Не удалось удалить семью'
     deleteFamilyError.value = msg
     notificationError(msg)
   }
@@ -2694,13 +2691,13 @@ onMounted(async () => {
   if (route.query.google_linked) {
     googleLinked.value = true
     await authStore.fetchUser()
-    success('Google account linked!')
+    success('Аккаунт Google привязан!')
     router.replace({ path: '/settings' })
   } else if (route.query.google_error) {
     googleLinkError.value = route.query.google_error
     router.replace({ path: '/settings' })
   } else if (route.query.calendar_connected) {
-    success('Google Calendar connected successfully!')
+    success('Google Календарь успешно подключён!')
     router.replace({ path: '/settings' })
   } else if (route.query.calendar_error) {
     calendarError.value = route.query.calendar_error
