@@ -2,39 +2,39 @@
   <div class="p-4 md:p-6 max-w-4xl">
     <!-- Header -->
     <div class="flex items-center justify-between mb-6 gap-3 flex-wrap">
-      <h1 class="text-2xl font-bold font-heading text-ink-primary">Achievements</h1>
+      <h1 class="text-2xl font-bold font-heading text-ink-primary">Достижения</h1>
       <KinButton v-if="isParent" variant="primary" size="sm" @click="showCreateForm = !showCreateForm">
         <template v-if="!showCreateForm" #leading>
           <PlusIcon class="w-4 h-4" />
         </template>
-        {{ showCreateForm ? 'Cancel' : 'Create Badge' }}
+        {{ showCreateForm ? 'Отмена' : 'Создать значок' }}
       </KinButton>
     </div>
 
     <!-- Create Form (parent only) -->
     <KinFlatCard v-if="showCreateForm" padding="md" class="mb-6">
-      <h3 class="text-sm font-semibold text-ink-primary mb-4">New Badge</h3>
+      <h3 class="text-sm font-semibold text-ink-primary mb-4">Новый значок</h3>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <KinInput v-model="newBadge.name" label="Name" placeholder="Badge name" />
-        <KinInput v-model="newBadge.description" label="Description" placeholder="What earns this badge?" />
+        <KinInput v-model="newBadge.name" label="Название" placeholder="Название значка" />
+        <KinInput v-model="newBadge.description" label="Описание" placeholder="За что выдаётся этот значок?" />
 
         <KinSelect
           v-model="newBadge.trigger_type"
-          label="Trigger Type"
+          label="Тип условия"
           :options="triggerTypeOptions"
         />
 
         <KinInput
           v-if="newBadge.trigger_type !== 'custom'"
           v-model.number="newBadge.trigger_threshold"
-          label="Threshold"
+          label="Порог"
           type="number"
           min="1"
-          placeholder="e.g. 10"
+          placeholder="например, 10"
         />
 
         <div>
-          <label class="block text-[13px] font-medium text-ink-secondary mb-2">Icon</label>
+          <label class="block text-[13px] font-medium text-ink-secondary mb-2">Иконка</label>
           <div class="flex flex-wrap gap-2">
             <button
               v-for="iconName in iconNames"
@@ -52,7 +52,7 @@
         </div>
 
         <div class="sm:col-span-2">
-          <label class="block text-[13px] font-medium text-ink-secondary mb-2">Color</label>
+          <label class="block text-[13px] font-medium text-ink-secondary mb-2">Цвет</label>
           <div class="flex flex-wrap gap-2">
             <button
               v-for="c in badgeColorPalette"
@@ -77,7 +77,7 @@
         <div class="flex items-center gap-2 sm:col-span-2">
           <KinCheckbox v-model="newBadge.is_hidden" />
           <label class="text-sm text-ink-primary cursor-pointer" @click="newBadge.is_hidden = !newBadge.is_hidden">
-            Hidden badge (surprise!)
+            Скрытый значок (сюрприз!)
           </label>
         </div>
       </div>
@@ -89,7 +89,7 @@
           :disabled="!newBadge.name || !newBadge.description"
           @click="createBadge"
         >
-          Create Badge
+          Создать значок
         </KinButton>
       </div>
     </KinFlatCard>
@@ -131,18 +131,18 @@
 
     <!-- Parent Award Section -->
     <KinFlatCard v-if="isParent && activeTab === 'All'" padding="md" class="mt-8">
-      <h3 class="text-sm font-semibold text-ink-primary mb-4">Manually Award Badge</h3>
+      <h3 class="text-sm font-semibold text-ink-primary mb-4">Выдать значок вручную</h3>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
         <KinSelect
           v-model="awardBadgeId"
-          label="Badge"
-          placeholder="Select badge…"
+          label="Значок"
+          placeholder="Выберите значок…"
           :options="awardableBadgeOptions"
         />
         <KinSelect
           v-model="awardUserId"
-          label="Member"
-          placeholder="Select member…"
+          label="Участник"
+          placeholder="Выберите участника…"
           :options="memberOptions"
         />
         <KinButton
@@ -151,7 +151,7 @@
           :disabled="!awardBadgeId || !awardUserId"
           @click="handleAward"
         >
-          Award
+          Выдать
         </KinButton>
       </div>
     </KinFlatCard>
@@ -187,39 +187,39 @@ const awardUserId = ref('')
 const iconNames = badgeIconNames
 
 const tabOptions = [
-  { key: 'All', label: 'All' },
-  { key: 'Earned', label: 'Earned' },
-  { key: 'Locked', label: 'Locked' },
+  { key: 'All', label: 'Все' },
+  { key: 'Earned', label: 'Полученные' },
+  { key: 'Locked', label: 'Не полученные' },
 ]
 
 const triggerTypeOptions = [
-  { value: 'custom',            label: 'Custom (Manual Award)' },
-  { value: 'tasks_completed',   label: 'Tasks Completed' },
-  { value: 'points_earned',     label: 'Points Earned' },
-  { value: 'task_streak',       label: 'Task Streak (Days)' },
-  { value: 'kudos_received',    label: 'Kudos Received' },
-  { value: 'kudos_given',       label: 'Kudos Given' },
-  { value: 'rewards_purchased', label: 'Rewards Purchased' },
-  { value: 'login_streak',      label: 'Login Streak' },
+  { value: 'custom',            label: 'Произвольный (выдаётся вручную)' },
+  { value: 'tasks_completed',   label: 'Выполнено задач' },
+  { value: 'points_earned',     label: 'Заработано баллов' },
+  { value: 'task_streak',       label: 'Серия задач (в днях)' },
+  { value: 'kudos_received',    label: 'Получено похвал' },
+  { value: 'kudos_given',       label: 'Отправлено похвал' },
+  { value: 'rewards_purchased', label: 'Куплено наград' },
+  { value: 'login_streak',      label: 'Серия входов (в днях)' },
 ]
 
 const badgeColorPalette = [
-  { value: '#7d57a8', label: 'Wisteria' },
-  { value: '#9b59b6', label: 'Amethyst' },
-  { value: '#8e44ad', label: 'Purple' },
-  { value: '#3498db', label: 'Blue' },
-  { value: '#1c3d5a', label: 'Prussian Blue' },
-  { value: '#2ecc71', label: 'Emerald' },
-  { value: '#27ae60', label: 'Green' },
-  { value: '#1abc9c', label: 'Turquoise' },
-  { value: '#e74c3c', label: 'Red' },
-  { value: '#e67e22', label: 'Orange' },
-  { value: '#d4a23a', label: 'Golden Sand' },
-  { value: '#f1c40f', label: 'Yellow' },
-  { value: '#e91e63', label: 'Pink' },
-  { value: '#00bcd4', label: 'Cyan' },
-  { value: '#607d8b', label: 'Slate' },
-  { value: '#34495e', label: 'Dark Slate' },
+  { value: '#7d57a8', label: 'Глициния' },
+  { value: '#9b59b6', label: 'Аметист' },
+  { value: '#8e44ad', label: 'Фиолетовый' },
+  { value: '#3498db', label: 'Синий' },
+  { value: '#1c3d5a', label: 'Тёмно-синий' },
+  { value: '#2ecc71', label: 'Изумрудный' },
+  { value: '#27ae60', label: 'Зелёный' },
+  { value: '#1abc9c', label: 'Бирюзовый' },
+  { value: '#e74c3c', label: 'Красный' },
+  { value: '#e67e22', label: 'Оранжевый' },
+  { value: '#d4a23a', label: 'Золотистый песок' },
+  { value: '#f1c40f', label: 'Жёлтый' },
+  { value: '#e91e63', label: 'Розовый' },
+  { value: '#00bcd4', label: 'Голубой' },
+  { value: '#607d8b', label: 'Серо-синий' },
+  { value: '#34495e', label: 'Тёмный серо-синий' },
 ]
 
 const newBadge = ref({
@@ -250,14 +250,14 @@ const memberOptions = computed(() =>
 )
 
 const emptyTitle = computed(() => {
-  if (activeTab.value === 'Earned') return 'No badges earned yet'
-  if (activeTab.value === 'Locked') return 'All badges unlocked!'
-  return 'No badges available'
+  if (activeTab.value === 'Earned') return 'Пока нет полученных значков'
+  if (activeTab.value === 'Locked') return 'Все значки получены!'
+  return 'Нет доступных значков'
 })
 
 const emptyDescription = computed(() => {
-  if (activeTab.value === 'Earned') return 'Keep at it — your first achievement is waiting.'
-  if (activeTab.value === 'Locked') return 'Nice work — you\'ve earned every available badge.'
+  if (activeTab.value === 'Earned') return 'Не сдавайтесь — ваше первое достижение уже ждёт вас.'
+  if (activeTab.value === 'Locked') return 'Отличная работа — вы получили все доступные значки.'
   return ''
 })
 
@@ -276,7 +276,7 @@ const progressFor = (badge) => {
 }
 
 const metaFor = (badge) => {
-  if (badge.is_earned) return badge.earned_at_label || 'Earned'
+  if (badge.is_earned) return badge.earned_at_label || 'Получено'
   if (badge.trigger_threshold && badge.progress != null) {
     return `${badge.progress} / ${badge.trigger_threshold}`
   }

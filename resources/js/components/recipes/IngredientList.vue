@@ -2,11 +2,11 @@
   <div class="space-y-4">
     <!-- Servings adjuster -->
     <div class="flex items-center gap-3">
-      <span class="text-sm font-medium text-ink-primary">Servings:</span>
+      <span class="text-sm font-medium text-ink-primary">Порции:</span>
       <div class="flex items-center gap-2">
         <button
           class="w-7 h-7 rounded-full border border-border-subtle flex items-center justify-center text-ink-tertiary hover:border-[#C4975A] hover:text-[#C4975A] transition-colors"
-          aria-label="Decrease servings"
+          aria-label="Уменьшить количество порций"
           :disabled="localServings <= 1"
           @click="localServings = Math.max(1, localServings - 1)"
         >
@@ -15,7 +15,7 @@
         <span class="text-sm font-semibold text-ink-primary w-6 text-center">{{ localServings }}</span>
         <button
           class="w-7 h-7 rounded-full border border-border-subtle flex items-center justify-center text-ink-tertiary hover:border-[#C4975A] hover:text-[#C4975A] transition-colors"
-          aria-label="Increase servings"
+          aria-label="Увеличить количество порций"
           @click="localServings++"
         >
           <PlusIcon class="w-3.5 h-3.5" />
@@ -25,7 +25,7 @@
         v-if="localServings !== originalServings"
         class="text-xs text-ink-tertiary"
       >
-        (originally {{ originalServings }})
+        (изначально {{ originalServings }})
       </span>
     </div>
 
@@ -48,7 +48,9 @@
           :class="checkedIngredients.has(ingredient.id)
             ? 'bg-[#C4975A] border-[#C4975A] text-white'
             : 'border-border-subtle hover:border-[#C4975A]'"
-          :aria-label="`Toggle ${ingredient.name}`"
+          :aria-label="checkedIngredients.has(ingredient.id)
+            ? `Снять отметку: ${ingredient.name}`
+            : `Отметить: ${ingredient.name}`"
           @click="toggleChecked(ingredient.id)"
         >
           <CheckIcon v-if="checkedIngredients.has(ingredient.id)" class="w-3 h-3" />
@@ -65,7 +67,7 @@
           <span v-if="ingredient.unit"> {{ ingredient.unit }}</span>
           {{ ingredient.name }}
           <span v-if="ingredient.preparation" class="text-ink-tertiary">, {{ ingredient.preparation }}</span>
-          <span v-if="ingredient.is_optional" class="text-ink-tertiary italic"> (optional)</span>
+          <span v-if="ingredient.is_optional" class="text-ink-tertiary italic"> (по желанию)</span>
         </span>
       </div>
     </div>

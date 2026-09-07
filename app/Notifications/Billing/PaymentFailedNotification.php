@@ -34,9 +34,9 @@ class PaymentFailedNotification extends Notification implements ShouldQueue
         $portalUrl = StripeWebhookController::billingPortalReturnUrl();
 
         return (new MailMessage)
-            ->subject("We couldn't process your Kinhold payment")
+            ->subject('Не удалось обработать платёж за Kinhold')
             ->view('emails.billing.payment-failed', [
-                'subject' => "We couldn't process your Kinhold payment",
+                'subject' => 'Не удалось обработать платёж за Kinhold',
                 'userName' => $notifiable->name,
                 'familyName' => $this->family->name,
                 'portalUrl' => $portalUrl,

@@ -2,16 +2,16 @@
   <div class="p-3 md:p-6 max-w-3xl">
     <!-- Header -->
     <div class="flex items-center gap-2 md:gap-3 mb-3 md:mb-6">
-      <KinButton variant="ghost" size="sm" icon-only aria-label="Back to Points" to="/points">
+      <KinButton variant="ghost" size="sm" icon-only aria-label="Назад к баллам" to="/points">
         <ChevronLeftIcon class="w-5 h-5" />
       </KinButton>
-      <h1 class="text-lg md:text-2xl font-bold font-heading text-ink-primary">My Points History</h1>
+      <h1 class="text-lg md:text-2xl font-bold font-heading text-ink-primary">История моих баллов</h1>
     </div>
 
     <!-- Hero balance card -->
     <KinHeroMetricCard
       variant="iridescent"
-      label="Total Balance"
+      label="Общий баланс"
       :value="pointsStore.bank"
       min-height="160px"
       class="mb-6"
@@ -44,7 +44,7 @@
         <KinEmptyState
           v-if="pointsStore.feed.length === 0"
           :icon="ClockIcon"
-          title="No transactions yet"
+          title="Пока нет операций"
           accent-color="lavender"
           size="sm"
         />
@@ -66,10 +66,10 @@ const pointsStore = usePointsStore()
 
 const formatDate = (dateStr) => {
   if (!dateStr) return ''
-  return new Date(dateStr).toLocaleDateString('en-US', {
+  return new Date(dateStr).toLocaleDateString('ru-RU', {
     month: 'short',
     day: 'numeric',
-    hour: 'numeric',
+    hour: '2-digit',
     minute: '2-digit',
   })
 }

@@ -46,11 +46,10 @@ const grouped = computed(() => {
           <ShieldExclamationIcon class="w-5 h-5 text-status-failed" />
         </div>
         <div class="flex-1 min-w-0">
-          <h2 class="text-base font-semibold text-ink-primary">Allergen warning</h2>
+          <h2 class="text-base font-semibold text-ink-primary">Предупреждение об аллергенах</h2>
           <p class="text-xs text-ink-secondary mt-0.5">
-            <template v-if="recipeTitle">"{{ recipeTitle }}" contains</template>
-            <template v-else>This recipe contains</template>
-            allergens for one or more family members with reviewed profiles.
+            <template v-if="recipeTitle">«{{ recipeTitle }}» содержит аллергены, опасные для одного или нескольких членов семьи с подтверждёнными профилями.</template>
+            <template v-else>Этот рецепт содержит аллергены, опасные для одного или нескольких членов семьи с подтверждёнными профилями.</template>
           </p>
         </div>
       </div>
@@ -66,7 +65,7 @@ const grouped = computed(() => {
             <template v-for="(item, idx) in entry.items" :key="`${entry.member_id}-${item.allergen_name}-${item.presence}`">
               <span v-if="idx > 0">, </span>
               <span :class="item.presence === 'may_contain' ? 'text-status-warning' : 'text-status-failed font-medium'">
-                {{ item.presence === 'may_contain' ? 'may contain ' : '' }}{{ item.allergen_name.toLowerCase() }}
+                {{ item.presence === 'may_contain' ? 'может содержать ' : '' }}{{ item.allergen_name.toLowerCase() }}
               </span>
             </template>
           </p>
@@ -74,12 +73,12 @@ const grouped = computed(() => {
       </ul>
 
       <p class="text-xs text-ink-tertiary">
-        If you'll prepare a separate dish or are aware of the risk, you can plan it anyway. Otherwise pick a different recipe.
+        Если вы приготовите для них отдельное блюдо или осознаёте риск, его всё равно можно добавить в план. В противном случае выберите другой рецепт.
       </p>
 
       <div class="flex flex-wrap gap-2 justify-end pt-2">
-        <KinButton variant="ghost" @click="emit('cancel')">Pick something else</KinButton>
-        <KinButton variant="primary" @click="emit('acknowledge')">I understand, plan anyway</KinButton>
+        <KinButton variant="ghost" @click="emit('cancel')">Выбрать другое блюдо</KinButton>
+        <KinButton variant="primary" @click="emit('acknowledge')">Всё равно добавить в план</KinButton>
       </div>
     </div>
   </KinModalSheet>

@@ -7,20 +7,20 @@
           <img src="/images/logo-100.png" alt="Kinhold" class="w-16 h-16 rounded-2xl" />
           <h1 class="text-4xl font-heading font-bold text-kin-gold">Kinhold</h1>
         </router-link>
-        <p class="kin-muted mt-2">Try the Demo</p>
+        <p class="kin-muted mt-2">Попробуй демо</p>
       </div>
 
       <KinFlatCard padding="lg">
         <!-- Intro -->
         <div class="text-center mb-6">
           <h2 class="text-2xl font-heading font-bold text-ink-primary mb-2">
-            Meet the Ellis family
+            Знакомьтесь — семья Эллис
           </h2>
           <p class="kin-muted max-w-xl mx-auto">
-            The demo is a fully working Kinhold instance pre-loaded with a family of five —
-            calendar events, tasks, vault entries, points, badges, recipes, the works.
-            Pick any family member below to log in as them and explore from their
-            perspective. Switch between accounts anytime by signing out and coming back here.
+            Демо — это полностью рабочий экземпляр Kinhold с семьёй из пяти человек:
+            события календаря, задачи, записи в хранилище, баллы, достижения, рецепты — всё как в жизни.
+            Выбери любого члена семьи ниже, чтобы войти под ним и посмотреть на приложение его глазами.
+            Переключаться между аккаунтами можно в любой момент — выйди и вернись сюда.
           </p>
         </div>
 
@@ -55,12 +55,12 @@
               <span
                 class="inline-block mt-1 text-xs px-2 py-0.5 rounded-full"
                 :class="
-                  member.role === 'Parent'
+                  member.role === 'parent'
                     ? 'bg-accent-lavender-soft/40 text-accent-lavender-bold'
                     : 'bg-accent-sun-soft/40 text-accent-sun-bold'
                 "
               >
-                {{ member.role }}
+                {{ roleLabel(member.role) }}
               </span>
               <div class="text-xs kin-muted mt-1">{{ member.description }}</div>
             </div>
@@ -73,7 +73,7 @@
           class="p-4 bg-status-failed/10 border border-status-failed/30 rounded-[10px] text-center"
         >
           <p class="text-sm text-status-failed">
-            The demo isn't available on this instance right now. Please try again later.
+            Демо сейчас недоступно на этом экземпляре. Попробуй позже.
           </p>
         </div>
 
@@ -85,7 +85,7 @@
         <!-- What you'll see -->
         <div class="border-t border-border-subtle pt-6 mt-2">
           <h3 class="text-sm font-semibold text-ink-primary mb-3 text-center">
-            What's inside the demo
+            Что внутри демо
           </h3>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div
@@ -102,10 +102,10 @@
         <!-- Footer links -->
         <div class="border-t border-border-subtle mt-6 pt-6 text-center">
           <p class="kin-muted text-sm">
-            Already have an account?
-            <RouterLink to="/login" class="kin-link font-medium">Sign in</RouterLink>
+            Уже есть аккаунт?
+            <RouterLink to="/login" class="kin-link font-medium">Войти</RouterLink>
             &nbsp;·&nbsp;
-            <RouterLink to="/register" class="kin-link font-medium">Create one</RouterLink>
+            <RouterLink to="/register" class="kin-link font-medium">Создать аккаунт</RouterLink>
           </p>
         </div>
       </KinFlatCard>
@@ -127,26 +127,29 @@ const demoAvailable = computed(() => authStore.appConfig?.demo_available)
 const loadingMember = ref(null)
 const errorMsg = ref('')
 
+const roleLabels = { parent: 'Родитель', teen: 'Подросток', kid: 'Ребёнок' }
+const roleLabel = (role) => roleLabels[String(role || '').toLowerCase()] || role || 'Участник'
+
 const members = [
-  { key: 'adaeze', name: 'Adaeze', role: 'Parent', description: 'Mom', color: '#7B5EA7' },
-  { key: 'marcus', name: 'Marcus', role: 'Parent', description: 'Dad', color: '#4A7B8C' },
-  { key: 'zara',   name: 'Zara',   role: 'Teen',   description: 'Age 16', color: '#C25B8A' },
-  { key: 'kenji',  name: 'Kenji',  role: 'Kid',    description: 'Age 13', color: '#5B7BC2' },
-  { key: 'naia',   name: 'Naia',   role: 'Kid',    description: 'Age 9',  color: '#4A9C78' },
+  { key: 'adaeze', name: 'Adaeze', role: 'parent', description: 'Мама', color: '#7B5EA7' },
+  { key: 'marcus', name: 'Marcus', role: 'parent', description: 'Папа', color: '#4A7B8C' },
+  { key: 'zara',   name: 'Zara',   role: 'teen',   description: '16 лет', color: '#C25B8A' },
+  { key: 'kenji',  name: 'Kenji',  role: 'kid',    description: '13 лет', color: '#5B7BC2' },
+  { key: 'naia',   name: 'Naia',   role: 'kid',    description: '9 лет',  color: '#4A9C78' },
 ]
 
 const highlights = [
   {
-    title: 'Calendar & tasks',
-    description: 'A populated week, recurring chores, kid-assigned tasks with points.',
+    title: 'Календарь и задачи',
+    description: 'Заполненная неделя, повторяющиеся дела и детские задачи с баллами.',
   },
   {
-    title: 'Vault & recipes',
-    description: 'Encrypted family docs, meal plan, shopping list, and a recipe library.',
+    title: 'Хранилище и рецепты',
+    description: 'Семейные документы, план питания, список покупок и библиотека рецептов.',
   },
   {
-    title: 'Points & badges',
-    description: 'Live leaderboard, kudos, the rewards shop, and earned achievements.',
+    title: 'Баллы и достижения',
+    description: 'Живой рейтинг, похвала, магазин наград и полученные достижения.',
   },
 ]
 
@@ -159,7 +162,7 @@ const handleSelect = async (key) => {
   if (result.success) {
     router.push({ name: 'Dashboard' })
   } else {
-    errorMsg.value = result.error || 'Something went wrong. Please try again.'
+    errorMsg.value = result.error || 'Что-то пошло не так. Попробуй ещё раз.'
     loadingMember.value = null
   }
 }

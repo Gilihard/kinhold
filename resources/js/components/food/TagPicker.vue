@@ -24,7 +24,7 @@
           v-model="newTagName"
           type="text"
           class="bg-transparent text-xs text-ink-primary placeholder:text-ink-tertiary focus:outline-none w-28"
-          placeholder="New tag name"
+          placeholder="Название нового тега"
           @keydown.enter.prevent="confirmCreate"
           @keydown.escape="cancelCreate"
         />
@@ -32,7 +32,7 @@
           type="button"
           class="p-1 rounded-full text-[#5B8C6A] hover:bg-[#5B8C6A]/10 disabled:opacity-40 disabled:cursor-not-allowed"
           :disabled="!newTagName.trim() || isSubmitting"
-          aria-label="Add tag"
+          aria-label="Добавить тег"
           @click="confirmCreate"
         >
           <CheckIcon class="w-3.5 h-3.5" />
@@ -40,7 +40,7 @@
         <button
           type="button"
           class="p-1 rounded-full text-ink-tertiary hover:bg-surface-overlay"
-          aria-label="Cancel"
+          aria-label="Отмена"
           @click="cancelCreate"
         >
           <XMarkIcon class="w-3.5 h-3.5" />
@@ -54,7 +54,7 @@
         @click="startCreate"
       >
         <PlusIcon class="w-3 h-3" />
-        Add tag
+        Добавить тег
       </button>
     </div>
   </div>
@@ -67,7 +67,7 @@ import { PlusIcon, CheckIcon, XMarkIcon } from '@heroicons/vue/24/outline'
 const props = defineProps({
   modelValue: { type: Array, default: () => [] },
   tags: { type: Array, default: () => [] },
-  label: { type: String, default: 'Tags' },
+  label: { type: String, default: 'Теги' },
   // Async function: ({ name, color }) => { success: bool, tag: { id, name, ... } }
   onCreate: { type: Function, default: null },
 })

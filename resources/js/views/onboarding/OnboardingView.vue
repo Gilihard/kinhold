@@ -12,7 +12,7 @@
         :key="i"
         class="w-2.5 h-2.5 rounded-full transition-all duration-300 focus:outline-none"
         :class="dotClass(i)"
-        :aria-label="`Step ${i + 1}`"
+        :aria-label="`Шаг ${i + 1}`"
         @click="store.goToStep(i)"
       ></button>
     </div>
@@ -36,7 +36,7 @@
           variant="ghost"
           @click="store.prevStep()"
         >
-          Back
+          Назад
         </KinButton>
 
         <div class="flex-1"></div>
@@ -46,7 +46,7 @@
           variant="ghost"
           @click="handleSkip"
         >
-          Skip for now
+          Пропустить
         </KinButton>
 
         <KinButton
@@ -56,7 +56,7 @@
           :disabled="stepLoading"
           @click="handleContinue"
         >
-          {{ stepLoading ? 'Saving...' : 'Continue' }}
+          {{ stepLoading ? 'Сохранение…' : 'Продолжить' }}
         </KinButton>
 
         <KinButton
@@ -67,7 +67,7 @@
           :disabled="store.isCompleting"
           @click="handleFinish"
         >
-          Go to Dashboard
+          Перейти к дашборду
         </KinButton>
       </div>
     </div>

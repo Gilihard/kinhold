@@ -23,10 +23,10 @@
               :class="isCurrentUser(entry) ? 'text-accent-lavender-bold' : 'text-ink-secondary'"
             >
               {{ firstName(entry) }}
-              <span v-if="isCurrentUser(entry)" class="text-[9px] text-accent-lavender-bold">(you)</span>
+              <span v-if="isCurrentUser(entry)" class="text-[9px] text-accent-lavender-bold">(вы)</span>
             </span>
             <span class="text-[10px] font-semibold font-mono text-accent-lavender-bold ml-1 flex-shrink-0">
-              {{ entry.total_points }} pts
+              {{ entry.total_points }} {{ ptsWord(entry.total_points) }}
             </span>
           </div>
           <div class="h-1.5 bg-surface-sunken rounded-full overflow-hidden">
@@ -44,10 +44,10 @@
     <div v-if="leaderboard.length === 0" class="text-center py-3">
       <TrophyIcon class="w-8 h-8 text-ink-tertiary mx-auto mb-1" />
       <p class="text-sm text-ink-secondary">
-        No activity yet this period
+        В этом периоде пока нет активности
       </p>
       <p class="text-xs text-ink-tertiary mt-0.5">
-        Complete tasks to earn points!
+        Выполняйте задачи, чтобы зарабатывать баллы!
       </p>
     </div>
   </div>
@@ -57,6 +57,7 @@
 import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { TrophyIcon } from '@heroicons/vue/24/solid'
+import { ptsWord } from '@/utils/plural'
 import LeaderboardPodium from '@/components/points/LeaderboardPodium.vue'
 
 const props = defineProps({

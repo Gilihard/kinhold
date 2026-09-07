@@ -1,48 +1,48 @@
 <template>
   <div class="card p-4 mb-6">
     <h3 class="text-sm font-semibold text-prussian-500 dark:text-lavender-200 mb-3">
-      {{ isEditing ? 'Edit Reward' : 'New Reward' }}
+      {{ isEditing ? 'Редактировать награду' : 'Новая награда' }}
     </h3>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
       <!-- Title -->
-      <input v-model="form.title" class="input-base" placeholder="Reward name" aria-label="Reward name" />
+      <input v-model="form.title" class="input-base" placeholder="Название награды" aria-label="Название награды" />
 
       <!-- Point Cost -->
-      <input v-model.number="form.point_cost" type="number" min="1" class="input-base" placeholder="Point cost" aria-label="Point cost" />
+      <input v-model.number="form.point_cost" type="number" min="1" class="input-base" placeholder="Стоимость в баллах" aria-label="Стоимость в баллах" />
 
       <!-- Description -->
-      <input v-model="form.description" class="input-base sm:col-span-2" placeholder="Description (optional)" aria-label="Description" />
+      <input v-model="form.description" class="input-base sm:col-span-2" placeholder="Описание (необязательно)" aria-label="Описание" />
 
       <!-- Icon -->
       <div class="sm:col-span-2">
-        <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Icon</label>
+        <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Иконка</label>
         <IconPicker v-model="form.icon" />
       </div>
 
       <!-- Reward Type -->
       <div>
-        <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Type</label>
+        <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Тип</label>
         <select v-model="form.reward_type" class="input-base">
-          <option value="standard">Standard</option>
-          <option value="auction">Auction</option>
+          <option value="standard">Обычная</option>
+          <option value="auction">Аукцион</option>
         </select>
       </div>
 
       <!-- Quantity (standard only) -->
       <div v-if="form.reward_type !== 'auction'">
         <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">
-          Quantity
-          <span class="text-lavender-400 font-normal">(blank = unlimited)</span>
+          Количество
+          <span class="text-lavender-400 font-normal">(пусто = без лимита)</span>
         </label>
-        <input v-model.number="form.quantity" type="number" min="0" class="input-base" placeholder="Unlimited" />
+        <input v-model.number="form.quantity" type="number" min="0" class="input-base" placeholder="Без лимита" />
       </div>
 
       <!-- Expiration -->
       <div>
         <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">
-          Expires
-          <span class="text-lavender-400 font-normal">(optional)</span>
+          Срок действия
+          <span class="text-lavender-400 font-normal">(необязательно)</span>
         </label>
         <input v-model="form.expires_at" type="datetime-local" class="input-base" />
       </div>
@@ -51,27 +51,27 @@
       <template v-if="form.reward_type === 'auction'">
         <div>
           <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">
-            Minimum Bid
-            <span class="text-lavender-400 font-normal">(optional)</span>
+            Мин. ставка
+            <span class="text-lavender-400 font-normal">(необязательно)</span>
           </label>
-          <input v-model.number="form.min_bid" type="number" min="1" class="input-base" placeholder="No minimum" />
+          <input v-model.number="form.min_bid" type="number" min="1" class="input-base" placeholder="Без минимума" />
         </div>
 
         <div>
-          <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Auction Close Mode</label>
+          <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Способ завершения аукциона</label>
           <select v-model="auctionCloseMode" class="input-base">
-            <option value="timed">Timed (auto-close)</option>
-            <option value="parent_called">Parent-Called (manual)</option>
+            <option value="timed">По времени (авто)</option>
+            <option value="parent_called">Вручную (родитель)</option>
           </select>
         </div>
 
         <template v-if="auctionCloseMode === 'timed'">
           <div>
-            <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Bidding Opens</label>
+            <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Начало торгов</label>
             <input v-model="form.bid_start_at" type="datetime-local" class="input-base" />
           </div>
           <div>
-            <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Bidding Ends</label>
+            <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Окончание торгов</label>
             <input v-model="form.bid_end_at" type="datetime-local" class="input-base" />
           </div>
         </template>
@@ -79,30 +79,30 @@
 
       <!-- Visibility -->
       <div>
-        <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Visibility</label>
+        <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Видимость</label>
         <select v-model="form.visibility" class="input-base">
-          <option value="everyone">Everyone</option>
-          <option value="parent_only">Parents Only</option>
-          <option value="child_only">Children Only</option>
-          <option value="specific">Specific People</option>
+          <option value="everyone">Все</option>
+          <option value="parent_only">Только родители</option>
+          <option value="child_only">Только дети</option>
+          <option value="specific">Конкретные участники</option>
         </select>
       </div>
 
       <!-- Age Range -->
       <div class="flex gap-2">
         <div class="flex-1">
-          <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Min Age</label>
-          <input v-model.number="form.min_age" type="number" min="0" max="99" class="input-base" placeholder="Any" />
+          <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Мин. возраст</label>
+          <input v-model.number="form.min_age" type="number" min="0" max="99" class="input-base" placeholder="Любой" />
         </div>
         <div class="flex-1">
-          <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Max Age</label>
-          <input v-model.number="form.max_age" type="number" min="0" max="99" class="input-base" placeholder="Any" />
+          <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Макс. возраст</label>
+          <input v-model.number="form.max_age" type="number" min="0" max="99" class="input-base" placeholder="Любой" />
         </div>
       </div>
 
       <!-- Specific People Picker (when visibility = 'specific') -->
       <div v-if="form.visibility === 'specific'" class="sm:col-span-2">
-        <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Who can see this?</label>
+        <label class="block text-xs font-medium text-prussian-500 dark:text-lavender-300 mb-1.5">Кто может это видеть?</label>
         <div class="flex flex-wrap gap-2">
           <label
             v-for="member in familyMembers"
@@ -126,9 +126,9 @@
     </div>
 
     <div class="flex items-center justify-end gap-2 mt-3">
-      <button class="btn-ghost btn-sm" @click="$emit('cancel')">Cancel</button>
+      <button class="btn-ghost btn-sm" @click="$emit('cancel')">Отмена</button>
       <button :disabled="!isValid" class="btn-primary btn-sm" @click="save">
-        {{ isEditing ? 'Save Changes' : 'Create Reward' }}
+        {{ isEditing ? 'Сохранить изменения' : 'Создать награду' }}
       </button>
     </div>
   </div>

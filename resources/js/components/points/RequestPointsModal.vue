@@ -1,30 +1,30 @@
 <template>
-  <KinModalSheet :model-value="show" title="Request Points" size="sm" @close="$emit('close')">
+  <KinModalSheet :model-value="show" title="Запросить баллы" size="sm" @close="$emit('close')">
     <div class="space-y-4">
       <KinInput
         v-model.number="points"
         type="number"
-        label="Points"
+        label="Баллы"
         placeholder="10"
       />
 
       <KinInput
         v-model="reason"
         type="text"
-        label="Reason"
-        placeholder="Why do you deserve points?"
+        label="Причина"
+        placeholder="За что вы хотите получить баллы?"
       />
     </div>
 
     <template #actions>
       <div class="flex justify-end gap-2">
-        <KinButton variant="ghost" @click="$emit('close')">Cancel</KinButton>
+        <KinButton variant="ghost" @click="$emit('close')">Отмена</KinButton>
         <KinButton
           variant="primary"
           :disabled="!points || !reason.trim()"
           @click="submit"
         >
-          Request
+          Запросить
         </KinButton>
       </div>
     </template>

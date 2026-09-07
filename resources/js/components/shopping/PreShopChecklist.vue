@@ -3,10 +3,10 @@
     <!-- Header -->
     <div class="flex items-center justify-between px-4 md:px-6 py-3 border-b border-border-subtle">
       <div>
-        <h3 class="text-sm font-semibold text-ink-primary">What do you already have?</h3>
-        <p class="text-xs text-ink-tertiary mt-0.5">Mark items you already own so you only buy what you need.</p>
+        <h3 class="text-sm font-semibold text-ink-primary">Что у вас уже есть?</h3>
+        <p class="text-xs text-ink-tertiary mt-0.5">Отмечайте товары, которые уже есть дома, чтобы покупать только то, что нужно.</p>
       </div>
-      <KinButton variant="primary" size="sm" @click="$emit('done')">Done</KinButton>
+      <KinButton variant="primary" size="sm" @click="$emit('done')">Готово</KinButton>
     </div>
 
     <!-- Items -->
@@ -14,7 +14,7 @@
       <!-- Need it section -->
       <div>
         <div class="flex items-center gap-2 mb-2">
-          <h4 class="text-xs font-semibold uppercase tracking-wider text-ink-tertiary">Need it</h4>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-ink-tertiary">Нужно</h4>
           <span class="text-xs bg-surface-sunken text-ink-secondary px-1.5 py-0.5 rounded-full font-medium">
             {{ needItems.length }}
           </span>
@@ -33,17 +33,17 @@
               class="flex-shrink-0 px-3 py-1.5 text-xs font-medium rounded-[8px] bg-status-success/10 text-status-success hover:bg-status-success/20 transition-colors"
               @click="$emit('mark-on-hand', item.id)"
             >
-              Have it
+              Есть дома
             </button>
           </div>
-          <p v-if="needItems.length === 0" class="text-sm text-ink-tertiary text-center py-4">All items accounted for!</p>
+          <p v-if="needItems.length === 0" class="text-sm text-ink-tertiary text-center py-4">Все товары учтены!</p>
         </div>
       </div>
 
       <!-- Got it section (collapsible) -->
       <details v-if="onHandItems.length > 0" class="group">
         <summary class="flex items-center gap-2 mb-2 cursor-pointer list-none">
-          <h4 class="text-xs font-semibold uppercase tracking-wider text-ink-tertiary">Got it</h4>
+          <h4 class="text-xs font-semibold uppercase tracking-wider text-ink-tertiary">Уже есть</h4>
           <span class="text-xs bg-status-success/10 text-status-success px-1.5 py-0.5 rounded-full font-medium">
             {{ onHandItems.length }}
           </span>
@@ -65,7 +65,7 @@
               class="flex-shrink-0 px-3 py-1.5 text-xs font-medium rounded-[8px] bg-surface-sunken text-ink-secondary hover:bg-surface-overlay transition-colors"
               @click="$emit('clear-on-hand', item.id)"
             >
-              Need it
+              Нужно
             </button>
           </div>
         </div>

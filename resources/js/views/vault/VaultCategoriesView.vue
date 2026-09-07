@@ -4,17 +4,17 @@
     <div class="px-4 pt-3 pb-1 md:px-6 md:pt-6 md:pb-2">
       <div class="flex items-center justify-between">
         <div>
-          <h1 class="text-lg md:text-2xl font-bold font-heading text-ink-primary">Vault</h1>
-          <p class="hidden md:block text-sm text-ink-tertiary mt-0.5">Secure family information</p>
+          <h1 class="text-lg md:text-2xl font-bold font-heading text-ink-primary">Хранилище</h1>
+          <p class="hidden md:block text-sm text-ink-tertiary mt-0.5">Защищённая семейная информация</p>
         </div>
         <div v-if="isParent" class="hidden md:flex items-center gap-2">
           <KinButton variant="secondary" size="md" @click="openCategoryModal()">
             <FolderPlusIcon class="w-4 h-4" />
-            New Category
+            Новая категория
           </KinButton>
           <KinButton variant="primary" size="md" @click="showCreateEntry = true">
             <PlusIcon class="w-4 h-4" />
-            Add Entry
+            Добавить запись
           </KinButton>
         </div>
       </div>
@@ -22,7 +22,7 @@
 
     <!-- Search -->
     <div class="px-4 md:px-6 py-3">
-      <KinSearch v-model="searchQuery" placeholder="Search vault..." />
+      <KinSearch v-model="searchQuery" placeholder="Поиск по хранилищу..." />
     </div>
 
     <!-- Loading -->
@@ -78,11 +78,11 @@
       <KinEmptyState
         v-if="!isLoading && categories.length === 0"
         :icon="ShieldCheckIcon"
-        title="Vault is empty"
-        description="Create a category to start organizing your family's information."
+        title="Хранилище пусто"
+        description="Создайте категорию, чтобы упорядочить информацию вашей семьи."
       >
         <template #cta>
-          <KinButton variant="primary" size="md" @click="openCategoryModal()">New Category</KinButton>
+          <KinButton variant="primary" size="md" @click="openCategoryModal()">Новая категория</KinButton>
         </template>
       </KinEmptyState>
     </div>
@@ -93,24 +93,24 @@
     <!-- Create/Edit Category Modal -->
     <KinModalSheet
       :model-value="showCategoryModal"
-      :title="editingCategory ? 'Edit Category' : 'New Category'"
+      :title="editingCategory ? 'Изменить категорию' : 'Новая категория'"
       @close="closeCategoryModal"
     >
       <form class="space-y-5" @submit.prevent="handleSaveCategory">
         <KinInput
           v-model="categoryForm.name"
-          label="Name"
-          placeholder="e.g., House, Vehicle, School"
+          label="Название"
+          placeholder="Например: Дом, автомобиль, школа"
         />
 
         <KinInput
           v-model="categoryForm.description"
-          label="Description (optional)"
-          placeholder="What goes in this category?"
+          label="Описание (необязательно)"
+          placeholder="Что хранится в этой категории?"
         />
 
         <div>
-          <label class="block text-sm font-medium text-ink-primary mb-2">Icon</label>
+          <label class="block text-sm font-medium text-ink-primary mb-2">Иконка</label>
           <div class="flex flex-wrap gap-2">
             <button
               v-for="icon in availableIcons"
@@ -129,10 +129,10 @@
 
         <div class="flex gap-2 pt-2">
           <KinButton type="button" variant="secondary" size="md" class="flex-1" @click="closeCategoryModal">
-            Cancel
+            Отмена
           </KinButton>
           <KinButton type="submit" variant="primary" size="md" class="flex-1" :disabled="!categoryForm.name?.trim() || savingCategory">
-            {{ savingCategory ? 'Saving...' : (editingCategory ? 'Save Changes' : 'Create Category') }}
+            {{ savingCategory ? 'Сохранение…' : (editingCategory ? 'Сохранить изменения' : 'Создать категорию') }}
           </KinButton>
         </div>
       </form>
@@ -141,9 +141,9 @@
     <!-- Delete Category Confirmation -->
     <ConfirmDialog
       :show="!!deletingCategory"
-      title="Delete Category?"
-      :message="`&quot;${deletingCategory?.name}&quot; will be permanently deleted. It must be empty first.`"
-      confirm-text="Delete"
+      title="Удалить категорию?"
+      :message="`Категория «${deletingCategory?.name}» будет удалена навсегда. Перед удалением она должна быть пустой.`"
+      confirm-text="Удалить"
       @confirm="handleDeleteCategory"
       @cancel="deletingCategory = null"
     />
@@ -151,7 +151,7 @@
     <!-- Create Entry Modal -->
     <KinModalSheet
       :model-value="showCreateEntry"
-      title="New Vault Entry"
+      title="Новая запись в хранилище"
       size="xl"
       @close="closeCreateModal"
     >
@@ -159,23 +159,23 @@
         <div class="flex gap-3">
           <KinInput
             v-model="entryForm.title"
-            label="Title"
-            placeholder="e.g., Family Doctor, WiFi Info"
+            label="Название"
+            placeholder="Например: Семейный врач, Wi-Fi"
             class="flex-1"
           />
           <KinSelect
             v-model="entryForm.category_id"
-            label="Category"
+            label="Категория"
             class="w-40"
-            :options="[{ value: null, label: 'Select...' }, ...categories.map((c) => ({ value: c.id, label: c.name }))]"
+            :options="[{ value: null, label: 'Выберите…' }, ...categories.map((c) => ({ value: c.id, label: c.name }))]"
           />
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-ink-primary mb-1.5">Content</label>
+          <label class="block text-sm font-medium text-ink-primary mb-1.5">Содержимое</label>
           <MarkdownEditor
             v-model="entryForm.body"
-            placeholder="Start typing... Use **bold**, *italic*, lists, and more."
+            placeholder="Начните вводить текст… Используйте **жирный**, *курсив*, списки и др."
           />
         </div>
 
@@ -187,7 +187,7 @@
             @click="showSensitiveFields = !showSensitiveFields"
           >
             <LockClosedIcon class="w-3.5 h-3.5" />
-            {{ showSensitiveFields ? 'Hide' : 'Add' }} sensitive fields (passwords, SSNs, etc.)
+            {{ showSensitiveFields ? 'Скрыть' : 'Добавить' }} секретные поля (пароли и т. п.)
             <ChevronRightIcon class="w-3 h-3 transition-transform" :class="{ 'rotate-90': showSensitiveFields }" />
           </button>
 
@@ -195,12 +195,12 @@
             <div v-for="(field, i) in entryForm.sensitiveFields" :key="i" class="flex gap-2">
               <input
                 v-model="field.key"
-                placeholder="Label (e.g., Password)"
+                placeholder="Название (например, пароль)"
                 class="input-base flex-1"
               />
               <input
                 v-model="field.value"
-                placeholder="Value"
+                placeholder="Значение"
                 type="password"
                 class="input-base flex-1"
               />
@@ -218,17 +218,17 @@
               @click="entryForm.sensitiveFields.push({ key: '', value: '' })"
             >
               <PlusIcon class="w-3.5 h-3.5" />
-              Add Field
+              Добавить поле
             </button>
           </div>
         </div>
 
         <div class="flex gap-2 pt-2">
           <KinButton type="button" variant="secondary" size="md" class="flex-1" @click="closeCreateModal">
-            Cancel
+            Отмена
           </KinButton>
           <KinButton type="submit" variant="primary" size="md" class="flex-1" :disabled="!entryForm.title?.trim() || !entryForm.category_id || savingEntry">
-            {{ savingEntry ? 'Saving...' : 'Create Entry' }}
+            {{ savingEntry ? 'Сохранение…' : 'Создать запись' }}
           </KinButton>
         </div>
       </form>
@@ -390,9 +390,9 @@ const getCategoryTextClass = (iconType) => {
 }
 
 const getCategoryMenuItems = (category) => [
-  { label: 'Edit', icon: PencilIcon, action: () => openCategoryModal(category) },
+  { label: 'Изменить', icon: PencilIcon, action: () => openCategoryModal(category) },
   { divider: true },
-  { label: 'Delete', icon: TrashIcon, variant: 'danger', action: () => { deletingCategory.value = category } },
+  { label: 'Удалить', icon: TrashIcon, variant: 'danger', action: () => { deletingCategory.value = category } },
 ]
 
 const openCategoryModal = (category = null) => {
@@ -424,10 +424,10 @@ const handleSaveCategory = async () => {
     : await vaultStore.createCategory(payload)
 
   if (result.success) {
-    success(editingCategory.value ? 'Category updated!' : 'Category created!')
+    success(editingCategory.value ? 'Категория обновлена!' : 'Категория создана!')
     closeCategoryModal()
   } else {
-    notifyError(result.error || 'Failed to save category')
+    notifyError(result.error || 'Не удалось сохранить категорию')
   }
   savingCategory.value = false
 }
@@ -436,9 +436,9 @@ const handleDeleteCategory = async () => {
   if (!deletingCategory.value) return
   const result = await vaultStore.deleteCategory(deletingCategory.value.id)
   if (result.success) {
-    success('Category deleted!')
+    success('Категория удалена!')
   } else {
-    notifyError(result.error || 'Failed to delete category')
+    notifyError(result.error || 'Не удалось удалить категорию')
   }
   deletingCategory.value = null
 }
@@ -471,10 +471,10 @@ const handleCreateEntry = async () => {
 
   const result = await vaultStore.createEntry(payload)
   if (result.success) {
-    success('Entry created!')
+    success('Запись создана!')
     closeCreateModal()
   } else {
-    notifyError(result.error || 'Failed to create entry')
+    notifyError(result.error || 'Не удалось создать запись')
   }
   savingEntry.value = false
 }

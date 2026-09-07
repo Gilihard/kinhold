@@ -4,19 +4,19 @@
     <div class="p-4 bg-surface-sunken rounded-lg">
       <div class="flex items-start justify-between gap-3">
         <div class="flex-1">
-          <p class="text-sm font-semibold text-ink-primary">Push notifications on this device</p>
+          <p class="text-sm font-semibold text-ink-primary">Push-уведомления на этом устройстве</p>
           <p class="text-xs text-ink-secondary mt-1">
             <template v-if="!notifications.isPushAvailable">
-              Push isn't available in this browser, or VAPID keys aren't configured on the server.
+              Push недоступен в этом браузере, либо на сервере не настроены VAPID-ключи.
             </template>
             <template v-else-if="notifications.localPermission === 'denied'">
-              Permission was denied. Re-enable in your browser site settings, then return here.
+              В доступе отказано. Разрешите push в настройках сайта в браузере, затем вернитесь сюда.
             </template>
             <template v-else-if="notifications.isPushActive">
-              Active — {{ notifications.pushStatus.subscriptions }} device{{ notifications.pushStatus.subscriptions === 1 ? '' : 's' }} connected.
+              Активно — подключено {{ notifications.pushStatus.subscriptions }} {{ pluralRu(notifications.pushStatus.subscriptions, 'устройство', 'устройства', 'устройств') }}.
             </template>
             <template v-else>
-              Get pinged about new tasks, kudos, and reminders even when Kinhold isn't open.
+              Получайте уведомления о новых задачах, похвалах и напоминаниях, даже когда Kinhold не открыт.
             </template>
           </p>
         </div>
@@ -28,11 +28,11 @@
             :loading="enabling"
             @click="enable"
           >
-            Enable
+            Включить
           </BaseButton>
           <template v-else>
-            <BaseButton variant="ghost" :loading="testing" @click="test">Send test</BaseButton>
-            <BaseButton variant="secondary" :loading="disabling" @click="disable">Disable</BaseButton>
+            <BaseButton variant="ghost" :loading="testing" @click="test">Отправить тест</BaseButton>
+            <BaseButton variant="secondary" :loading="disabling" @click="disable">Выключить</BaseButton>
           </template>
         </div>
       </div>
@@ -45,8 +45,8 @@
     <div class="p-4 bg-surface-sunken rounded-lg">
       <KinSwitch
         :model-value="notifications.preferences.muted"
-        label="Mute all push notifications"
-        description="Email still arrives. Useful when you don't want any pushes for a stretch."
+        label="Отключить все push-уведомления"
+        description="Эл. почта по-прежнему приходит. Удобно, когда на время не нужны push-уведомления."
         color="lavender"
         @update:model-value="setMuted"
       />
@@ -56,14 +56,14 @@
     <div class="p-4 bg-surface-sunken rounded-lg space-y-3">
       <KinSwitch
         :model-value="notifications.preferences.quiet_hours.enabled"
-        label="Quiet hours"
-        description="Suppress push (not email) during these hours, in your timezone."
+        label="Тихие часы"
+        description="Отключить push (не эл. почту) в эти часы, по вашему часовому поясу."
         color="lavender"
         @update:model-value="setQuietEnabled"
       />
       <div v-if="notifications.preferences.quiet_hours.enabled" class="flex items-center gap-3 pl-1">
         <label class="flex items-center gap-2 text-sm text-ink-secondary">
-          From
+          С
           <input
             type="time"
             class="px-2 py-1 rounded border border-border-subtle bg-surface text-ink-primary text-sm"
@@ -72,7 +72,7 @@
           />
         </label>
         <label class="flex items-center gap-2 text-sm text-ink-secondary">
-          to
+          до
           <input
             type="time"
             class="px-2 py-1 rounded border border-border-subtle bg-surface text-ink-primary text-sm"
@@ -113,7 +113,7 @@
                 :disabled="!hasEmail"
                 @change="onEmailToggle(type.key, $event.target.checked)"
               />
-              <span class="text-ink-secondary">Email</span>
+              <span class="text-ink-secondary">Эл. почта</span>
             </label>
             <label v-if="type.channels.includes('push')" class="flex items-center gap-1 text-xs">
               <input
@@ -130,10 +130,10 @@
               type="button"
               class="text-xs px-2 py-1 rounded border border-border-subtle text-ink-secondary hover:text-ink-primary hover:bg-surface-sunken/60 disabled:opacity-40 disabled:cursor-not-allowed"
               :disabled="!notifications.isPushActive || testingKey === type.key"
-              :title="`Send a sample push for: ${type.label}`"
+              :title="`Отправить тестовый push: ${type.label}`"
               @click="testForKey(type.key)"
             >
-              {{ testingKey === type.key ? '…' : 'Test' }}
+              {{ testingKey === type.key ? '…' : 'Тест' }}
             </button>
           </div>
         </div>
@@ -141,7 +141,7 @@
     </div>
 
     <p v-if="!hasEmail" class="text-xs text-ink-secondary">
-      Email channels are disabled because this account has no email address.
+      Каналы эл. почты отключены — у этого аккаунта нет адреса электронной почты.
     </p>
   </div>
 </template>
@@ -152,6 +152,7 @@ import { useAuthStore } from '@/stores/auth'
 import { useNotificationsStore } from '@/stores/notifications'
 import KinSwitch from '@/components/design-system/KinSwitch.vue'
 import BaseButton from '@/components/common/BaseButton.vue'
+import { pluralRu } from '@/utils/plural'
 
 const auth = useAuthStore()
 const notifications = useNotificationsStore()

@@ -10,7 +10,7 @@
           <ChevronLeftIcon class="w-5 h-5" />
         </button>
         <div class="flex-1 min-w-0">
-          <h1 class="text-base md:text-xl font-bold font-heading text-ink-primary truncate">{{ currentEntry?.title || 'Entry' }}</h1>
+          <h1 class="text-base md:text-xl font-bold font-heading text-ink-primary truncate">{{ currentEntry?.title || 'Запись' }}</h1>
           <p v-if="categoryName" class="hidden md:block text-xs text-ink-tertiary mt-0.5">{{ categoryName }}</p>
         </div>
 
@@ -39,7 +39,7 @@
         class="bg-surface-raised rounded-xl border border-border-subtle shadow-card overflow-hidden mt-2"
       >
         <div class="px-4 py-3 border-b border-border-subtle">
-          <h2 class="text-xs font-semibold text-ink-tertiary uppercase tracking-wider">Information</h2>
+          <h2 class="text-xs font-semibold text-ink-tertiary uppercase tracking-wider">Информация</h2>
         </div>
         <div class="divide-y divide-border-subtle px-4">
           <SensitiveField
@@ -59,7 +59,7 @@
       >
         <div class="px-4 py-3 border-b border-border-subtle flex items-center gap-2">
           <LockClosedIcon class="w-3.5 h-3.5 text-ink-tertiary" />
-          <h2 class="text-xs font-semibold text-ink-tertiary uppercase tracking-wider">Sensitive Information</h2>
+          <h2 class="text-xs font-semibold text-ink-tertiary uppercase tracking-wider">Конфиденциальная информация</h2>
         </div>
         <div class="divide-y divide-border-subtle px-4">
           <SensitiveField
@@ -75,7 +75,7 @@
       <!-- Notes (legacy — shown only if present and no body) -->
       <div v-if="currentEntry.notes && !entryBody" class="bg-surface-raised rounded-xl border border-border-subtle shadow-card overflow-hidden mt-4">
         <div class="px-4 py-3 border-b border-border-subtle">
-          <h2 class="text-xs font-semibold text-ink-tertiary uppercase tracking-wider">Notes</h2>
+          <h2 class="text-xs font-semibold text-ink-tertiary uppercase tracking-wider">Заметки</h2>
         </div>
         <div class="px-4 py-3">
           <p class="text-sm text-ink-secondary whitespace-pre-wrap">{{ currentEntry.notes }}</p>
@@ -85,10 +85,10 @@
       <!-- Documents -->
       <div v-if="isParent || currentEntry.documents?.length > 0" class="bg-surface-raised rounded-xl border border-border-subtle shadow-card overflow-hidden mt-4">
         <div class="px-4 py-3 border-b border-border-subtle flex items-center justify-between">
-          <h2 class="text-xs font-semibold text-ink-tertiary uppercase tracking-wider">Documents</h2>
+          <h2 class="text-xs font-semibold text-ink-tertiary uppercase tracking-wider">Документы</h2>
           <label v-if="isParent && !isDemoFamily" class="flex items-center gap-1.5 text-xs font-medium text-accent-lavender-bold hover:opacity-80 cursor-pointer transition-colors">
             <ArrowUpTrayIcon class="w-3.5 h-3.5" />
-            Upload
+            Загрузить
             <input
               ref="fileInput"
               type="file"
@@ -120,7 +120,7 @@
               v-if="isParent && !isDemoFamily"
               type="button"
               class="p-1.5 rounded hover:bg-status-failed/10 transition-colors flex-shrink-0"
-              title="Delete document"
+              title="Удалить документ"
               @click="documentToDelete = doc; showDeleteDocConfirm = true"
             >
               <TrashIcon class="w-4 h-4 text-status-failed hover:opacity-80" />
@@ -128,23 +128,23 @@
           </div>
         </div>
         <div v-else class="px-4 py-3">
-          <p class="text-xs text-ink-tertiary">No documents attached yet.</p>
+          <p class="text-xs text-ink-tertiary">Документы пока не прикреплены.</p>
         </div>
         <div v-if="uploading" class="px-4 py-2 border-t border-border-subtle">
-          <p class="text-xs text-accent-lavender-bold">Uploading...</p>
+          <p class="text-xs text-accent-lavender-bold">Загрузка...</p>
         </div>
       </div>
 
       <!-- Shared With (Parent Only) -->
       <div v-if="isParent" class="bg-surface-raised rounded-xl border border-border-subtle shadow-card overflow-hidden mt-4">
         <div class="px-4 py-3 border-b border-border-subtle flex items-center justify-between">
-          <h2 class="text-xs font-semibold text-ink-tertiary uppercase tracking-wider">Shared With</h2>
+          <h2 class="text-xs font-semibold text-ink-tertiary uppercase tracking-wider">Доступ</h2>
           <button
             class="flex items-center gap-1.5 text-xs font-medium text-accent-lavender-bold hover:opacity-80 transition-colors"
             @click="showShareModal = true"
           >
             <ShareIcon class="w-3.5 h-3.5" />
-            Share
+            Поделиться
           </button>
         </div>
         <div v-if="currentEntry.permissions?.length > 0" class="divide-y divide-border-subtle">
@@ -156,7 +156,7 @@
             <UserAvatar :user="perm.user" size="sm" />
             <div class="flex-1 min-w-0">
               <p class="text-sm font-medium text-ink-primary">{{ perm.user?.name }}</p>
-              <p class="text-xs text-ink-tertiary capitalize">{{ perm.permission_level }} access</p>
+              <p class="text-xs text-ink-tertiary capitalize">{{ permissionLevelLabel(perm.permission_level) }}</p>
             </div>
             <button
               class="p-1.5 text-ink-tertiary hover:text-status-failed hover:bg-status-failed/10 rounded-lg transition-colors"
@@ -167,16 +167,16 @@
           </div>
         </div>
         <div v-else class="px-4 py-3">
-          <p class="text-xs text-ink-tertiary">Not shared with anyone yet.</p>
+          <p class="text-xs text-ink-tertiary">Доступ пока никому не открыт.</p>
         </div>
       </div>
 
       <!-- Metadata -->
       <div class="mt-4 px-1">
         <p class="text-xs text-ink-tertiary">
-          Created {{ formatDate(currentEntry.created_at) }}
+          Создана {{ formatDate(currentEntry.created_at) }}
           <span v-if="currentEntry.updated_at !== currentEntry.created_at">
-            &middot; Updated {{ formatDate(currentEntry.updated_at) }}
+            &middot; Обновлена {{ formatDate(currentEntry.updated_at) }}
           </span>
         </p>
       </div>
@@ -185,9 +185,9 @@
     <!-- Delete Confirmation -->
     <ConfirmDialog
       :show="showDeleteConfirm"
-      title="Delete Entry?"
-      :message="`&quot;${currentEntry?.title}&quot; and all its data will be permanently deleted.`"
-      confirm-text="Delete"
+      title="Удалить запись?"
+      :message="`Запись «${currentEntry?.title}» и все её данные будут удалены навсегда.`"
+      confirm-text="Удалить"
       @confirm="handleDeleteEntry"
       @cancel="showDeleteConfirm = false"
     />
@@ -195,9 +195,9 @@
     <!-- Delete Document Confirmation -->
     <ConfirmDialog
       :show="showDeleteDocConfirm"
-      title="Delete Document?"
-      :message="`&quot;${documentToDelete?.original_filename || 'this document'}&quot; will be permanently deleted.`"
-      confirm-text="Delete"
+      title="Удалить документ?"
+      :message="`Документ «${documentToDelete?.original_filename || 'этот документ'}» будет удалён навсегда.`"
+      confirm-text="Удалить"
       @confirm="handleDeleteDocument"
       @cancel="showDeleteDocConfirm = false; documentToDelete = null"
     />
@@ -205,25 +205,25 @@
     <!-- Share Modal -->
     <KinModalSheet
       :model-value="showShareModal"
-      title="Share Entry"
+      title="Поделиться записью"
       @close="showShareModal = false"
     >
       <div class="space-y-4">
         <KinSelect
           v-model="shareForm.userId"
-          label="Family Member"
-          :options="[{ value: null, label: 'Select member...' }, ...shareableMembers.map((m) => ({ value: m.id, label: `${m.name} (${m.family_role})` }))]"
+          label="Член семьи"
+          :options="[{ value: null, label: 'Выберите члена семьи…' }, ...shareableMembers.map((m) => ({ value: m.id, label: `${m.name} (${roleLabel(m.family_role || m.role)})` }))]"
         />
 
         <KinSelect
           v-model="shareForm.level"
-          label="Permission Level"
-          :options="[{ value: 'view', label: 'View only' }, { value: 'edit', label: 'Can edit' }]"
+          label="Уровень доступа"
+          :options="[{ value: 'view', label: 'Только просмотр' }, { value: 'edit', label: 'Может редактировать' }]"
         />
 
         <div class="flex gap-2 pt-2">
           <KinButton type="button" variant="secondary" size="md" class="flex-1" @click="showShareModal = false">
-            Cancel
+            Отмена
           </KinButton>
           <KinButton
             variant="primary"
@@ -232,7 +232,7 @@
             :disabled="!shareForm.userId || sharingEntry"
             @click="handleShareEntry"
           >
-            {{ sharingEntry ? 'Sharing...' : 'Share' }}
+            {{ sharingEntry ? 'Открытие доступа…' : 'Поделиться' }}
           </KinButton>
         </div>
       </div>
@@ -241,7 +241,7 @@
     <!-- Edit Entry Modal -->
     <KinModalSheet
       :model-value="showEditModal"
-      title="Edit Entry"
+      title="Изменить запись"
       size="xl"
       @close="showEditModal = false"
     >
@@ -249,23 +249,23 @@
         <div class="flex gap-3">
           <KinInput
             v-model="editForm.title"
-            label="Title"
-            placeholder="Entry title"
+            label="Название"
+            placeholder="Название записи"
             class="flex-1"
           />
           <KinSelect
             v-model="editForm.vault_category_id"
-            label="Category"
+            label="Категория"
             class="w-40"
-            :options="[{ value: null, label: 'Select...' }, ...categories.map((c) => ({ value: c.id, label: c.name }))]"
+            :options="[{ value: null, label: 'Выберите…' }, ...categories.map((c) => ({ value: c.id, label: c.name }))]"
           />
         </div>
 
         <div>
-          <label class="block text-sm font-medium text-ink-primary mb-1.5">Content</label>
+          <label class="block text-sm font-medium text-ink-primary mb-1.5">Содержимое</label>
           <MarkdownEditor
             v-model="editForm.body"
-            placeholder="Start typing..."
+            placeholder="Начните вводить текст…"
           />
         </div>
 
@@ -277,7 +277,7 @@
             @click="showEditSensitiveFields = !showEditSensitiveFields"
           >
             <LockClosedIcon class="w-3.5 h-3.5" />
-            {{ showEditSensitiveFields ? 'Hide' : 'Show' }} sensitive fields
+            {{ showEditSensitiveFields ? 'Скрыть' : 'Показать' }} секретные поля
             <ChevronRightIcon class="w-3 h-3 transition-transform" :class="{ 'rotate-90': showEditSensitiveFields }" />
           </button>
 
@@ -285,12 +285,12 @@
             <div v-for="(field, i) in editForm.sensitiveFields" :key="i" class="flex gap-2">
               <input
                 v-model="field.key"
-                placeholder="Label (e.g., Password)"
+                placeholder="Название (например, пароль)"
                 class="input-base flex-1"
               />
               <input
                 v-model="field.value"
-                placeholder="Value"
+                placeholder="Значение"
                 type="password"
                 class="input-base flex-1"
               />
@@ -308,17 +308,17 @@
               @click="editForm.sensitiveFields.push({ key: '', value: '' })"
             >
               <PlusIcon class="w-3.5 h-3.5" />
-              Add Field
+              Добавить поле
             </button>
           </div>
         </div>
 
         <div class="flex gap-2 pt-2">
           <KinButton type="button" variant="secondary" size="md" class="flex-1" @click="showEditModal = false">
-            Cancel
+            Отмена
           </KinButton>
           <KinButton type="submit" variant="primary" size="md" class="flex-1" :disabled="!editForm.title?.trim() || savingEntry">
-            {{ savingEntry ? 'Saving...' : 'Save Changes' }}
+            {{ savingEntry ? 'Сохранение…' : 'Сохранить изменения' }}
           </KinButton>
         </div>
       </form>
@@ -414,9 +414,9 @@ const categoryName = computed(() => {
 })
 
 const entryMenuItems = computed(() => [
-  { label: 'Edit', icon: PencilIcon, action: openEditModal },
+  { label: 'Изменить', icon: PencilIcon, action: openEditModal },
   { divider: true },
-  { label: 'Delete', icon: TrashIcon, variant: 'danger', action: () => { showDeleteConfirm.value = true } },
+  { label: 'Удалить', icon: TrashIcon, variant: 'danger', action: () => { showDeleteConfirm.value = true } },
 ])
 
 const openEditModal = () => {
@@ -470,11 +470,11 @@ const handleUpdateEntry = async () => {
 
   const result = await vaultStore.updateEntry(entryId, payload)
   if (result.success) {
-    success('Entry updated!')
+    success('Запись обновлена!')
     showEditModal.value = false
     await vaultStore.fetchEntry(entryId)
   } else {
-    notifyError(result.error || 'Failed to update entry')
+    notifyError(result.error || 'Не удалось обновить запись')
   }
   savingEntry.value = false
 }
@@ -489,16 +489,21 @@ const formatKey = (key) =>
 
 const formatDate = (dateStr) => {
   if (!dateStr) return ''
-  return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+  return new Date(dateStr).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }).replace(/ г\.$/, '')
 }
 
 const formatFileSize = (bytes) => {
   if (!bytes) return ''
   const k = 1024
-  const sizes = ['B', 'KB', 'MB', 'GB']
+  const sizes = ['Б', 'КБ', 'МБ', 'ГБ']
   const i = Math.floor(Math.log(bytes) / Math.log(k))
   return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i]
 }
+
+const roleLabels = { parent: 'Родитель', teen: 'Подросток', kid: 'Ребёнок' }
+const roleLabel = (role) => roleLabels[String(role || '').toLowerCase()] || role
+
+const permissionLevelLabel = (level) => (level === 'edit' ? 'Может редактировать' : 'Только просмотр')
 
 // Members who don't already have permission on this entry
 const shareableMembers = computed(() => {
@@ -511,11 +516,11 @@ const handleShareEntry = async () => {
   sharingEntry.value = true
   const result = await vaultStore.grantPermission(entryId, shareForm.value.userId, shareForm.value.level)
   if (result.success) {
-    success('Entry shared!')
+    success('Доступ к записи открыт!')
     showShareModal.value = false
     shareForm.value = { userId: null, level: 'view' }
   } else {
-    notifyError(result.error || 'Failed to share')
+    notifyError(result.error || 'Не удалось открыть доступ')
   }
   sharingEntry.value = false
 }
@@ -525,9 +530,9 @@ const handleDeleteDocument = async () => {
   if (!doc) return
   const result = await vaultStore.deleteDocument(doc.id)
   if (result.success) {
-    success('Document deleted')
+    success('Документ удалён')
   } else {
-    notifyError(result.error || 'Failed to delete document')
+    notifyError(result.error || 'Не удалось удалить документ')
   }
   showDeleteDocConfirm.value = false
   documentToDelete.value = null
@@ -545,7 +550,7 @@ const handleDocumentDownload = async (doc) => {
     document.body.removeChild(link)
     window.URL.revokeObjectURL(url)
   } catch {
-    notifyError('Failed to download document')
+    notifyError('Не удалось скачать документ')
   }
 }
 
@@ -555,9 +560,9 @@ const handleFileUpload = async (event) => {
   uploading.value = true
   const result = await vaultStore.uploadDocument(entryId, file)
   if (result.success) {
-    success('Document uploaded!')
+    success('Документ загружен!')
   } else {
-    notifyError(result.error || 'Failed to upload')
+    notifyError(result.error || 'Не удалось загрузить документ')
   }
   uploading.value = false
   if (fileInput.value) fileInput.value.value = ''
@@ -566,10 +571,10 @@ const handleFileUpload = async (event) => {
 const handleDeleteEntry = async () => {
   const result = await vaultStore.deleteEntry(entryId)
   if (result.success) {
-    success('Entry deleted!')
+    success('Запись удалена!')
     router.push('/vault')
   } else {
-    notifyError(result.error || 'Failed to delete')
+    notifyError(result.error || 'Не удалось удалить')
   }
   showDeleteConfirm.value = false
 }
@@ -577,7 +582,7 @@ const handleDeleteEntry = async () => {
 const handleRemovePermission = async (userId) => {
   const result = await vaultStore.revokePermission(entryId, userId)
   if (result.success) {
-    success('Access removed!')
+    success('Доступ закрыт!')
   }
 }
 

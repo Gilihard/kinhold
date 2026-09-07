@@ -10,7 +10,7 @@
           <ChevronLeftIcon class="w-5 h-5" />
         </button>
         <div class="flex-1 min-w-0">
-          <h1 class="text-base md:text-xl font-bold font-heading text-ink-primary truncate">{{ currentCategory?.name || 'Entries' }}</h1>
+          <h1 class="text-base md:text-xl font-bold font-heading text-ink-primary truncate">{{ currentCategory?.name || 'Записи' }}</h1>
           <p v-if="currentCategory?.description" class="hidden md:block text-xs text-ink-tertiary mt-0.5 truncate">{{ currentCategory.description }}</p>
         </div>
         <KinButton
@@ -21,14 +21,14 @@
           @click="showCreateEntry = true"
         >
           <PlusIcon class="w-4 h-4" />
-          Add
+          Добавить
         </KinButton>
       </div>
     </div>
 
     <!-- Search -->
     <div class="px-4 md:px-6 py-3">
-      <KinSearch v-model="searchQuery" placeholder="Search entries..." />
+      <KinSearch v-model="searchQuery" placeholder="Поиск по записям..." />
     </div>
 
     <!-- Loading -->
@@ -55,7 +55,7 @@
             <h3 class="font-semibold text-ink-primary text-sm truncate">{{ entry.title }}</h3>
             <p class="text-xs text-ink-tertiary mt-0.5">
               {{ formatDate(entry.updated_at) }}
-              <span v-if="entry.notes" class="ml-1">&middot; Has notes</span>
+              <span v-if="entry.notes" class="ml-1">&middot; Есть заметки</span>
             </p>
           </div>
 
@@ -72,11 +72,11 @@
       <KinEmptyState
         v-if="filteredEntries.length === 0 && !isLoading"
         :icon="LockClosedIcon"
-        title="No entries yet"
-        description="Add your first entry to this category."
+        title="Записей пока нет"
+        description="Добавьте первую запись в эту категорию."
       >
         <template #cta>
-          <KinButton variant="primary" size="md" @click="showCreateEntry = true">Add Entry</KinButton>
+          <KinButton variant="primary" size="md" @click="showCreateEntry = true">Добавить запись</KinButton>
         </template>
       </KinEmptyState>
     </div>
@@ -87,9 +87,9 @@
     <!-- Delete Confirmation -->
     <ConfirmDialog
       :show="!!deletingEntry"
-      title="Delete Entry?"
-      :message="`&quot;${deletingEntry?.title}&quot; will be permanently deleted.`"
-      confirm-text="Delete"
+      title="Удалить запись?"
+      :message="`Запись «${deletingEntry?.title}» будет удалена навсегда.`"
+      confirm-text="Удалить"
       @confirm="handleDeleteEntry"
       @cancel="deletingEntry = null"
     />
@@ -97,22 +97,22 @@
     <!-- Create Entry Modal -->
     <KinModalSheet
       :model-value="showCreateEntry"
-      title="New Vault Entry"
+      title="Новая запись в хранилище"
       size="xl"
       @close="closeCreateModal"
     >
       <form class="space-y-5" @submit.prevent="handleCreateEntry">
         <KinInput
           v-model="entryForm.title"
-          label="Title"
-          placeholder="e.g., Family Doctor, WiFi Info"
+          label="Название"
+          placeholder="Например: Семейный врач, Wi-Fi"
         />
 
         <div>
-          <label class="block text-sm font-medium text-ink-primary mb-1.5">Content</label>
+          <label class="block text-sm font-medium text-ink-primary mb-1.5">Содержимое</label>
           <MarkdownEditor
             v-model="entryForm.body"
-            placeholder="Start typing... Use **bold**, *italic*, lists, and more."
+            placeholder="Начните вводить текст… Используйте **жирный**, *курсив*, списки и др."
           />
         </div>
 
@@ -124,7 +124,7 @@
             @click="showSensitiveFields = !showSensitiveFields"
           >
             <LockClosedIcon class="w-3.5 h-3.5" />
-            {{ showSensitiveFields ? 'Hide' : 'Add' }} sensitive fields (passwords, SSNs, etc.)
+            {{ showSensitiveFields ? 'Скрыть' : 'Добавить' }} секретные поля (пароли и т. п.)
             <ChevronRightIcon class="w-3 h-3 transition-transform" :class="{ 'rotate-90': showSensitiveFields }" />
           </button>
 
@@ -132,12 +132,12 @@
             <div v-for="(field, i) in entryForm.sensitiveFields" :key="i" class="flex gap-2">
               <input
                 v-model="field.key"
-                placeholder="Label (e.g., Password)"
+                placeholder="Название (например, пароль)"
                 class="input-base flex-1"
               />
               <input
                 v-model="field.value"
-                placeholder="Value"
+                placeholder="Значение"
                 type="password"
                 class="input-base flex-1"
               />
@@ -155,17 +155,17 @@
               @click="entryForm.sensitiveFields.push({ key: '', value: '' })"
             >
               <PlusIcon class="w-3.5 h-3.5" />
-              Add Field
+              Добавить поле
             </button>
           </div>
         </div>
 
         <div class="flex gap-2 pt-2">
           <KinButton type="button" variant="secondary" size="md" class="flex-1" @click="closeCreateModal">
-            Cancel
+            Отмена
           </KinButton>
           <KinButton type="submit" variant="primary" size="md" class="flex-1" :disabled="!entryForm.title?.trim() || savingEntry">
-            {{ savingEntry ? 'Saving...' : 'Create Entry' }}
+            {{ savingEntry ? 'Сохранение…' : 'Создать запись' }}
           </KinButton>
         </div>
       </form>
@@ -185,6 +185,7 @@ import ContextMenu from '@/components/common/ContextMenu.vue'
 import ConfirmDialog from '@/components/common/ConfirmDialog.vue'
 import FloatingActionButton from '@/components/common/FloatingActionButton.vue'
 import MarkdownEditor from '@/components/vault/MarkdownEditor.vue'
+import { pluralRu } from '@/utils/plural'
 import KinButton from '@/components/design-system/KinButton.vue'
 import KinInput from '@/components/design-system/KinInput.vue'
 import KinSearch from '@/components/design-system/KinSearch.vue'
@@ -236,16 +237,18 @@ const formatDate = (dateStr) => {
   const d = new Date(dateStr)
   const now = new Date()
   const diff = now - d
-  if (diff < 60000) return 'just now'
-  if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`
-  if (diff < 86400000) return `${Math.floor(diff / 3600000)}h ago`
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  if (diff < 60000) return 'только что'
+  const minutes = Math.floor(diff / 60000)
+  if (diff < 3600000) return `${minutes} ${pluralRu(minutes, 'минуту', 'минуты', 'минут')} назад`
+  const hours = Math.floor(diff / 3600000)
+  if (diff < 86400000) return `${hours} ${pluralRu(hours, 'час', 'часа', 'часов')} назад`
+  return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long' })
 }
 
 const getEntryMenuItems = (entry) => [
-  { label: 'View', icon: LockClosedIcon, action: () => router.push(`/vault/entry/${entry.id}`) },
+  { label: 'Открыть', icon: LockClosedIcon, action: () => router.push(`/vault/entry/${entry.id}`) },
   { divider: true },
-  { label: 'Delete', icon: TrashIcon, variant: 'danger', action: () => { deletingEntry.value = entry } },
+  { label: 'Удалить', icon: TrashIcon, variant: 'danger', action: () => { deletingEntry.value = entry } },
 ]
 
 const closeCreateModal = () => {
@@ -276,10 +279,10 @@ const handleCreateEntry = async () => {
 
   const result = await vaultStore.createEntry(payload)
   if (result.success) {
-    success('Entry created!')
+    success('Запись создана!')
     closeCreateModal()
   } else {
-    notifyError(result.error || 'Failed to create entry')
+    notifyError(result.error || 'Не удалось создать запись')
   }
   savingEntry.value = false
 }
@@ -288,9 +291,9 @@ const handleDeleteEntry = async () => {
   if (!deletingEntry.value) return
   const result = await vaultStore.deleteEntry(deletingEntry.value.id)
   if (result.success) {
-    success('Entry deleted!')
+    success('Запись удалена!')
   } else {
-    notifyError(result.error || 'Failed to delete')
+    notifyError(result.error || 'Не удалось удалить')
   }
   deletingEntry.value = null
 }

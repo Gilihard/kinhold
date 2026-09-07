@@ -4,16 +4,16 @@
     <div v-if="!checkingKey && !hasApiKey" class="flex-1 flex items-center justify-center px-4 md:px-6 py-4">
       <KinEmptyState
         :icon="Cog6ToothIcon"
-        :title="isParent ? 'Set Up Assistant' : 'Assistant Not Available'"
+        :title="isParent ? 'Настройка ассистента' : 'Ассистент недоступен'"
         :description="isParent
-          ? 'The assistant needs an API key to work. Add your Anthropic API key in Settings to activate this feature.'
-          : `This feature hasn't been set up yet. Ask a parent to configure it in Settings.`"
+          ? 'Для работы ассистента нужен API-ключ. Добавьте свой ключ Anthropic в настройках, чтобы включить эту возможность.'
+          : `Эта функция ещё не настроена. Попросите родителя настроить её в настройках.`"
         accent-color="sun"
         size="md"
       >
         <template v-if="isParent" #cta>
           <KinButton variant="primary" size="md" to="/settings">
-            Go to Settings
+            Перейти в настройки
             <template #trailing>
               <ArrowRightIcon class="w-4 h-4" />
             </template>
@@ -29,8 +29,8 @@
         <div class="text-center max-w-sm w-full">
           <KinEmptyState
             :icon="CpuChipIcon"
-            title="Kinhold Assistant"
-            description="Tell me what you need and I'll take care of it — tasks, points, calendar, and more."
+            title="Ассистент Kinhold"
+            description="Расскажите, что нужно, и я всё сделаю — задачи, баллы, календарь и многое другое."
             accent-color="lavender"
             size="md"
           />
@@ -49,7 +49,7 @@
 
           <!-- Disclaimer -->
           <p class="text-[11px] text-ink-tertiary mt-6">
-            The assistant can make mistakes. Always verify important information.
+            Ассистент может ошибаться. Важную информацию всегда перепроверяйте.
           </p>
         </div>
       </div>
@@ -133,17 +133,17 @@
       <!-- Lockout: limit reached -->
       <div v-if="limitReached" class="max-w-2xl mx-auto card-lg p-4 text-center space-y-2">
         <h3 class="text-sm font-semibold text-ink-primary">
-          Daily {{ usage.plan?.name || 'AI' }} limit reached
+          Дневной лимит «{{ usage.plan?.name || 'ИИ' }}» исчерпан
         </h3>
         <p class="text-xs text-ink-secondary">
-          You've used all {{ usage.limit }} messages for today. Resets in {{ resetCountdown }}.
+          Вы использовали все сообщения на сегодня ({{ usage.limit }} {{ pluralRu(usage.limit, 'сообщение', 'сообщения', 'сообщений') }}). Сброс через {{ resetCountdown }}.
         </p>
         <div class="flex flex-col sm:flex-row gap-2 justify-center pt-1">
           <KinButton variant="primary" size="sm" to="/settings">
-            Use your own Anthropic key
+            Использовать свой ключ Anthropic
           </KinButton>
           <KinButton variant="secondary" size="sm" to="/settings">
-            Upgrade plan
+            Улучшить тариф
           </KinButton>
         </div>
       </div>
@@ -159,7 +159,7 @@
             class="text-[11px] px-2 py-0.5 rounded-full"
             :class="chipColorClass"
           >
-            {{ usage.plan?.name }} · {{ usage.count }} / {{ usage.limit }} today
+            {{ usage.plan?.name }} · {{ usage.count }} / {{ usage.limit }} сегодня
           </span>
         </div>
 
@@ -168,7 +168,7 @@
             ref="chatInput"
             v-model="messageInput"
             rows="1"
-            placeholder="Tell Kinhold what to do..."
+            placeholder="Расскажите, что нужно сделать..."
             class="flex-1 px-4 py-2.5 bg-surface-sunken border border-border-subtle rounded-xl text-base md:text-sm placeholder-ink-tertiary text-ink-primary focus:bg-surface-raised focus:ring-2 focus:ring-accent-lavender-bold/40 transition-all outline-none resize-none max-h-32 overflow-y-auto"
             :disabled="loading"
             @keydown.enter.exact.prevent="handleSend"
@@ -179,14 +179,14 @@
             size="md"
             type="submit"
             icon-only
-            aria-label="Send message"
+            aria-label="Отправить сообщение"
             :disabled="!messageInput.trim() || loading"
           >
             <PaperAirplaneIcon class="w-5 h-5" />
           </KinButton>
         </form>
         <p class="max-w-2xl mx-auto text-[10px] text-ink-tertiary mt-1.5 text-center">
-          The assistant can make mistakes. Always verify important information.
+          Ассистент может ошибаться. Важную информацию всегда перепроверяйте.
         </p>
       </template>
     </div>
@@ -201,6 +201,7 @@ import DOMPurify from 'dompurify'
 import { useChatStore } from '@/stores/chat'
 import { useAuthStore } from '@/stores/auth'
 import api from '@/services/api'
+import { pluralRu } from '@/utils/plural'
 import {
   CpuChipIcon,
   PaperAirplaneIcon,
@@ -231,13 +232,15 @@ const chipColorClass = computed(() => {
 })
 
 const resetCountdown = computed(() => {
-  if (!usage.value.reset_at) return 'a few hours'
+  if (!usage.value.reset_at) return 'несколько часов'
   const ms = new Date(usage.value.reset_at).getTime() - Date.now()
-  if (ms <= 0) return 'a moment'
+  if (ms <= 0) return 'мгновение'
   const hours = Math.floor(ms / 3_600_000)
   const minutes = Math.floor((ms % 3_600_000) / 60_000)
-  if (hours >= 1) return `${hours}h ${minutes}m`
-  return `${minutes}m`
+  const parts = []
+  if (hours >= 1) parts.push(`${hours} ${pluralRu(hours, 'час', 'часа', 'часов')}`)
+  if (minutes > 0) parts.push(`${minutes} ${pluralRu(minutes, 'минуту', 'минуты', 'минут')}`)
+  return parts.length > 0 ? parts.join(' ') : 'минуту'
 })
 
 const messageInput = ref('')
@@ -247,10 +250,10 @@ const hasApiKey = ref(true) // assume true until checked to avoid flash
 const checkingKey = ref(true)
 
 const suggestedQuestions = [
-  "What tasks are due this week?",
-  "Create a task to buy groceries by Friday",
-  "Check the leaderboard",
-  "Give kudos to someone for helping out",
+  'Какие задачи нужно выполнить на этой неделе?',
+  'Создай задачу — купить продукты к пятнице',
+  'Проверь таблицу лидеров',
+  'Отправь похвалу тому, кто помог',
 ]
 
 const renderMarkdown = (text) => {
@@ -261,7 +264,7 @@ const renderMarkdown = (text) => {
 const formatTime = (dateStr) => {
   if (!dateStr) return ''
   try {
-    return new Date(dateStr).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+    return new Date(dateStr).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
   } catch {
     return ''
   }

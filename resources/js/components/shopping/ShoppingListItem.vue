@@ -11,7 +11,7 @@
       :class="item.is_checked
         ? 'bg-surface-overlay border-border-subtle'
         : 'border-border-subtle hover:border-[#C4975A]'"
-      :aria-label="item.is_checked ? 'Uncheck item' : 'Check item'"
+      :aria-label="item.is_checked ? 'Снять отметку «куплено»' : 'Отметить купленным'"
       @click="item.is_checked ? $emit('uncheck', item.id) : $emit('check', item.id)"
     >
       <svg v-if="item.is_checked" class="w-3 h-3 text-white" fill="none" viewBox="0 0 12 12">
@@ -74,7 +74,7 @@
         v-if="item.source === 'recipe' && item.source_recipe_name"
         class="text-xs text-ink-tertiary mt-0.5"
       >
-        for {{ item.source_recipe_name }}
+        для «{{ item.source_recipe_name }}»
       </p>
     </div>
 
@@ -86,22 +86,22 @@
         ? 'bg-[#C4975A]/15 text-[#C4975A] border border-[#C4975A]/30'
         : 'text-ink-tertiary hover:bg-surface-sunken hover:text-ink-secondary'"
       :title="item.is_recurring
-        ? 'This item reappears automatically after you clear bought items. Click to turn off.'
-        : 'Make recurring — this item will reappear every time you clear bought items (great for staples like milk, bread, eggs)'"
+        ? 'Этот товар автоматически снова появляется после очистки купленного. Нажмите, чтобы отключить.'
+        : 'Сделать повторяющимся — товар будет снова появляться после очистки купленного (удобно для базовых продуктов: молоко, хлеб, яйца)'"
       @click="emit('toggle-recurring', item.id)"
     >
       <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
       </svg>
-      <span v-if="item.is_recurring">Recurring</span>
+      <span v-if="item.is_recurring">Повторяется</span>
     </button>
 
     <!-- Move to another list -->
     <div v-if="canManage && otherLists.length > 0" class="relative flex-shrink-0">
       <button
         class="p-1 rounded-full text-ink-tertiary hover:text-ink-secondary transition-colors"
-        title="Move to another list"
-        aria-label="Move to another list"
+        title="Перенести в другой список"
+        aria-label="Перенести в другой список"
         @click="showMoveMenu = !showMoveMenu"
         @blur="setTimeout(() => showMoveMenu = false, 150)"
       >
@@ -127,7 +127,7 @@
     <!-- Remove button -->
     <button
       class="flex-shrink-0 p-1 rounded-full text-ink-tertiary hover:text-status-failed hover:bg-status-failed/10 transition-colors opacity-0 group-hover:opacity-100 md:opacity-100"
-      aria-label="Remove item"
+      aria-label="Удалить товар"
       @click="$emit('remove', item.id)"
     >
       <svg class="w-4 h-4" fill="none" viewBox="0 0 16 16">
@@ -139,6 +139,7 @@
 
 <script setup>
 import { ref, nextTick } from 'vue'
+import { pluralRu } from '@/utils/plural'
 
 const props = defineProps({
   item: {
@@ -198,7 +199,7 @@ const daysUntil = (dateStr) => {
 
 const formatDays = (days) => {
   if (days === null) return ''
-  if (days <= 0) return '0d'
-  return `${days}d`
+  if (days <= 0) return 'Сегодня'
+  return `${days} ${pluralRu(days, 'день', 'дня', 'дней')}`
 }
 </script>

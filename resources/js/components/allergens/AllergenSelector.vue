@@ -32,7 +32,7 @@ const toggle = (id) => {
 <template>
   <div class="space-y-3">
     <div>
-      <p class="text-xs font-medium text-ink-secondary mb-2">Common allergens</p>
+      <p class="text-xs font-medium text-ink-secondary mb-2">Основные аллергены</p>
       <div class="flex flex-wrap gap-2">
         <KinChip
           v-for="allergen in bigNine"
@@ -48,7 +48,7 @@ const toggle = (id) => {
     </div>
 
     <div v-if="customs.length">
-      <p class="text-xs font-medium text-ink-secondary mb-2">Your family's allergens</p>
+      <p class="text-xs font-medium text-ink-secondary mb-2">Аллергены вашей семьи</p>
       <div class="flex flex-wrap gap-2">
         <KinChip
           v-for="allergen in customs"

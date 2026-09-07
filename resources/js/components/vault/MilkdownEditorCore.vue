@@ -2,37 +2,37 @@
   <div class="milkdown-wrapper" :class="{ 'milkdown-readonly': readonly }">
     <!-- Toolbar -->
     <div v-if="!readonly" class="milkdown-toolbar">
-      <button type="button" title="Bold (Ctrl+B)" @click="toggleBold">
+      <button type="button" title="Жирный (Ctrl+B)" @click="toggleBold">
         <span class="font-bold">B</span>
       </button>
-      <button type="button" title="Italic (Ctrl+I)" @click="toggleItalic">
+      <button type="button" title="Курсив (Ctrl+I)" @click="toggleItalic">
         <span class="italic">I</span>
       </button>
       <span class="milkdown-toolbar-divider"></span>
-      <button type="button" title="Heading 1" @click="toggleHeading(1)">
+      <button type="button" title="Заголовок 1" @click="toggleHeading(1)">
         <span class="font-bold text-[10px]">H1</span>
       </button>
-      <button type="button" title="Heading 2" @click="toggleHeading(2)">
+      <button type="button" title="Заголовок 2" @click="toggleHeading(2)">
         <span class="font-bold text-[10px]">H2</span>
       </button>
-      <button type="button" title="Heading 3" @click="toggleHeading(3)">
+      <button type="button" title="Заголовок 3" @click="toggleHeading(3)">
         <span class="font-bold text-[10px]">H3</span>
       </button>
       <span class="milkdown-toolbar-divider"></span>
-      <button type="button" title="Bullet List" aria-label="Bullet list" @click="toggleBulletList">
+      <button type="button" title="Маркированный список" aria-label="Маркированный список" @click="toggleBulletList">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" /></svg>
       </button>
-      <button type="button" title="Numbered List" aria-label="Numbered list" @click="toggleOrderedList">
+      <button type="button" title="Нумерованный список" aria-label="Нумерованный список" @click="toggleOrderedList">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h10M7 16h10M3 8V6l1-1h1v3M3 12h2l-2 2h2M3 18h1.5L3 16h2" /></svg>
       </button>
       <span class="milkdown-toolbar-divider"></span>
-      <button type="button" title="Code" aria-label="Inline code" @click="toggleCode">
+      <button type="button" title="Код" aria-label="Код в строке" @click="toggleCode">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m10 20 4-16m4 4 4 4-4 4M6 16l-4-4 4-4" /></svg>
       </button>
-      <button type="button" title="Blockquote" aria-label="Blockquote" @click="toggleBlockquote">
+      <button type="button" title="Цитата" aria-label="Цитата" @click="toggleBlockquote">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v4a1 1 0 0 0 1 1h3v0a2 2 0 0 1-2 2H4M15 7v4a1 1 0 0 0 1 1h3v0a2 2 0 0 1-2 2h-1" /></svg>
       </button>
-      <button type="button" title="Horizontal Rule" aria-label="Horizontal rule" @click="insertHr">
+      <button type="button" title="Горизонтальная линия" aria-label="Горизонтальная линия" @click="insertHr">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-width="2" d="M3 12h18" /></svg>
       </button>
     </div>
@@ -63,7 +63,7 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: 'Start writing...',
+    default: 'Начните вводить текст…',
   },
 })
 

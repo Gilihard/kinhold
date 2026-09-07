@@ -53,15 +53,15 @@
           class="w-full text-left px-3 py-2 text-sm text-[#C4975A] hover:bg-surface-sunken rounded-lg transition-colors"
           @click="showRecipePicker = true"
         >
-          + Add ingredients from a recipe
+          + Добавить ингредиенты из рецепта
         </button>
 
         <!-- Empty state -->
         <KinEmptyState
           v-if="Object.keys(shoppingStore.filteredItemsByCategory).length === 0 && shoppingStore.checkedCount === 0"
           :icon="ShoppingCartIcon"
-          title="No items yet"
-          description="Start adding things you need!"
+          title="Товаров пока нет"
+          description="Начните добавлять то, что вам нужно!"
           accent-color="lavender"
           size="sm"
         />
@@ -98,7 +98,7 @@
         <!-- Checked / In Cart -->
         <details v-if="shoppingStore.checkedCount > 0" class="mt-6">
           <summary class="flex items-center justify-between cursor-pointer py-1.5 text-xs font-semibold uppercase tracking-wider text-ink-tertiary">
-            <span>In Cart</span>
+            <span>В корзине</span>
             <span>{{ shoppingStore.checkedCount }}</span>
           </summary>
           <div class="space-y-1 mt-1 opacity-60">
@@ -124,26 +124,26 @@
     <!-- New List Modal -->
     <KinModalSheet
       :model-value="showNewListModal"
-      title="Add a Store"
+      title="Новый список"
       @update:model-value="(v) => !v && (showNewListModal = false)"
     >
       <KinInput
         v-model="newStoreName"
         type="text"
-        placeholder="e.g. Tesco, Costco..."
+        placeholder="Например: Costco, Target..."
         class="mb-4"
         @keydown.enter="handleCreateNewList"
       />
       <div class="flex justify-end gap-2">
-        <KinButton variant="secondary" size="sm" @click="showNewListModal = false">Cancel</KinButton>
-        <KinButton variant="primary" size="sm" :disabled="!newStoreName.trim()" @click="handleCreateNewList">Create</KinButton>
+        <KinButton variant="secondary" size="sm" @click="showNewListModal = false">Отмена</KinButton>
+        <KinButton variant="primary" size="sm" :disabled="!newStoreName.trim()" @click="handleCreateNewList">Создать</KinButton>
       </div>
     </KinModalSheet>
 
     <!-- Recipe Picker Modal (two-step: pick recipe → select ingredients) -->
     <KinModalSheet
       :model-value="showRecipePicker"
-      :title="selectedRecipeForIngredients ? selectedRecipeForIngredients.title : 'Add from Recipe'"
+      :title="selectedRecipeForIngredients ? selectedRecipeForIngredients.title : 'Добавить из рецепта'"
       @update:model-value="(v) => !v && closeRecipePicker()"
     >
       <!-- Step 1: Pick a recipe -->
@@ -157,9 +157,9 @@
           >
             <span class="text-sm font-medium text-ink-primary">{{ recipe.title }}</span>
           </button>
-          <p v-if="recipeList.length === 0" class="text-sm text-ink-tertiary py-4 text-center">No recipes yet</p>
+          <p v-if="recipeList.length === 0" class="text-sm text-ink-tertiary py-4 text-center">Рецептов пока нет</p>
         </div>
-        <KinButton variant="secondary" size="sm" class="mt-4 w-full" @click="closeRecipePicker">Cancel</KinButton>
+        <KinButton variant="secondary" size="sm" class="mt-4 w-full" @click="closeRecipePicker">Отмена</KinButton>
       </template>
 
       <!-- Step 2: Select ingredients -->
@@ -167,7 +167,7 @@
         <div class="flex items-center gap-2 mb-4">
           <button
             class="p-1 rounded-md text-ink-tertiary hover:text-ink-primary hover:bg-surface-sunken transition-colors"
-            title="Back to recipes"
+            title="Назад к рецептам"
             @click="selectedRecipeForIngredients = null"
           >
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -192,7 +192,7 @@
           </div>
 
           <div class="flex gap-2">
-            <KinButton variant="secondary" size="sm" class="flex-1" @click="closeRecipePicker">Cancel</KinButton>
+            <KinButton variant="secondary" size="sm" class="flex-1" @click="closeRecipePicker">Отмена</KinButton>
             <KinButton
               variant="primary"
               size="sm"
@@ -200,7 +200,7 @@
               :disabled="selectedIngredientIds.length === 0"
               @click="handleAddSelectedIngredients"
             >
-              Add {{ selectedIngredientIds.length }} item{{ selectedIngredientIds.length === 1 ? '' : 's' }}
+              Добавить {{ selectedIngredientIds.length }} {{ pluralRu(selectedIngredientIds.length, 'ингредиент', 'ингредиента', 'ингредиентов') }}
             </KinButton>
           </div>
         </template>
@@ -226,6 +226,7 @@ import KinButton from '@/components/design-system/KinButton.vue'
 import KinInput from '@/components/design-system/KinInput.vue'
 import KinModalSheet from '@/components/design-system/KinModalSheet.vue'
 import KinEmptyState from '@/components/design-system/KinEmptyState.vue'
+import { pluralRu } from '@/utils/plural'
 
 const shoppingStore = useShoppingStore()
 const authStore = useAuthStore()
@@ -263,7 +264,7 @@ onMounted(async () => {
 async function handleCreateList(storeName) {
   const result = await shoppingStore.createList(storeName)
   if (result.success) {
-    success(`${storeName} list created`)
+    success(`Список «${storeName}» создан`)
   } else {
     notifyError(result.error)
   }
@@ -283,7 +284,7 @@ async function handleSelectList(listId) {
 async function handleRenameList({ listId, name }) {
   const result = await shoppingStore.renameList(listId, name)
   if (result.success) {
-    success('List renamed')
+    success('Список переименован')
   } else {
     notifyError(result.error)
   }
@@ -292,7 +293,7 @@ async function handleRenameList({ listId, name }) {
 async function handleDeleteList(listId) {
   const result = await shoppingStore.deleteList(listId)
   if (result.success) {
-    success('List deleted')
+    success('Список удалён')
   } else {
     notifyError(result.error)
   }
@@ -302,9 +303,12 @@ async function handleClearChecked() {
   if (!activeList.value) return
   const result = await shoppingStore.clearChecked(activeList.value.id)
   if (result.success) {
-    const msg = result.data?.recurring_reset
-      ? `Cleared ${result.data.cleared} items. ${result.data.recurring_reset} recurring items reset.`
-      : `Cleared ${result.data?.cleared || 0} items`
+    const cleared = result.data?.cleared || 0
+    const reset = result.data?.recurring_reset || 0
+    let msg = `Очищено ${cleared} ${pluralRu(cleared, 'товар', 'товара', 'товаров')}`
+    if (reset > 0) {
+      msg += `; ${reset} ${pluralRu(reset, 'повторяющийся товар', 'повторяющихся товара', 'повторяющихся товаров')} снова в списке`
+    }
     success(msg)
   } else {
     notifyError(result.error)
@@ -341,7 +345,7 @@ async function handleToggleRecurring(itemId) {
   const result = await shoppingStore.toggleRecurring(itemId)
   if (result.success) {
     const item = shoppingStore.activeItems.find((i) => i.id === itemId)
-    success(item?.is_recurring ? 'Item will reappear after clearing' : 'Item will be removed when cleared')
+    success(item?.is_recurring ? 'Товар будет снова появляться после очистки купленного' : 'Товар будет удалён при очистке купленного')
   }
 }
 
@@ -349,7 +353,7 @@ async function handleMoveItem({ itemId, targetListId }) {
   const targetList = lists.value.find((l) => l.id === targetListId)
   const result = await shoppingStore.moveItem(itemId, targetListId)
   if (result.success) {
-    success(`Moved to ${targetList?.name || 'other list'}`)
+    success(`Перемещено в «${targetList?.name || 'другой список'}»`)
   }
 }
 
@@ -403,7 +407,7 @@ async function handleAddSelectedIngredients() {
 
   if (result.success) {
     const count = ingredientIds ? ingredientIds.length : recipeIngredients.value.length
-    success(`Added ${count} ingredient${count === 1 ? '' : 's'} from ${selectedRecipeForIngredients.value.title}`)
+    success(`Добавлено ${count} ${pluralRu(count, 'ингредиент', 'ингредиента', 'ингредиентов')} из «${selectedRecipeForIngredients.value.title}»`)
     closeRecipePicker()
   } else {
     notifyError(result.error)

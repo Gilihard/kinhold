@@ -9,6 +9,7 @@ import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import { useAllergensStore } from '@/stores/allergens'
 import KinChip from '@/components/design-system/KinChip.vue'
+import { pluralRu } from '@/utils/plural'
 import { ShieldCheckIcon, ChevronDownIcon } from '@heroicons/vue/24/outline'
 
 const props = defineProps({
@@ -41,9 +42,9 @@ const selectedNames = computed(() => {
 })
 
 const label = computed(() => {
-  if (props.modelValue.length === 0) return 'Safe for…'
-  if (props.modelValue.length === 1) return `Safe for ${selectedNames.value[0]}`
-  return `Safe for ${props.modelValue.length} members`
+  if (props.modelValue.length === 0) return 'Безопасно для…'
+  if (props.modelValue.length === 1) return `Безопасно для ${selectedNames.value[0]}`
+  return `Безопасно для ${props.modelValue.length} ${pluralRu(props.modelValue.length, 'члена семьи', 'членов семьи', 'членов семьи')}`
 })
 
 const isSelected = (id) => props.modelValue.includes(id)
@@ -97,7 +98,7 @@ onBeforeUnmount(() => {
       class="absolute z-30 top-full left-0 mt-1 w-56 rounded-lg shadow-lg border border-border-subtle bg-surface-raised p-2"
     >
       <div v-if="reviewedMembers.length === 0" class="px-2 py-2 text-xs text-ink-secondary">
-        No family member has a reviewed allergy profile yet. Set one up in Settings → Allergens.
+        Профиль аллергий ещё не подтверждён ни у кого из членов семьи. Заполните его: Настройки → Аллергены.
       </div>
       <template v-else>
         <button
@@ -121,7 +122,7 @@ onBeforeUnmount(() => {
           class="w-full mt-1 px-2 py-1.5 text-xs text-ink-tertiary hover:text-ink-primary text-left"
           @click="clearAll"
         >
-          Clear filter
+          Сбросить фильтр
         </button>
       </template>
     </div>

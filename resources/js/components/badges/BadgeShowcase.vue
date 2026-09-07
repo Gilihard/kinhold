@@ -22,7 +22,7 @@
     </div>
   </div>
   <div v-else class="text-xs text-ink-tertiary py-2">
-    No badges earned yet
+    Пока нет полученных значков
   </div>
 </template>
 

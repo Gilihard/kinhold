@@ -284,8 +284,8 @@ class StripeWebhookController extends CashierWebhookController
         }
 
         $trialEndsAt = $trialEnd
-            ? Carbon::createFromTimestamp((int) $trialEnd)->toFormattedDateString()
-            : 'soon';
+            ? Carbon::createFromTimestamp((int) $trialEnd)->locale('ru')->translatedFormat('j F Y')
+            : 'скоро';
 
         $this->notifyOwner($family, new TrialEndingNotification($family, $trialEndsAt));
 

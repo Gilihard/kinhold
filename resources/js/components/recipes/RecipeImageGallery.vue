@@ -139,9 +139,9 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="space-y-2">
-    <label class="block text-sm font-semibold text-ink-primary">Photos</label>
+    <label class="block text-sm font-semibold text-ink-primary">Фотографии</label>
     <p class="text-xs text-ink-secondary">
-      First image is the primary (shown on cards). Drag to reorder, or tap the star to make any image primary.
+      Первое фото — основное (показывается на карточках). Перетаскивайте, чтобы изменить порядок, или нажмите на звезду, чтобы сделать фото основным.
     </p>
 
     <div ref="stripRef" class="flex flex-wrap gap-2">
@@ -170,15 +170,15 @@ onBeforeUnmount(() => {
             : 'bg-black/40 text-white'"
         >
           <StarIconSolid v-if="item.isPrimary" class="w-2.5 h-2.5" />
-          {{ item.isPrimary ? 'Primary' : 'Drag' }}
+          {{ item.isPrimary ? 'Основное' : 'Перетащить' }}
         </span>
         <div v-if="!item.isLocal && !disabled" class="absolute bottom-1 right-1 flex gap-1 no-drag">
           <button
             v-if="!item.isPrimary"
             type="button"
             class="p-1 rounded-full bg-surface-raised text-ink-primary shadow-sm hover:bg-accent-lavender-soft transition-colors"
-            :aria-label="`Make primary`"
-            title="Make primary"
+            :aria-label="'Сделать основным'"
+            title="Сделать основным"
             @click.stop="moveToFront(item.row.path)"
           >
             <StarIcon class="w-3.5 h-3.5" />
@@ -186,8 +186,8 @@ onBeforeUnmount(() => {
           <button
             type="button"
             class="p-1 rounded-full bg-surface-raised text-status-failed shadow-sm hover:bg-status-failed/10 transition-colors"
-            :aria-label="`Remove photo`"
-            title="Remove"
+            :aria-label="'Удалить фото'"
+            title="Удалить"
             @click.stop="removeAt(item.row.path)"
           >
             <TrashIcon class="w-3.5 h-3.5" />
@@ -203,13 +203,13 @@ onBeforeUnmount(() => {
         @click="openPicker"
       >
         <CameraIcon class="w-5 h-5" />
-        <span class="text-[11px] font-medium">{{ uploading ? 'Uploading…' : 'Add photo' }}</span>
+        <span class="text-[11px] font-medium">{{ uploading ? 'Загрузка…' : 'Добавить фото' }}</span>
       </button>
     </div>
 
     <p v-if="visible.length > 1" class="flex items-center gap-1 text-[11px] text-ink-tertiary">
       <ArrowsUpDownIcon class="w-3 h-3" />
-      Drag thumbnails to reorder.
+      Перетаскивайте миниатюры, чтобы изменить порядок.
     </p>
 
     <input

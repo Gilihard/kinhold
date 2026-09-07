@@ -4,7 +4,7 @@
     <div
       role="button"
       tabindex="0"
-      :aria-label="displayUrl ? `Change ${label || 'photo'}` : `Upload ${label || 'photo'}`"
+      :aria-label="displayUrl ? `Заменить ${label || 'фото'}` : `Загрузить ${label || 'фото'}`"
       class="relative border-2 border-dashed border-border-subtle rounded-xl overflow-hidden cursor-pointer hover:border-[#C4975A] focus:outline-none focus:ring-2 focus:ring-[#C4975A]/40 transition-colors"
       :class="displayUrl ? 'h-40' : 'p-6'"
       @click="$refs.input.click()"
@@ -14,14 +14,14 @@
       <img
         v-if="displayUrl"
         :src="displayUrl"
-        :alt="label || 'Photo'"
+        :alt="label || 'Фото'"
         class="w-full h-full object-cover"
         @error="onImgError"
       />
       <div v-else class="flex flex-col items-center gap-1 text-center">
         <CameraIcon class="w-7 h-7 text-ink-tertiary" />
         <p class="text-sm text-ink-tertiary">
-          {{ uploading ? 'Uploading...' : placeholder }}
+          {{ uploading ? 'Загрузка…' : placeholder }}
         </p>
       </div>
       <!-- Replace overlay -->
@@ -29,7 +29,7 @@
         v-if="displayUrl"
         class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity"
       >
-        <span class="text-white text-sm font-medium">Change photo</span>
+        <span class="text-white text-sm font-medium">Заменить фото</span>
       </div>
     </div>
     <input
@@ -48,8 +48,8 @@ import { CameraIcon } from '@heroicons/vue/24/outline'
 
 const props = defineProps({
   modelValue: { type: String, default: null }, // image URL or path
-  label: { type: String, default: 'Photo' },
-  placeholder: { type: String, default: 'Click to add a photo' },
+  label: { type: String, default: 'Фото' },
+  placeholder: { type: String, default: 'Нажмите, чтобы добавить фото' },
   // Async function: (File) => Promise<{success: bool, url: string}>
   uploader: { type: Function, required: true },
 })

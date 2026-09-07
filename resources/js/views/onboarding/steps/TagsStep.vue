@@ -2,17 +2,17 @@
   <div class="flex-1 flex flex-col">
     <div class="text-center mb-6">
       <h1 class="text-2xl font-heading font-bold text-ink-primary mb-2">
-        Organize Tasks With Tags
+        Организуйте задачи с помощью тегов
       </h1>
       <p class="text-base text-ink-secondary">
-        Tags help you filter and group tasks. Pick some to get started.
+        Теги помогают фильтровать и группировать задачи. Выберите несколько, чтобы начать.
       </p>
     </div>
 
     <!-- How it works -->
     <KinFlatCard padding="sm" class="mb-6 bg-surface-sunken">
       <p class="text-xs text-ink-secondary leading-relaxed">
-        Every task can have one or more tags. Use the tag bar at the top of your Tasks page to quickly filter what you're looking at — tap "Groceries" to see your shopping list, "Chores" for household tasks.
+        У каждой задачи может быть один или несколько тегов. Используйте панель тегов вверху страницы задач, чтобы быстро отфильтровать нужное: нажмите «Продукты», чтобы открыть список покупок, или «Домашние дела», чтобы увидеть домашние задачи.
       </p>
     </KinFlatCard>
 
@@ -52,12 +52,12 @@ const { setStepLoading, registerContinue } = inject('onboarding')
 const error = ref('')
 
 const presets = [
-  { name: 'Groceries', color: '#5B8C6A', description: 'Weekly shopping items' },
-  { name: 'Chores', color: '#C48B3F', description: 'Household tasks' },
-  { name: 'School', color: '#5B7B9C', description: 'Homework and events' },
-  { name: 'House', color: '#C45B5B', description: 'Repairs and projects' },
-  { name: 'Meals', color: '#C4975A', description: 'Meal planning and prep' },
-  { name: 'Errands', color: '#7B6B9C', description: 'Things to do outside' },
+  { name: 'Продукты', color: '#5B8C6A', description: 'Список продуктов на неделю' },
+  { name: 'Домашние дела', color: '#C48B3F', description: 'Задачи по дому' },
+  { name: 'Школа', color: '#5B7B9C', description: 'Уроки и школьные события' },
+  { name: 'Дом', color: '#C45B5B', description: 'Ремонт и проекты' },
+  { name: 'Еда', color: '#C4975A', description: 'Планирование и приготовление еды' },
+  { name: 'Поручения', color: '#7B6B9C', description: 'Дела вне дома' },
 ]
 
 // Track tags that already exist on the family so we (a) don't try to create
@@ -103,7 +103,7 @@ registerContinue(async () => {
     }
     return true
   } catch (err) {
-    error.value = err.response?.data?.message || 'Failed to create tags.'
+    error.value = err.response?.data?.message || 'Не удалось создать теги.'
     return false
   } finally {
     setStepLoading(false)

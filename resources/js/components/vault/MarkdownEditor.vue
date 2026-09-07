@@ -21,7 +21,7 @@ defineProps({
   },
   placeholder: {
     type: String,
-    default: 'Start writing...',
+    default: 'Начните вводить текст…',
   },
 })
 

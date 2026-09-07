@@ -2,10 +2,10 @@
   <div class="flex-1 flex flex-col">
     <div class="text-center mb-6">
       <h1 class="text-2xl font-heading font-bold text-ink-primary mb-2">
-        Choose Your Features
+        Выберите функции
       </h1>
       <p class="text-base text-ink-secondary">
-        Control which features are available and who can access them.
+        Управляйте тем, какие функции доступны и кто может ими пользоваться.
       </p>
     </div>
 
@@ -44,7 +44,7 @@
 
         <!-- Per-member checkboxes (Custom mode only) -->
         <div v-if="moduleState[feature.key]?.mode === 'users'" class="mt-3 pt-3 border-t border-border-subtle ml-13">
-          <p class="text-xs font-medium text-ink-secondary mb-2">Select family members:</p>
+          <p class="text-xs font-medium text-ink-secondary mb-2">Выберите участников семьи:</p>
           <div class="flex flex-wrap gap-2">
             <div
               v-for="member in familyMembers"
@@ -61,16 +61,16 @@
               <span
                 v-if="(member.family_role || member.role) === 'parent'"
                 class="text-xs text-ink-tertiary italic"
-              >(always)</span>
+              >(всегда)</span>
             </div>
           </div>
         </div>
 
         <!-- Mode summary -->
         <p class="text-xs text-ink-tertiary mt-2 ml-13">
-          <template v-if="moduleState[feature.key]?.mode === 'all'">All family members can access this.</template>
-          <template v-else-if="moduleState[feature.key]?.mode === 'off'">Disabled for everyone.</template>
-          <template v-else-if="moduleState[feature.key]?.mode === 'roles'">Parents only.</template>
+          <template v-if="moduleState[feature.key]?.mode === 'all'">Все члены семьи могут пользоваться этой функцией.</template>
+          <template v-else-if="moduleState[feature.key]?.mode === 'off'">Эта функция отключена для всех.</template>
+          <template v-else-if="moduleState[feature.key]?.mode === 'roles'">Только родители могут пользоваться этой функцией.</template>
           <template v-else-if="moduleState[feature.key]?.mode === 'users'">{{ getSelectedNames(feature.key) }}</template>
         </p>
       </KinFlatCard>
@@ -104,53 +104,53 @@ const familyMembers = computed(() => authStore.family?.members || [])
 const features = [
   {
     key: 'calendar',
-    name: 'Calendar',
-    description: 'View and manage family events from connected calendars.',
+    name: 'Календарь',
+    description: 'Просмотр семейных событий и управление ими из подключённых календарей.',
     icon: CalendarDaysIcon,
   },
   {
     key: 'tasks',
-    name: 'Tasks',
-    description: 'Create tasks, organize with tags, assign to family members.',
+    name: 'Задачи',
+    description: 'Создание задач, организация с помощью тегов и назначение членам семьи.',
     icon: ClipboardDocumentListIcon,
   },
   {
     key: 'points',
-    name: 'Points & Rewards',
-    description: 'Earn points for completing tasks. Points go into a bank that can be spent on rewards you create. Parents can give kudos or deduct points.',
+    name: 'Баллы и награды',
+    description: 'Зарабатывайте баллы за выполнение задач. Баллы копятся в общем банке и тратятся на награды, которые вы создаёте. Родители могут отправлять похвалу или списывать баллы.',
     icon: TrophyIcon,
   },
   {
     key: 'badges',
-    name: 'Achievement Badges',
-    description: 'Unlock automatically — task streaks, point milestones, and more. Parents can also create and award custom badges.',
+    name: 'Достижения',
+    description: 'Открываются автоматически — за серии задач, накопленные баллы и другое. Родители также могут создавать собственные значки и вручать их.',
     icon: StarIcon,
   },
   {
     key: 'chat',
-    name: 'AI Chat',
-    description: 'An AI assistant that can answer questions about your calendar, tasks, and vault data.',
+    name: 'Ассистент',
+    description: 'ИИ-ассистент, который отвечает на вопросы о календаре, задачах и данных хранилища.',
     icon: ChatBubbleLeftRightIcon,
   },
   {
     key: 'vault',
-    name: 'Family Vault',
-    description: 'Encrypted storage for sensitive info — SSNs, insurance, medical records. Parents see everything; children only see what\'s shared with them.',
+    name: 'Хранилище',
+    description: 'Зашифрованное семейное хранилище для важной информации — страховые номера, полисы, медицинские записи. Родители видят всё, дети — только то, чем с ними поделились.',
     icon: LockClosedIcon,
   },
   {
     key: 'food',
-    name: 'Food & Shopping',
-    description: 'Meal planning, recipes, and shared shopping lists for the whole family.',
+    name: 'Питание и покупки',
+    description: 'Планирование меню, рецепты и общие списки покупок для всей семьи.',
     icon: ShoppingCartIcon,
   },
 ]
 
 const accessOptions = [
-  { mode: 'all', label: 'Everyone', activeClass: 'bg-accent-lavender-bold text-white' },
-  { mode: 'roles', label: 'Parents Only', activeClass: 'bg-accent-lavender-bold text-white' },
-  { mode: 'users', label: 'Custom', activeClass: 'bg-accent-lavender-bold text-white' },
-  { mode: 'off', label: 'Off', activeClass: 'bg-status-failed text-white' },
+  { mode: 'all', label: 'Все', activeClass: 'bg-accent-lavender-bold text-white' },
+  { mode: 'roles', label: 'Только родители', activeClass: 'bg-accent-lavender-bold text-white' },
+  { mode: 'users', label: 'Выборочно', activeClass: 'bg-accent-lavender-bold text-white' },
+  { mode: 'off', label: 'Выкл.', activeClass: 'bg-status-failed text-white' },
 ]
 
 const moduleState = reactive({
@@ -201,7 +201,7 @@ function getSelectedNames(key) {
   const names = familyMembers.value
     .filter(m => userIds.includes(m.id))
     .map(m => m.name)
-  return names.length ? names.join(', ') : 'No members selected (parents always have access).'
+  return names.length ? names.join(', ') : 'Никто не выбран (у родителей доступ есть всегда).'
 }
 
 registerContinue(async () => {

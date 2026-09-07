@@ -32,11 +32,11 @@ const classes = computed(() => {
   return [base, tone, confirmation].join(' ')
 })
 
-const label = computed(() => (isContains.value ? props.name : `May contain ${props.name.toLowerCase()}`))
+const label = computed(() => (isContains.value ? props.name : `Может содержать ${props.name.toLowerCase()}`))
 </script>
 
 <template>
-  <span :class="classes" :title="unconfirmed ? 'AI tagged — not yet confirmed' : null">
+  <span :class="classes" :title="unconfirmed ? 'Помечено ИИ — ещё не подтверждено' : null">
     {{ label }}
   </span>
 </template>

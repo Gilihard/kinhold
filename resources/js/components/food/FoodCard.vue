@@ -22,7 +22,7 @@
         :class="isFavorite
           ? 'bg-status-failed/90 text-white hover:bg-status-failed'
           : 'bg-black/35 text-white/85 hover:bg-black/55'"
-        :aria-label="isFavorite ? 'Remove favorite' : 'Mark as favorite'"
+        :aria-label="isFavorite ? 'Убрать из избранного' : 'Добавить в избранное'"
         @click.stop="$emit('toggle-favorite')"
       >
         <HeartIconSolid v-if="isFavorite" class="w-4 h-4" />

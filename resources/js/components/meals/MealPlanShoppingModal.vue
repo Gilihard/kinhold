@@ -9,10 +9,10 @@
         <div class="bg-surface-raised rounded-xl shadow-xl w-full max-w-lg max-h-[85vh] flex flex-col">
           <!-- Header -->
           <div class="flex items-center justify-between px-6 pt-5 pb-3 border-b border-border-subtle">
-            <h3 class="text-lg font-bold font-heading text-ink-primary">Add to Shopping List</h3>
+            <h3 class="text-lg font-bold font-heading text-ink-primary">Добавить в список покупок</h3>
             <button
               class="p-1 rounded text-ink-tertiary hover:text-ink-primary transition-colors"
-              aria-label="Close"
+              aria-label="Закрыть"
               @click="$emit('close')"
             >
               <XMarkIcon class="w-5 h-5" />
@@ -24,7 +24,7 @@
             <!-- Days picker -->
             <div>
               <label class="block text-xs font-medium text-ink-tertiary mb-2 uppercase tracking-wide">
-                Shop for the next
+                Период закупки
               </label>
               <div class="flex flex-wrap gap-2">
                 <button
@@ -47,14 +47,14 @@
             <!-- Shopping list selector -->
             <div>
               <label class="block text-xs font-medium text-ink-tertiary mb-2 uppercase tracking-wide">
-                Add to list
+                В какой список
               </label>
               <div class="flex items-center gap-2">
                 <select
                   v-model="targetListId"
                   class="flex-1 text-sm bg-surface-sunken border border-border-subtle rounded-[10px] px-3 py-2 text-ink-primary focus:outline-none focus:ring-1 focus:ring-[#C4975A]/30 focus:border-[#C4975A] transition-colors"
                 >
-                  <option v-if="lists.length === 0" :value="null">Auto-create from meal plan</option>
+                  <option v-if="lists.length === 0" :value="null">Создать автоматически из плана питания</option>
                   <option
                     v-for="list in lists"
                     :key="list.id"
@@ -68,11 +68,11 @@
                   class="text-xs text-[#C4975A] hover:underline whitespace-nowrap"
                   @click="isCreatingList = true"
                 >
-                  + New list
+                  + Новый список
                 </button>
               </div>
               <p v-if="lists.length === 0 && !isCreatingList" class="text-[11px] text-ink-tertiary mt-1.5">
-                No shopping lists yet — items will land in a new "{{ defaultListName }}" list.
+                Списков покупок пока нет — товары попадут в новый список «{{ defaultListName }}».
               </p>
 
               <!-- Inline new-list input -->
@@ -81,7 +81,7 @@
                   ref="newListInput"
                   v-model="newListName"
                   type="text"
-                  placeholder="e.g. Trader Joe's"
+                  placeholder="Например: Пятёрочка, продукты на неделю..."
                   class="flex-1 text-sm bg-surface-sunken border border-border-subtle rounded-[10px] px-3 py-2 text-ink-primary focus:outline-none focus:ring-1 focus:ring-[#C4975A]/30 focus:border-[#C4975A]"
                   @keydown.enter.prevent="createList"
                   @keydown.escape="cancelCreateList"
@@ -91,9 +91,9 @@
                   :disabled="!newListName.trim() || isSavingList"
                   @click="createList"
                 >
-                  Create
+                  Создать
                 </button>
-                <button class="text-xs text-ink-tertiary" @click="cancelCreateList">Cancel</button>
+                <button class="text-xs text-ink-tertiary" @click="cancelCreateList">Отмена</button>
               </div>
             </div>
           </div>
@@ -106,10 +106,10 @@
 
             <div v-else-if="entries.length === 0" class="py-8 text-center">
               <p class="text-sm text-ink-tertiary">
-                No recipes scheduled in this range.
+                В этом периоде нет запланированных рецептов.
               </p>
               <p class="text-xs text-ink-tertiary mt-1">
-                Add some meals to your plan or extend the range.
+                Добавьте блюда в план или увеличьте период.
               </p>
             </div>
 
@@ -134,17 +134,17 @@
           <!-- Footer -->
           <div class="px-6 py-4 border-t border-border-subtle">
             <div class="flex items-center justify-between mb-3 text-xs text-ink-tertiary">
-              <span>{{ totalSelected }} item{{ totalSelected === 1 ? '' : 's' }} from {{ entriesWithSelection }} recipe{{ entriesWithSelection === 1 ? '' : 's' }}</span>
+              <span>{{ totalSelected }} {{ pluralRu(totalSelected, 'ингредиент', 'ингредиента', 'ингредиентов') }} из {{ entriesWithSelection }} {{ pluralRu(entriesWithSelection, 'рецепта', 'рецептов', 'рецептов') }}</span>
               <button
                 v-if="entries.length"
                 class="text-xs text-[#C4975A] hover:underline"
                 @click="toggleSelectAll"
               >
-                {{ allSelected ? 'Deselect all' : 'Select all' }}
+                {{ allSelected ? 'Снять выделение' : 'Выбрать все' }}
               </button>
             </div>
             <div class="flex gap-2">
-              <KinButton variant="secondary" class="flex-1" @click="$emit('close')">Cancel</KinButton>
+              <KinButton variant="secondary" class="flex-1" @click="$emit('close')">Отмена</KinButton>
               <KinButton
                 variant="primary"
                 class="flex-1"
@@ -152,7 +152,7 @@
                 :disabled="totalSelected === 0 || isSaving"
                 @click="handleAdd"
               >
-                {{ isSaving ? 'Adding…' : `Add ${totalSelected} item${totalSelected === 1 ? '' : 's'}` }}
+                {{ isSaving ? 'Добавление…' : `Добавить ${totalSelected} ${pluralRu(totalSelected, 'ингредиент', 'ингредиента', 'ингредиентов')}` }}
               </KinButton>
             </div>
           </div>
@@ -172,6 +172,7 @@ import { useNotification } from '@/composables/useNotification'
 import RecipeIngredientPicker from '@/components/food/RecipeIngredientPicker.vue'
 import LoadingSpinner from '@/components/common/LoadingSpinner.vue'
 import KinButton from '@/components/design-system/KinButton.vue'
+import { pluralRu } from '@/utils/plural'
 
 const props = defineProps({
   show: { type: Boolean, default: false },
@@ -185,12 +186,12 @@ const shoppingStore = useShoppingStore()
 const { success, error: notifyError } = useNotification()
 
 const dayOptions = [
-  { value: 1, label: 'Today' },
-  { value: 3, label: '3 days' },
-  { value: 5, label: '5 days' },
-  { value: 7, label: '1 week' },
-  { value: 14, label: '2 weeks' },
-  { value: 30, label: '1 month' },
+  { value: 1, label: 'Сегодня' },
+  { value: 3, label: '3 дня' },
+  { value: 5, label: '5 дней' },
+  { value: 7, label: '1 неделя' },
+  { value: 14, label: '2 недели' },
+  { value: 30, label: '1 месяц' },
 ]
 
 const days = ref(7)
@@ -210,14 +211,14 @@ const newListInput = ref(null)
 const isSavingList = ref(false)
 
 const defaultListName = computed(() => {
-  if (!range.value.start) return 'Groceries'
-  return `${DateTime.fromISO(range.value.start).toFormat('MMM d')} Groceries`
+  if (!range.value.start) return 'Продукты'
+  return `Продукты на ${DateTime.fromISO(range.value.start).toFormat('d MMMM')}`
 })
 
 const rangeLabel = computed(() => {
   if (!range.value.start) return ''
-  const start = DateTime.fromISO(range.value.start).toFormat('EEE, MMM d')
-  const end = DateTime.fromISO(range.value.end).toFormat('EEE, MMM d')
+  const start = DateTime.fromISO(range.value.start).toFormat('ccc, d MMMM')
+  const end = DateTime.fromISO(range.value.end).toFormat('ccc, d MMMM')
   return range.value.start === range.value.end ? start : `${start} – ${end}`
 })
 
@@ -245,8 +246,9 @@ const toggleSelectAll = () => {
 }
 
 const formatEntryMeta = (entry) => {
-  const date = DateTime.fromISO(entry.date).toFormat('EEE M/d')
-  const slot = entry.meal_slot ? entry.meal_slot.charAt(0).toUpperCase() + entry.meal_slot.slice(1) : ''
+  const slotMap = { breakfast: 'Завтрак', lunch: 'Обед', dinner: 'Ужин', snack: 'Перекус' }
+  const date = DateTime.fromISO(entry.date).toFormat('ccc, d MMMM')
+  const slot = entry.meal_slot ? slotMap[entry.meal_slot] || entry.meal_slot : ''
   return slot ? `${slot} · ${date}` : date
 }
 
@@ -260,7 +262,7 @@ const loadPreview = async () => {
   isLoading.value = false
 
   if (!result.success) {
-    notifyError(result.error || 'Failed to load preview', 4000)
+    notifyError(result.error || 'Не удалось загрузить предпросмотр', 4000)
     entries.value = []
     return
   }
@@ -292,13 +294,13 @@ const handleAdd = async () => {
   isSaving.value = false
 
   if (result.success) {
-    success(`Added ${result.added_count} item${result.added_count === 1 ? '' : 's'} to shopping list`)
+    success(`Добавлено в список покупок: ${result.added_count} ${pluralRu(result.added_count, 'товар', 'товара', 'товаров')}`)
     // Refresh shopping store so the Shopping tab reflects the new items.
     shoppingStore.fetchLists()
     emit('added', result)
     emit('close')
   } else {
-    notifyError(result.error || 'Failed to add to shopping list', 4000)
+    notifyError(result.error || 'Не удалось добавить в список покупок', 4000)
   }
 }
 
@@ -315,7 +317,7 @@ const createList = async () => {
     isCreatingList.value = false
     newListName.value = ''
   } else {
-    notifyError(result.error || 'Failed to create list', 4000)
+    notifyError(result.error || 'Не удалось создать список', 4000)
   }
 }
 

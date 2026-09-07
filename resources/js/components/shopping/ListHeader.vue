@@ -28,8 +28,8 @@
         <div v-if="activeList" class="relative">
           <button
             class="p-1 rounded-md text-ink-tertiary hover:text-ink-primary hover:bg-surface-sunken transition-colors"
-            title="List options"
-            aria-label="List options"
+            title="Действия со списком"
+            aria-label="Действия со списком"
             @click="showListMenu = !showListMenu"
           >
             <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -46,14 +46,14 @@
               class="w-full text-left px-3 py-2 text-sm text-ink-primary hover:bg-surface-sunken transition-colors"
               @click="startRename"
             >
-              Rename
+              Переименовать
             </button>
             <button
               v-if="lists.length > 1"
               class="w-full text-left px-3 py-2 text-sm text-status-failed hover:bg-status-failed/10 transition-colors"
               @click="handleDeleteRequest"
             >
-              Delete list
+              Удалить список
             </button>
           </div>
         </div>
@@ -65,7 +65,7 @@
         class="flex-shrink-0"
         @click="$emit('new-list')"
       >
-        + New List
+        + Новый список
       </KinButton>
     </div>
 
@@ -79,8 +79,8 @@
         @keydown.enter="saveRename"
         @keydown.escape="cancelRename"
       />
-      <KinButton variant="primary" size="sm" @click="saveRename">Save</KinButton>
-      <KinButton variant="secondary" size="sm" @click="cancelRename">Cancel</KinButton>
+      <KinButton variant="primary" size="sm" @click="saveRename">Сохранить</KinButton>
+      <KinButton variant="secondary" size="sm" @click="cancelRename">Отмена</KinButton>
     </div>
 
     <!-- Row 2: Window pills + Pre-Shop + Clear -->
@@ -109,7 +109,7 @@
             : 'bg-surface-sunken text-ink-secondary hover:bg-surface-overlay'"
           @click="$emit('toggle-preshop')"
         >
-          Pre-Shop
+          Есть дома
         </button>
 
         <!-- Clear Checked button -->
@@ -122,7 +122,7 @@
           <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
             <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
           </svg>
-          <span>Clear {{ checkedCount }}</span>
+          <span>Очистить {{ checkedCount }} {{ pluralRu(checkedCount, 'товар', 'товара', 'товаров') }}</span>
         </button>
       </div>
     </div>
@@ -132,13 +132,13 @@
       <Transition name="fade">
         <div v-if="showDeleteConfirm" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" @click.self="showDeleteConfirm = false">
           <div class="bg-surface-raised rounded-xl shadow-xl p-6 w-full max-w-sm">
-            <h3 class="text-lg font-bold font-heading text-ink-primary mb-2">Delete list?</h3>
+            <h3 class="text-lg font-bold font-heading text-ink-primary mb-2">Удалить список?</h3>
             <p class="text-sm text-ink-tertiary mb-4">
-              "{{ activeList?.name }}" and all its items will be permanently removed.
+              Список «{{ activeList?.name }}» и все его товары будут удалены безвозвратно.
             </p>
             <div class="flex justify-end gap-2">
-              <KinButton variant="secondary" @click="showDeleteConfirm = false">Cancel</KinButton>
-              <KinButton variant="danger" @click="confirmDelete">Delete</KinButton>
+              <KinButton variant="secondary" @click="showDeleteConfirm = false">Отмена</KinButton>
+              <KinButton variant="danger" @click="confirmDelete">Удалить</KinButton>
             </div>
           </div>
         </div>
@@ -151,6 +151,7 @@
 import { ref, computed, nextTick } from 'vue'
 import KinSelect from '@/components/design-system/KinSelect.vue'
 import KinButton from '@/components/design-system/KinButton.vue'
+import { pluralRu } from '@/utils/plural'
 
 const props = defineProps({
   lists: {
@@ -178,10 +179,10 @@ const props = defineProps({
 const emit = defineEmits(['select-list', 'new-list', 'toggle-preshop', 'set-window', 'clear-checked', 'rename-list', 'delete-list'])
 
 const windows = [
-  { value: 'all', label: 'All' },
-  { value: '2days', label: 'Next 2d' },
-  { value: '3days', label: 'Next 3d' },
-  { value: 'week', label: 'This week' },
+  { value: 'all', label: 'Все' },
+  { value: '2days', label: 'Ближайшие 2 дня' },
+  { value: '3days', label: 'Ближайшие 3 дня' },
+  { value: 'week', label: 'Эта неделя' },
 ]
 
 const listOptions = computed(() => props.lists.map(l => ({ value: l.id, label: l.name })))

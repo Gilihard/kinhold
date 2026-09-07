@@ -30,10 +30,10 @@ class DinnerReminderNotification extends Notification implements ShouldQueue
     {
         $cooks = is_array($this->entry->assigned_cooks) ? $this->entry->assigned_cooks : [];
         $isCooking = in_array($notifiable->id, $cooks, true);
-        $body = $isCooking ? "You're cooking" : 'On the menu';
+        $body = $isCooking ? 'Вы готовите' : 'В меню на ужин';
 
         return (new WebPushMessage)
-            ->title("Tonight: {$this->entry->display_title}")
+            ->title("Сегодня на ужин: {$this->entry->display_title}")
             ->body($body)
             ->icon('/icons/icon-192.png')
             ->badge('/icons/badge-96.png')

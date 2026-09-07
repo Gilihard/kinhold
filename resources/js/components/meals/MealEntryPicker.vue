@@ -29,7 +29,7 @@
           <input
             v-model="recipeSearch"
             type="text"
-            placeholder="Search recipes..."
+            placeholder="Поиск рецептов..."
             class="w-full pl-9 pr-4 py-2 text-sm bg-surface-sunken border border-border-subtle rounded-[10px] text-ink-primary placeholder:text-ink-tertiary focus:outline-none focus:ring-1 focus:ring-[#C4975A]/30 focus:border-[#C4975A] transition-colors"
           />
         </div>
@@ -55,15 +55,15 @@
             <div class="min-w-0">
               <p class="text-sm font-medium text-ink-primary truncate">{{ recipe.title }}</p>
               <p v-if="recipe.prep_time_minutes || recipe.servings" class="text-xs text-ink-tertiary">
-                <span v-if="recipe.prep_time_minutes">{{ recipe.prep_time_minutes }}m</span>
+                <span v-if="recipe.prep_time_minutes">{{ recipe.prep_time_minutes }} мин</span>
                 <span v-if="recipe.prep_time_minutes && recipe.servings"> · </span>
-                <span v-if="recipe.servings">{{ recipe.servings }} servings</span>
+                <span v-if="recipe.servings">{{ recipe.servings }} {{ pluralRu(recipe.servings, 'порция', 'порции', 'порций') }}</span>
               </p>
             </div>
             <CheckCircleIcon v-if="selectedSource?.id === recipe.id" class="w-4 h-4 text-[#C4975A] flex-shrink-0 ml-auto" />
           </button>
           <p v-if="filteredRecipes.length === 0" class="text-sm text-ink-tertiary text-center py-4">
-            No recipes found
+            Рецепты не найдены
           </p>
         </div>
       </div>
@@ -75,7 +75,7 @@
           <input
             v-model="restaurantSearch"
             type="text"
-            placeholder="Search restaurants..."
+            placeholder="Поиск ресторанов..."
             class="w-full pl-9 pr-4 py-2 text-sm bg-surface-sunken border border-border-subtle rounded-[10px] text-ink-primary placeholder:text-ink-tertiary focus:outline-none focus:ring-1 focus:ring-[#C4975A]/30 focus:border-[#C4975A] transition-colors"
           />
         </div>
@@ -97,7 +97,7 @@
             <CheckCircleIcon v-if="selectedSource?.id === restaurant.id" class="w-4 h-4 text-[#C4975A] flex-shrink-0 ml-auto" />
           </button>
           <p v-if="filteredRestaurants.length === 0" class="text-sm text-ink-tertiary text-center py-4">
-            No restaurants yet — add some in the Restaurants tab
+            Ресторанов пока нет — добавьте их во вкладке «Рестораны»
           </p>
         </div>
       </div>
@@ -120,7 +120,7 @@
           </button>
         </div>
         <p v-if="mealsStore.presets.length === 0" class="text-sm text-ink-tertiary text-center py-4">
-          No presets available
+          Нет доступных шаблонов
         </p>
       </div>
 
@@ -128,8 +128,8 @@
       <div v-else-if="activeSource === 'custom'">
         <BaseInput
           v-model="customTitle"
-          label="What's for this meal?"
-          placeholder="e.g. Leftovers, BBQ, Snack box..."
+          label="Что будете есть?"
+          placeholder="Например: остатки, барбекю, бокс с перекусом..."
           :error="customTitleError"
         />
       </div>
@@ -142,7 +142,7 @@
     <div class="px-4 pb-4 space-y-4">
       <!-- Servings -->
       <div>
-        <label class="block text-xs font-medium text-ink-tertiary mb-1.5 uppercase tracking-wide">Servings</label>
+        <label class="block text-xs font-medium text-ink-tertiary mb-1.5 uppercase tracking-wide">Порции</label>
         <input
           v-model.number="servings"
           type="number"
@@ -155,7 +155,7 @@
 
       <!-- Cook assignment -->
       <div v-if="familyMembers.length > 0">
-        <label class="block text-xs font-medium text-ink-tertiary mb-2 uppercase tracking-wide">Assign Cook(s)</label>
+        <label class="block text-xs font-medium text-ink-tertiary mb-2 uppercase tracking-wide">Кто готовит</label>
         <div class="flex flex-wrap gap-2">
           <button
             v-for="member in familyMembers"
@@ -174,20 +174,20 @@
 
       <!-- Notes -->
       <div>
-        <label class="block text-xs font-medium text-ink-tertiary mb-1.5 uppercase tracking-wide">Notes</label>
+        <label class="block text-xs font-medium text-ink-tertiary mb-1.5 uppercase tracking-wide">Заметки</label>
         <textarea
           v-model="notes"
           rows="2"
           class="w-full text-sm bg-surface-sunken border border-border-subtle rounded-[10px] px-3 py-2 text-ink-primary placeholder:text-ink-tertiary focus:outline-none focus:ring-1 focus:ring-[#C4975A]/30 focus:border-[#C4975A] transition-colors resize-none"
-          placeholder="Any notes..."
+          placeholder="Любые заметки..."
         ></textarea>
       </div>
     </div>
 
     <template #footer>
       <div class="flex gap-3">
-        <BaseButton variant="secondary" class="flex-1" @click="$emit('close')">Cancel</BaseButton>
-        <BaseButton variant="primary" class="flex-1" :loading="isSaving" @click="submit">Add Entry</BaseButton>
+        <BaseButton variant="secondary" class="flex-1" @click="$emit('close')">Отмена</BaseButton>
+        <BaseButton variant="primary" class="flex-1" :loading="isSaving" @click="submit">Добавить</BaseButton>
       </div>
       <p v-if="submitError" class="text-xs text-status-failed mt-2">{{ submitError }}</p>
     </template>
@@ -223,6 +223,7 @@ import LoadingSpinner from '@/components/common/LoadingSpinner.vue'
 import UserAvatar from '@/components/common/UserAvatar.vue'
 import MealPlannerAllergenWarning from '@/components/allergens/MealPlannerAllergenWarning.vue'
 import IconRenderer from '@/components/common/IconRenderer.vue'
+import { pluralRu } from '@/utils/plural'
 
 const props = defineProps({
   show: Boolean,
@@ -247,7 +248,7 @@ const allergenRecipeTitle = ref('')
 const familyMembers = computed(() => authStore.familyMembers || [])
 
 const slotLabel = (slot) => {
-  const map = { breakfast: 'Breakfast', lunch: 'Lunch', dinner: 'Dinner', snack: 'Snack' }
+  const map = { breakfast: 'Завтрак', lunch: 'Обед', dinner: 'Ужин', snack: 'Перекус' }
   return map[slot] || slot
 }
 
@@ -255,19 +256,19 @@ const panelTitle = computed(() => {
   if (props.targetDate && props.targetSlot) {
     try {
       const dt = DateTime.fromISO(props.targetDate)
-      return `Add to ${slotLabel(props.targetSlot)} — ${dt.toFormat('EEE, MMM d')}`
+      return `Добавить в «${slotLabel(props.targetSlot)}» — ${dt.toFormat('ccc, d MMMM')}`
     } catch {
-      return `Add to ${slotLabel(props.targetSlot)}`
+      return `Добавить в «${slotLabel(props.targetSlot)}»`
     }
   }
-  return 'Add Meal Entry'
+  return 'Добавить блюдо'
 })
 
 const sourceTabs = [
-  { key: 'recipe', label: 'Recipe' },
-  { key: 'restaurant', label: 'Restaurant' },
-  { key: 'preset', label: 'Preset' },
-  { key: 'custom', label: 'Custom' },
+  { key: 'recipe', label: 'Рецепт' },
+  { key: 'restaurant', label: 'Ресторан' },
+  { key: 'preset', label: 'Шаблон' },
+  { key: 'custom', label: 'Своё' },
 ]
 
 const activeSource = ref('recipe')
@@ -333,16 +334,16 @@ const submit = async () => {
   const data = {}
 
   if (activeSource.value === 'recipe') {
-    if (!selectedSource.value) { submitError.value = 'Please select a recipe'; return }
+    if (!selectedSource.value) { submitError.value = 'Выберите рецепт'; return }
     data.recipe_id = selectedSource.value.id
   } else if (activeSource.value === 'restaurant') {
-    if (!selectedSource.value) { submitError.value = 'Please select a restaurant'; return }
+    if (!selectedSource.value) { submitError.value = 'Выберите ресторан'; return }
     data.restaurant_id = selectedSource.value.id
   } else if (activeSource.value === 'preset') {
-    if (!selectedSource.value) { submitError.value = 'Please select a preset'; return }
+    if (!selectedSource.value) { submitError.value = 'Выберите шаблон'; return }
     data.meal_preset_id = selectedSource.value.id
   } else if (activeSource.value === 'custom') {
-    if (!customTitle.value.trim()) { customTitleError.value = 'Title is required'; return }
+    if (!customTitle.value.trim()) { customTitleError.value = 'Введите название'; return }
     data.custom_title = customTitle.value.trim()
   }
 
@@ -365,7 +366,7 @@ const submit = async () => {
     allergenRecipeTitle.value = activeSource.value === 'recipe' ? (selectedSource.value?.title || '') : ''
     showAllergenWarning.value = true
   } else {
-    submitError.value = result.error || 'Failed to add entry'
+    submitError.value = result.error || 'Не удалось добавить блюдо'
   }
 }
 
@@ -379,7 +380,7 @@ const onAllergenAcknowledge = async () => {
     emit('added')
     emit('close')
   } else {
-    submitError.value = result.error || 'Failed to add entry'
+    submitError.value = result.error || 'Не удалось добавить блюдо'
   }
 }
 

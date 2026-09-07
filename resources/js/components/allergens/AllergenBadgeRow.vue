@@ -39,8 +39,8 @@ const isUnconfirmed = (row) => row.source && row.source !== 'human_confirmed'
         <button
           type="button"
           class="inline-flex items-center justify-center w-5 h-5 rounded-full bg-status-success/15 text-status-success hover:bg-status-success/30 transition-colors"
-          :aria-label="`Confirm ${row.name}`"
-          :title="`Confirm AI tag for ${row.name}`"
+          :aria-label="`Подтвердить: ${row.name}`"
+          :title="`Подтвердить метку ИИ для «${row.name}»`"
           @click="emit('confirm', row)"
         >
           <CheckIcon class="w-3 h-3" />
@@ -57,7 +57,7 @@ const isUnconfirmed = (row) => row.source && row.source !== 'human_confirmed'
       v-if="overflow"
       class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-surface-sunken text-ink-tertiary"
     >
-      +{{ overflow }} more
+      ещё {{ overflow }}
     </span>
   </div>
 </template>

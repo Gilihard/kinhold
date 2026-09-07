@@ -2,12 +2,12 @@
   <div class="flex-1 flex flex-col">
     <div class="text-center mb-6">
       <h1 class="text-2xl font-heading font-bold text-ink-primary mb-2">
-        {{ alreadySubscribed ? "You're all set" : 'Pick your plan' }}
+        {{ alreadySubscribed ? 'Всё готово' : 'Выберите тариф' }}
       </h1>
       <p class="text-base text-ink-secondary">
         {{ alreadySubscribed
-          ? "You're already on a plan. Continue to finish setup."
-          : 'Hosted Family includes everything. Add an AI assistant tier or bring your own key.' }}
+          ? 'Вы уже на тарифе. Продолжите, чтобы завершить настройку.'
+          : 'Тариф для семьи включает всё. Добавьте уровень ИИ-ассистента или подключите свой ключ.' }}
       </p>
     </div>
 
@@ -17,11 +17,11 @@
       class="p-4 bg-surface-sunken rounded-lg space-y-2"
       data-testid="billing-step-already"
     >
-      <p class="text-sm font-semibold text-ink-primary">Base plan</p>
+      <p class="text-sm font-semibold text-ink-primary">Базовый тариф</p>
       <p class="text-xs text-ink-secondary">
         {{ billing.isOnTrial && billing.summary.trial_ends_at
-          ? `Trial ends ${formatDate(billing.summary.trial_ends_at)}.`
-          : 'Active subscription. Manage anytime in Settings → Billing.' }}
+          ? `Пробная версия действует до ${formatDate(billing.summary.trial_ends_at)}.`
+          : 'Активная подписка. Управлять можно в любой момент: Настройки → Оплата и подписка.' }}
       </p>
     </div>
 
@@ -30,18 +30,18 @@
       <!-- Base plan card (always required, single tier) -->
       <div class="p-4 bg-surface-sunken rounded-lg" data-testid="billing-step-base">
         <div class="flex items-baseline justify-between gap-3">
-          <p class="text-sm font-semibold text-ink-primary">Hosted Family</p>
+          <p class="text-sm font-semibold text-ink-primary">Тариф для семьи</p>
           <p class="text-sm font-semibold text-ink-primary">{{ basePriceLabel }}</p>
         </div>
         <p class="text-xs text-ink-secondary mt-1">
-          Calendar, tasks, vault, AI assistant, 5 GB storage. Storage scales automatically at $1/GB·month over the included amount.
+          Календарь, задачи, хранилище, ИИ-ассистент и 5 ГБ пространства. Объём хранилища автоматически расширяется по цене $1 за ГБ в месяц сверх включённого.
         </p>
       </div>
 
       <!-- AI tier picker -->
       <div class="p-4 bg-surface-sunken rounded-lg space-y-3" data-testid="billing-step-ai">
-        <p class="text-sm font-semibold text-ink-primary">AI Assistant</p>
-        <div role="radiogroup" aria-label="AI tier" class="space-y-1">
+        <p class="text-sm font-semibold text-ink-primary">ИИ-ассистент</p>
+        <div role="radiogroup" aria-label="Уровень ИИ" class="space-y-1">
           <button
             v-for="opt in aiTierOptions"
             :key="opt.slug"
@@ -65,7 +65,7 @@
             <span
               v-if="opt.disabled"
               class="text-[11px] uppercase tracking-wide text-ink-secondary"
-            >Coming soon</span>
+            >Скоро</span>
           </button>
         </div>
       </div>
@@ -73,7 +73,7 @@
       <!-- Total + trial banner -->
       <div class="p-4 bg-surface-sunken rounded-lg space-y-2" data-testid="billing-step-total">
         <div class="flex items-baseline justify-between gap-3">
-          <p class="text-sm font-medium text-ink-secondary">Monthly total</p>
+          <p class="text-sm font-medium text-ink-secondary">Итого в месяц</p>
           <p class="text-base font-semibold text-ink-primary">{{ totalLabel }}</p>
         </div>
         <div
@@ -81,12 +81,12 @@
           class="flex items-center gap-2 px-3 py-2 rounded-md bg-accent-lavender-soft/40 border border-accent-lavender-bold/30"
         >
           <span class="text-sm font-semibold text-accent-lavender-bold">
-            {{ billing.summary.trial_days }}-day free trial
+            Бесплатно на {{ billing.summary.trial_days }} {{ pluralRu(billing.summary.trial_days, 'день', 'дня', 'дней') }}
           </span>
-          <span class="text-sm text-ink-secondary">— no card charged until the trial ends.</span>
+          <span class="text-sm text-ink-secondary">— карта не списывается до окончания пробного периода.</span>
         </div>
         <p class="text-xs text-ink-secondary">
-          Cancel anytime in Settings → Billing. No long-term commitment.
+          Отменить можно в любой момент: Настройки → Оплата и подписка. Никаких долгосрочных обязательств.
         </p>
         <p v-if="billing.lastError" class="text-xs text-rose-700 dark:text-rose-300">
           {{ billing.lastError }}
@@ -99,6 +99,7 @@
 <script setup>
 import { computed, inject, onMounted, ref } from 'vue'
 import { useBillingStore } from '@/stores/billing'
+import { pluralRu } from '@/utils/plural'
 
 const billing = useBillingStore()
 const { setStepLoading, registerContinue } = inject('onboarding')
@@ -110,7 +111,7 @@ const alreadySubscribed = computed(() => billing.isSubscribed)
 
 const basePriceLabel = computed(() => {
   const cents = billing.summary.base_price_cents || 1000
-  return `$${(cents / 100).toFixed(0)}/mo`
+  return `$${(cents / 100).toFixed(0)}/мес`
 })
 
 const aiTierOptions = computed(() => {
@@ -118,13 +119,13 @@ const aiTierOptions = computed(() => {
   const managed = tiers.map((t) => ({
     slug: t.slug,
     label: t.name,
-    detail: `${t.daily_messages} msg/day · $${(t.price_cents / 100).toFixed(0)}/mo`,
+    detail: `${t.daily_messages} сообщ./день · $${(t.price_cents / 100).toFixed(0)}/мес`,
     disabled: !t.configured,
     priceCents: t.price_cents,
   }))
   return [
-    { slug: 'off', label: 'No AI', detail: 'Skip the AI assistant for now.', disabled: false, priceCents: 0 },
-    { slug: 'byok', label: 'Bring your own key', detail: 'Use your own Anthropic API key — no AI charges from us.', disabled: false, priceCents: 0 },
+    { slug: 'off', label: 'Без ИИ', detail: 'Пока не подключать ИИ-ассистента.', disabled: false, priceCents: 0 },
+    { slug: 'byok', label: 'Свой ключ', detail: 'Используйте собственный ключ Anthropic API — мы не берём плату за ИИ.', disabled: false, priceCents: 0 },
     ...managed,
   ]
 })
@@ -135,7 +136,7 @@ const totalCents = computed(() => {
   return base + (tier?.priceCents || 0)
 })
 
-const totalLabel = computed(() => `$${(totalCents.value / 100).toFixed(0)}/mo`)
+const totalLabel = computed(() => `$${(totalCents.value / 100).toFixed(0)}/мес`)
 
 function selectTier(slug) {
   const opt = aiTierOptions.value.find((o) => o.slug === slug)
@@ -145,7 +146,7 @@ function selectTier(slug) {
 
 function formatDate(iso) {
   try {
-    return new Date(iso).toLocaleDateString(undefined, {
+    return new Date(iso).toLocaleDateString('ru-RU', {
       year: 'numeric', month: 'short', day: 'numeric',
     })
   } catch {

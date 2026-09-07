@@ -1,5 +1,5 @@
 <template>
-  <KinModalSheet :model-value="true" title="Place Bid" size="sm" @close="$emit('close')">
+  <KinModalSheet :model-value="true" title="Сделать ставку" size="sm" @close="$emit('close')">
     <p class="text-xs text-ink-tertiary mb-4">
       {{ reward.title }}
     </p>
@@ -7,23 +7,23 @@
     <!-- Current status -->
     <div class="space-y-2 mb-4">
       <div v-if="reward.highest_bid" class="flex justify-between text-sm">
-        <span class="text-ink-tertiary">Highest bid</span>
-        <span class="font-bold font-mono text-accent-lavender-bold">{{ reward.highest_bid }} pts</span>
+        <span class="text-ink-tertiary">Высшая ставка</span>
+        <span class="font-bold font-mono text-accent-lavender-bold">{{ formatPts(reward.highest_bid) }}</span>
       </div>
       <div v-if="reward.min_bid && !reward.highest_bid" class="flex justify-between text-sm">
-        <span class="text-ink-tertiary">Minimum bid</span>
-        <span class="font-bold font-mono text-accent-lavender-bold">{{ reward.min_bid }} pts</span>
+        <span class="text-ink-tertiary">Минимальная ставка</span>
+        <span class="font-bold font-mono text-accent-lavender-bold">{{ formatPts(reward.min_bid) }}</span>
       </div>
       <div v-if="reward.my_bid" class="flex justify-between text-sm">
-        <span class="text-ink-tertiary">Your current bid</span>
-        <span class="font-bold font-mono text-golden-600 dark:text-golden-400">{{ reward.my_bid }} pts (held)</span>
+        <span class="text-ink-tertiary">Ваша текущая ставка</span>
+        <span class="font-bold font-mono text-golden-600 dark:text-golden-400">{{ formatPts(reward.my_bid) }} (в резерве)</span>
       </div>
       <div class="flex justify-between text-sm">
-        <span class="text-ink-tertiary">Available points</span>
-        <span class="font-bold font-mono">{{ availablePoints }} pts</span>
+        <span class="text-ink-tertiary">Доступно</span>
+        <span class="font-bold font-mono">{{ formatPts(availablePoints) }}</span>
       </div>
       <div class="flex justify-between text-sm">
-        <span class="text-ink-tertiary">Total bids</span>
+        <span class="text-ink-tertiary">Всего ставок</span>
         <span class="font-medium">{{ reward.total_bids || 0 }}</span>
       </div>
     </div>
@@ -32,16 +32,16 @@
     <KinInput
       v-model.number="bidAmount"
       type="number"
-      label="Your Bid"
-      :placeholder="`Min: ${minimumBid} pts`"
-      helper="Points will be held until the auction ends. Released if outbid."
+      label="Ваша ставка"
+      :placeholder="`Минимум: ${formatPts(minimumBid)}`"
+      helper="Баллы замораживаются до конца аукциона. Если вашу ставку перебьют, баллы вернутся."
       :error="error"
-      aria-label="Bid amount"
+      aria-label="Сумма ставки"
     />
 
     <template #actions>
       <div class="flex justify-end gap-2">
-        <KinButton variant="ghost" size="sm" @click="$emit('close')">Cancel</KinButton>
+        <KinButton variant="ghost" size="sm" @click="$emit('close')">Отмена</KinButton>
         <KinButton
           variant="primary"
           size="sm"
@@ -49,7 +49,7 @@
           :loading="submitting"
           @click="submitBid"
         >
-          {{ submitting ? 'Placing...' : (reward.my_bid ? 'Update Bid' : 'Place Bid') }}
+          {{ submitting ? 'Отправка…' : (reward.my_bid ? 'Обновить ставку' : 'Сделать ставку') }}
         </KinButton>
       </div>
     </template>
@@ -59,6 +59,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { usePointsStore } from '@/stores/points'
+import { formatPts } from '@/utils/plural'
 import KinModalSheet from '@/components/design-system/KinModalSheet.vue'
 import KinInput from '@/components/design-system/KinInput.vue'
 import KinButton from '@/components/design-system/KinButton.vue'

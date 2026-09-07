@@ -1,37 +1,37 @@
 <template>
-  <KinModalSheet :model-value="show" title="Deduct Points" size="sm" @close="$emit('close')">
+  <KinModalSheet :model-value="show" title="Списать баллы" size="sm" @close="$emit('close')">
     <div class="space-y-4">
       <KinSelect
         v-model="selectedUser"
-        label="Member"
-        placeholder="Select member..."
+        label="Участник"
+        placeholder="Выберите участника…"
         :options="memberOptions"
       />
 
       <KinInput
         v-model.number="points"
         type="number"
-        label="Points"
+        label="Баллы"
         placeholder="5"
       />
 
       <KinInput
         v-model="reason"
         type="text"
-        label="Reason"
-        placeholder="Reason for deduction..."
+        label="Причина"
+        placeholder="Причина списания…"
       />
     </div>
 
     <template #actions>
       <div class="flex justify-end gap-2">
-        <KinButton variant="ghost" @click="$emit('close')">Cancel</KinButton>
+        <KinButton variant="ghost" @click="$emit('close')">Отмена</KinButton>
         <KinButton
           variant="danger"
           :disabled="!selectedUser || !points || !reason.trim()"
           @click="submit"
         >
-          Deduct
+          Списать
         </KinButton>
       </div>
     </template>

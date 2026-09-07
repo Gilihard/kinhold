@@ -38,30 +38,30 @@ class CalendarEventReminderNotification extends Notification implements ShouldQu
     public function toMail(object $notifiable): MailMessage
     {
         $appUrl = config('app.url');
-        $timeLine = 'Starts at '.$this->occurrenceAt->format('M j, g:i A');
+        $timeLine = 'Начало: '.(clone $this->occurrenceAt)->locale('ru')->translatedFormat('j F, H:i');
 
         $message = (new MailMessage)
-            ->subject("Starting soon: {$this->event->title}")
-            ->greeting("Hi {$notifiable->name}!")
-            ->line('A reminder for an upcoming event:')
+            ->subject("Скоро начнётся: {$this->event->title}")
+            ->greeting("Привет, {$notifiable->name}!")
+            ->line('Напоминание о предстоящем событии:')
             ->line("**{$this->event->title}**")
             ->line($timeLine);
 
         if ($this->event->location) {
-            $message->line("Location: {$this->event->location}");
+            $message->line("Место: {$this->event->location}");
         }
 
         if ($this->event->recurrence_label) {
             $message->line($this->event->recurrence_label);
         }
 
-        return $message->action('View Calendar', "{$appUrl}/calendar");
+        return $message->action('Открыть календарь', "{$appUrl}/calendar");
     }
 
     public function toWebPush(object $notifiable, Notification $notification): WebPushMessage
     {
         $minutesBefore = (int) ($this->event->reminder_minutes_before ?? 0);
-        $body = "In {$minutesBefore} minutes";
+        $body = 'Через '.$minutesBefore.' '.self::pluralRu($minutesBefore, 'минуту', 'минуты', 'минут');
         if ($this->event->location) {
             $body .= " · {$this->event->location}";
         }
@@ -79,5 +79,19 @@ class CalendarEventReminderNotification extends Notification implements ShouldQu
                 'occurrence_date' => $this->occurrenceAt->toDateString(),
             ])
             ->options(['TTL' => 60 * 60 * 24]);
+    }
+
+    private static function pluralRu(int $n, string $one, string $few, string $many): string
+    {
+        $abs = abs($n) % 100;
+        $last = $abs % 10;
+        if ($last === 1 && $abs !== 11) {
+            return $one;
+        }
+        if ($last >= 2 && $last <= 4 && ($abs < 12 || $abs > 14)) {
+            return $few;
+        }
+
+        return $many;
     }
 }

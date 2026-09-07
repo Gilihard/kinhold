@@ -1,7 +1,7 @@
 <template>
   <KinModalSheet
     :model-value="show"
-    title="Log a Cook"
+    title="Запись о приготовлении"
     size="sm"
     @update:model-value="(v) => !v && $emit('close')"
   >
@@ -9,30 +9,30 @@
       <KinInput
         v-model="form.cooked_at"
         type="date"
-        label="Date"
+        label="Дата"
         required
       />
 
       <KinInput
         v-model.number="form.servings_made"
         type="number"
-        label="Servings made"
+        label="Приготовлено порций"
         :min="1"
-        placeholder="Optional"
+        placeholder="Необязательно"
       />
 
       <KinTextarea
         v-model="form.notes"
-        label="Notes"
+        label="Заметки"
         :rows="3"
-        placeholder="How did it turn out? Any changes you made?"
+        placeholder="Как получилось? Что-то меняли в рецепте?"
       />
     </form>
 
     <template #actions>
-      <KinButton variant="secondary" @click="$emit('close')">Cancel</KinButton>
+      <KinButton variant="secondary" @click="$emit('close')">Отмена</KinButton>
       <KinButton variant="primary" :loading="saving" @click="handleSubmit">
-        {{ saving ? 'Saving...' : 'Save' }}
+        {{ saving ? 'Сохранение…' : 'Сохранить' }}
       </KinButton>
     </template>
   </KinModalSheet>

@@ -29,11 +29,11 @@
           v-if="isToday"
           class="text-[10px] font-bold uppercase tracking-wider bg-[#C4975A] text-white px-1.5 py-0.5 rounded-full"
         >
-          Today
+          Сегодня
         </span>
       </div>
       <span v-if="totalEntries > 0" class="text-xs bg-[#F5F2EE] dark:bg-[#252528] text-[#6B6966] dark:text-[#9C9895] px-2 py-0.5 rounded-full">
-        {{ totalEntries }} meal{{ totalEntries !== 1 ? 's' : '' }}
+        {{ totalEntries }} {{ pluralRu(totalEntries, 'блюдо', 'блюда', 'блюд') }}
       </span>
     </div>
 
@@ -77,7 +77,7 @@
           @click="$emit('add-entry', date, slot.key)"
         >
           <PlusIcon class="w-4 h-4" />
-          Add
+          Добавить
         </button>
       </div>
     </div>
@@ -90,6 +90,7 @@ import { DateTime } from 'luxon'
 import { VueDraggable } from 'vue-draggable-plus'
 import { PlusIcon, SunIcon, CloudIcon, MoonIcon, CakeIcon } from '@heroicons/vue/24/outline'
 import MealEntryCard from './MealEntryCard.vue'
+import { pluralRu } from '@/utils/plural'
 import { useMealsStore } from '@/stores/meals'
 
 const props = defineProps({
@@ -102,15 +103,15 @@ defineEmits(['add-entry', 'entry-click', 'entry-delete'])
 const mealsStore = useMealsStore()
 
 const dt = computed(() => DateTime.fromISO(props.date))
-const dayLabel = computed(() => dt.value.toFormat('EEEE, MMM d'))
+const dayLabel = computed(() => dt.value.toFormat('EEEE, d MMMM'))
 const isToday = computed(() => dt.value.hasSame(DateTime.now(), 'day'))
 const isPast = computed(() => dt.value.startOf('day') < DateTime.now().startOf('day'))
 
 const ALL_SLOTS = [
-  { key: 'breakfast', label: 'Breakfast', icon: SunIcon },
-  { key: 'lunch', label: 'Lunch', icon: CloudIcon },
-  { key: 'dinner', label: 'Dinner', icon: MoonIcon },
-  { key: 'snack', label: 'Snack', icon: CakeIcon },
+  { key: 'breakfast', label: 'Завтрак', icon: SunIcon },
+  { key: 'lunch', label: 'Обед', icon: CloudIcon },
+  { key: 'dinner', label: 'Ужин', icon: MoonIcon },
+  { key: 'snack', label: 'Перекус', icon: CakeIcon },
 ]
 
 const slots = computed(() =>

@@ -4,23 +4,23 @@
     <div class="space-y-4">
       <!-- Title -->
       <div>
-        <label class="block text-sm font-medium text-ink-primary mb-1">Title <span class="text-status-failed">*</span></label>
+        <label class="block text-sm font-medium text-ink-primary mb-1">Название <span class="text-status-failed">*</span></label>
         <input
           v-model="form.title"
           type="text"
           required
-          placeholder="Recipe name"
+          placeholder="Название рецепта"
           class="input-base"
         />
       </div>
 
       <!-- Description -->
       <div>
-        <label class="block text-sm font-medium text-ink-primary mb-1">Description</label>
+        <label class="block text-sm font-medium text-ink-primary mb-1">Описание</label>
         <textarea
           v-model="form.description"
           rows="2"
-          placeholder="Brief description"
+          placeholder="Краткое описание"
           class="input-base resize-none"
         ></textarea>
       </div>
@@ -28,7 +28,7 @@
       <!-- Row: Servings / Prep / Cook -->
       <div class="grid grid-cols-3 gap-3">
         <div>
-          <label class="block text-xs font-medium text-ink-primary mb-1">Servings</label>
+          <label class="block text-xs font-medium text-ink-primary mb-1">Порции</label>
           <input
             v-model.number="form.servings"
             type="number"
@@ -39,7 +39,7 @@
           />
         </div>
         <div>
-          <label class="block text-xs font-medium text-ink-primary mb-1">Prep (min)</label>
+          <label class="block text-xs font-medium text-ink-primary mb-1">Подготовка (мин)</label>
           <input
             v-model.number="form.prep_time_minutes"
             type="number"
@@ -49,7 +49,7 @@
           />
         </div>
         <div>
-          <label class="block text-xs font-medium text-ink-primary mb-1">Cook (min)</label>
+          <label class="block text-xs font-medium text-ink-primary mb-1">Приготовление (мин)</label>
           <input
             v-model.number="form.cook_time_minutes"
             type="number"
@@ -62,7 +62,7 @@
 
       <!-- Source URL (readonly if imported) -->
       <div v-if="form.source_url">
-        <label class="block text-sm font-medium text-ink-primary mb-1">Source</label>
+        <label class="block text-sm font-medium text-ink-primary mb-1">Источник</label>
         <input
           v-model="form.source_url"
           type="url"
@@ -78,13 +78,13 @@
     <!-- Ingredients -->
     <div>
       <div class="flex items-center justify-between mb-2">
-        <label class="text-sm font-semibold text-ink-primary">Ingredients</label>
+        <label class="text-sm font-semibold text-ink-primary">Ингредиенты</label>
         <button
           type="button"
           class="text-xs font-medium text-[#C4975A] hover:text-[#D4A96A] transition-colors"
           @click="addIngredient"
         >
-          + Add ingredient
+          + Добавить ингредиент
         </button>
       </div>
       <div class="space-y-2">
@@ -98,21 +98,21 @@
             <input
               v-model="ing.quantity"
               type="text"
-              placeholder="Qty"
+              placeholder="Кол-во"
               class="input-base col-span-2 text-center"
             />
             <!-- Unit -->
             <input
               v-model="ing.unit"
               type="text"
-              placeholder="Unit"
+              placeholder="Ед."
               class="input-base col-span-2"
             />
             <!-- Name -->
             <input
               v-model="ing.name"
               type="text"
-              placeholder="Ingredient name"
+              placeholder="Название ингредиента"
               required
               class="input-base col-span-5"
             />
@@ -120,7 +120,7 @@
             <input
               v-model="ing.preparation"
               type="text"
-              placeholder="Prep"
+              placeholder="Подготовка"
               class="input-base col-span-3"
             />
           </div>
@@ -128,7 +128,7 @@
           <button
             type="button"
             class="p-1.5 text-ink-tertiary hover:text-status-failed transition-colors flex-shrink-0 mt-1"
-            aria-label="Remove ingredient"
+            aria-label="Удалить ингредиент"
             @click="removeIngredient(index)"
           >
             <XMarkIcon class="w-4 h-4" />
@@ -141,20 +141,20 @@
         class="w-full mt-2 py-3 text-sm text-ink-tertiary border border-dashed border-border-subtle rounded-xl hover:border-[#C4975A] hover:text-[#C4975A] transition-colors"
         @click="addIngredient"
       >
-        + Add your first ingredient
+        + Добавить первый ингредиент
       </button>
     </div>
 
     <!-- Instructions -->
     <div>
       <div class="flex items-center justify-between mb-2">
-        <label class="text-sm font-semibold text-ink-primary">Instructions</label>
+        <label class="text-sm font-semibold text-ink-primary">Шаги</label>
         <button
           type="button"
           class="text-xs font-medium text-[#C4975A] hover:text-[#D4A96A] transition-colors"
           @click="addInstruction"
         >
-          + Add step
+          + Добавить шаг
         </button>
       </div>
       <div class="space-y-2">
@@ -173,14 +173,14 @@
           <textarea
             v-model="form.instructions[index]"
             rows="2"
-            placeholder="Describe this step..."
+            placeholder="Опишите этот шаг…"
             class="input-base flex-1 resize-none"
           ></textarea>
           <!-- Remove -->
           <button
             type="button"
             class="p-1.5 text-ink-tertiary hover:text-status-failed transition-colors flex-shrink-0 mt-1"
-            aria-label="Remove step"
+            aria-label="Удалить шаг"
             @click="removeInstruction(index)"
           >
             <XMarkIcon class="w-4 h-4" />
@@ -193,13 +193,13 @@
         class="w-full mt-2 py-3 text-sm text-ink-tertiary border border-dashed border-border-subtle rounded-xl hover:border-[#C4975A] hover:text-[#C4975A] transition-colors"
         @click="addInstruction"
       >
-        + Add your first step
+        + Добавить первый шаг
       </button>
     </div>
 
     <!-- Tags -->
     <div v-if="allTags.length > 0">
-      <label class="block text-sm font-semibold text-ink-primary mb-2">Tags</label>
+      <label class="block text-sm font-semibold text-ink-primary mb-2">Теги</label>
       <div class="flex flex-wrap gap-2">
         <button
           v-for="tag in recipeTags"
@@ -225,14 +225,14 @@
 
     <!-- Allergens -->
     <div v-if="foodEnabled && allergensStore.allergens.length > 0">
-      <label class="block text-sm font-semibold text-ink-primary mb-1">Allergens</label>
+      <label class="block text-sm font-semibold text-ink-primary mb-1">Аллергены</label>
       <p class="text-xs text-ink-secondary mb-2">
-        Tap once for "contains", twice for "may contain", three times to clear.
+        Одно нажатие — «содержит», два — «может содержать», три — сбросить.
       </p>
       <div
         class="flex flex-wrap gap-2"
         role="group"
-        aria-label="Allergens this recipe contains"
+        aria-label="Аллергены, которые содержит рецепт"
       >
         <button
           v-for="allergen in allergensStore.allergens"
@@ -250,11 +250,11 @@
 
     <!-- Notes -->
     <div>
-      <label class="block text-sm font-medium text-ink-primary mb-1">Notes</label>
+      <label class="block text-sm font-medium text-ink-primary mb-1">Заметки</label>
       <textarea
         v-model="form.notes"
         rows="3"
-        placeholder="Tips, variations, or personal notes..."
+        placeholder="Советы, варианты или личные заметки…"
         class="input-base resize-none"
       ></textarea>
     </div>
@@ -266,14 +266,14 @@
         class="px-4 py-2.5 text-sm font-medium text-ink-primary bg-surface-sunken hover:bg-surface-overlay rounded-[10px] transition-colors"
         @click="$emit('cancel')"
       >
-        Cancel
+        Отмена
       </button>
       <button
         type="submit"
         class="px-6 py-2.5 text-sm font-medium text-white bg-[#C4975A] hover:bg-[#D4A96A] rounded-[10px] transition-colors disabled:opacity-50"
         :disabled="!form.title || saving"
       >
-        {{ saving ? "Saving..." : recipe ? "Update Recipe" : "Save Recipe" }}
+        {{ saving ? "Сохранение…" : recipe ? "Обновить рецепт" : "Сохранить рецепт" }}
       </button>
     </div>
   </form>
@@ -562,16 +562,16 @@ const allergenChipClass = (id) => {
 const allergenChipLabel = (allergen) => {
   const state = allergenState(allergen.id);
   if (state === "may_contain")
-    return `May contain ${allergen.name.toLowerCase()}`;
+    return `Может содержать ${allergen.name.toLowerCase()}`;
   return allergen.name;
 };
 
 // Screen-reader status description for the tri-state chip.
 const allergenStateLabel = (id) => {
   const state = allergenState(id);
-  if (state === "contains") return "contains, press to mark may contain";
-  if (state === "may_contain") return "may contain, press to clear";
-  return "not present, press to mark contains";
+  if (state === "contains") return "содержит — нажмите, чтобы переключить на «может содержать»";
+  if (state === "may_contain") return "может содержать — нажмите, чтобы сбросить";
+  return "не содержит — нажмите, чтобы отметить как «содержит»";
 };
 
 // ── Submit ──

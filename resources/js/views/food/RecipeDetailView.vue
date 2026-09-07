@@ -9,9 +9,9 @@
     <KinEmptyState
       v-else-if="!recipe && !isLoading"
       :icon="ExclamationCircleIcon"
-      title="Recipe not found"
-      description="This recipe may have been deleted."
-      action-text="Back to Recipes"
+      title="Рецепт не найден"
+      description="Возможно, этот рецепт был удалён."
+      action-text="Вернуться к рецептам"
       @action="$router.push({ name: 'Food' })"
     />
 
@@ -23,7 +23,7 @@
           variant="ghost"
           size="sm"
           icon-only
-          aria-label="Back to recipes"
+          aria-label="Назад к рецептам"
           @click="$router.push({ name: 'Food' })"
         >
           <ArrowLeftIcon class="w-5 h-5" />
@@ -38,7 +38,7 @@
           <button
             class="p-2 rounded-lg transition-colors"
             :class="recipe.is_favorite ? 'text-status-failed' : 'text-ink-tertiary hover:text-status-failed'"
-            aria-label="Toggle favorite"
+            :aria-label="recipe.is_favorite ? 'Убрать из избранного' : 'Добавить в избранное'"
             @click="handleToggleFavorite"
           >
             <HeartIconSolid v-if="recipe.is_favorite" class="w-5 h-5" />
@@ -49,7 +49,7 @@
             variant="ghost"
             size="sm"
             icon-only
-            aria-label="Share recipe"
+            aria-label="Поделиться рецептом"
             @click="showShareModal = true"
           >
             <ShareIcon class="w-5 h-5" />
@@ -59,7 +59,7 @@
             variant="ghost"
             size="sm"
             icon-only
-            aria-label="Edit recipe"
+            aria-label="Редактировать рецепт"
             @click="showEditForm = true"
           >
             <PencilSquareIcon class="w-5 h-5" />
@@ -69,7 +69,7 @@
             variant="ghost"
             size="sm"
             icon-only
-            aria-label="Delete recipe"
+            aria-label="Удалить рецепт"
             @click="showDeleteConfirm = true"
           >
             <TrashIcon class="w-5 h-5" />
@@ -89,7 +89,7 @@
             :key="img.id || img.path"
             type="button"
             class="shrink-0 w-16 h-16 rounded-lg overflow-hidden border border-border-subtle bg-surface-sunken hover:border-accent-lavender-bold transition-colors"
-            :aria-label="`View image`"
+            aria-label="Просмотр изображения"
             @click="setHero(img.path)"
           >
             <img :src="resolveStoragePath(img.path)" alt="" class="w-full h-full object-cover" />
@@ -108,14 +108,14 @@
         <div class="flex flex-wrap items-center gap-2">
           <span v-if="recipe.prep_time_minutes" class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium bg-surface-sunken text-ink-secondary rounded-full">
             <ClockIcon class="w-3.5 h-3.5" />
-            Prep {{ formatTime(recipe.prep_time_minutes) }}
+            Подготовка: {{ formatTime(recipe.prep_time_minutes) }}
           </span>
           <span v-if="recipe.cook_time_minutes" class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium bg-surface-sunken text-ink-secondary rounded-full">
             <FireIcon class="w-3.5 h-3.5" />
-            Cook {{ formatTime(recipe.cook_time_minutes) }}
+            Приготовление: {{ formatTime(recipe.cook_time_minutes) }}
           </span>
           <span v-if="totalTime" class="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium bg-[#C4975A]/10 text-[#C4975A] rounded-full">
-            Total {{ formatTime(totalTime) }}
+            Всего: {{ formatTime(totalTime) }}
           </span>
         </div>
 
@@ -156,7 +156,7 @@
         <!-- Creator -->
         <div v-if="recipe.creator" class="flex items-center gap-2 text-xs text-ink-tertiary">
           <UserAvatar :user="recipe.creator" size="xs" />
-          <span>Added by {{ recipe.creator.name }}</span>
+          <span>Добавил(а) {{ recipe.creator.name }}</span>
         </div>
       </div>
 
@@ -169,7 +169,7 @@
       <div class="px-4 md:px-6 py-4 space-y-6 pb-32 md:pb-6">
         <!-- Ingredients -->
         <section v-if="recipe.ingredients?.length">
-          <h2 class="text-base font-semibold font-heading text-ink-primary mb-3">Ingredients</h2>
+          <h2 class="text-base font-semibold font-heading text-ink-primary mb-3">Ингредиенты</h2>
           <IngredientList
             :ingredients="recipe.ingredients"
             :original-servings="recipe.servings || 4"
@@ -178,19 +178,19 @@
 
         <!-- Instructions -->
         <section v-if="recipe.instructions?.length">
-          <h2 class="text-base font-semibold font-heading text-ink-primary mb-3">Instructions</h2>
+          <h2 class="text-base font-semibold font-heading text-ink-primary mb-3">Шаги приготовления</h2>
           <StepList :instructions="recipe.instructions" />
         </section>
 
         <!-- Notes -->
         <section v-if="recipe.notes">
-          <h2 class="text-base font-semibold font-heading text-ink-primary mb-2">Notes</h2>
+          <h2 class="text-base font-semibold font-heading text-ink-primary mb-2">Заметки</h2>
           <p class="text-sm text-ink-secondary whitespace-pre-line">{{ recipe.notes }}</p>
         </section>
 
         <!-- Rating -->
         <section>
-          <h2 class="text-base font-semibold font-heading text-ink-primary mb-3">Rating</h2>
+          <h2 class="text-base font-semibold font-heading text-ink-primary mb-3">Оценка</h2>
           <FamilyRating
             :recipe-id="recipe.id"
             :average-rating="recipe.family_average_rating || 0"
@@ -203,17 +203,17 @@
         <!-- Cook Log -->
         <section>
           <div class="flex items-center justify-between mb-3">
-            <h2 class="text-base font-semibold font-heading text-ink-primary">Cook Log</h2>
+            <h2 class="text-base font-semibold font-heading text-ink-primary">Журнал приготовлений</h2>
             <button
               class="text-xs font-medium text-[#C4975A] hover:text-[#D4A96A] transition-colors"
               @click="showCookLogModal = true"
             >
-              + Log a Cook
+              + Записать приготовление
             </button>
           </div>
 
           <div v-if="cookLogs.length === 0" class="text-sm text-ink-tertiary">
-            No cook logs yet. Make this recipe and log it!
+            Пока нет записей о приготовлении. Приготовьте этот рецепт и добавьте запись!
           </div>
           <div v-else class="space-y-3">
             <div
@@ -226,7 +226,7 @@
                 <div class="flex items-center gap-2 text-xs text-ink-tertiary">
                   <span class="font-medium text-ink-primary">{{ log.user?.name }}</span>
                   <span>{{ formatDate(log.cooked_at) }}</span>
-                  <span v-if="log.servings_made">{{ log.servings_made }} servings</span>
+                  <span v-if="log.servings_made">{{ log.servings_made }} {{ pluralRu(log.servings_made, 'порция', 'порции', 'порций') }}</span>
                 </div>
                 <p v-if="log.notes" class="text-sm text-ink-secondary mt-1">{{ log.notes }}</p>
               </div>
@@ -237,7 +237,7 @@
     </template>
 
     <!-- Edit form -->
-    <KinModalSheet v-model="showEditForm" title="Edit Recipe" size="lg" @close="showEditForm = false">
+    <KinModalSheet v-model="showEditForm" title="Редактировать рецепт" size="lg" @close="showEditForm = false">
       <RecipeForm ref="editFormRef" :recipe="recipe" @save="handleUpdate" @cancel="showEditForm = false" />
     </KinModalSheet>
 
@@ -252,9 +252,9 @@
     <!-- Delete confirmation -->
     <ConfirmDialog
       :show="showDeleteConfirm"
-      title="Delete Recipe"
-      message="This recipe will be moved to trash. You can restore it later."
-      confirm-text="Delete"
+      title="Удалить рецепт"
+      message="Рецепт будет перемещён в корзину. Его можно будет восстановить позже."
+      confirm-text="Удалить"
       variant="danger"
       @confirm="handleDelete"
       @cancel="showDeleteConfirm = false"
@@ -275,6 +275,7 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
+import { pluralRu } from '@/utils/plural'
 import { useRecipesStore } from '@/stores/recipes'
 import { useAuthStore } from '@/stores/auth'
 import { useNotification } from '@/composables/useNotification'
@@ -370,16 +371,16 @@ const sourceDomain = computed(() => {
 
 const formatTime = (minutes) => {
   if (!minutes) return ''
-  if (minutes < 60) return `${minutes}m`
+  if (minutes < 60) return `${minutes} мин`
   const h = Math.floor(minutes / 60)
   const m = minutes % 60
-  return m > 0 ? `${h}h ${m}m` : `${h}h`
+  return m > 0 ? `${h} ч ${m} мин` : `${h} ч`
 }
 
 const formatDate = (dateStr) => {
   if (!dateStr) return ''
   const date = new Date(dateStr)
-  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+  return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' }).replace(/ г\.$/, '')
 }
 
 const loadRecipe = async () => {
@@ -430,7 +431,7 @@ const handleCookLogSaved = async (data) => {
   const result = await recipesStore.addCookLog(recipe.value.id, data)
   if (result.success) {
     showCookLogModal.value = false
-    success('Cook logged!')
+    success('Приготовление записано!')
     // Refresh cook logs
     const logsResult = await recipesStore.fetchCookLogs(recipe.value.id)
     if (logsResult.success) cookLogs.value = logsResult.cookLogs || []
@@ -445,7 +446,7 @@ const handleUpdate = async (formData) => {
   const result = await recipesStore.updateRecipe(recipe.value.id, formData)
   if (result.success) {
     showEditForm.value = false
-    success('Recipe updated!')
+    success('Рецепт обновлён!')
   } else {
     notifyError(result.error)
     if (editFormRef.value) editFormRef.value.saving = false
@@ -456,7 +457,7 @@ const handleDelete = async () => {
   const result = await recipesStore.deleteRecipe(recipe.value.id)
   if (result.success) {
     showDeleteConfirm.value = false
-    success('Recipe deleted')
+    success('Рецепт удалён')
     router.push({ name: 'Food' })
   } else {
     notifyError(result.error)

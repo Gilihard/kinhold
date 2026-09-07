@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,8 +17,8 @@
 </td></tr>
 <tr><td style="padding:24px 40px 32px;border-top:1px solid #E8E4DF;font-size:13px;color:#6B6966;line-height:1.5;">
 @hasSection('footer_extra')@yield('footer_extra')@endif
-<p style="margin:0 0 8px;">Manage your subscription anytime in <a href="{{ $portalUrl ?? config('app.url') }}" style="color:#C4975A;text-decoration:none;">your billing settings</a>.</p>
-<p style="margin:0;color:#9C9895;">Kinhold — your family hub.</p>
+<p style="margin:0 0 8px;">Управляйте подпиской в любой момент в <a href="{{ $portalUrl ?? config('app.url') }}" style="color:#C4975A;text-decoration:none;">настройках оплаты</a>.</p>
+<p style="margin:0;color:#9C9895;">Kinhold — ваш семейный центр.</p>
 </td></tr>
 </table>
 </td></tr>

@@ -2,7 +2,7 @@
   <div v-if="pendingRequests.length > 0" class="card mb-4">
     <div class="px-4 pt-3 pb-2 border-b border-border-subtle flex items-center justify-between">
       <p class="text-sm font-semibold font-heading text-ink-primary">
-        Pending Point Requests
+        Запросы баллов на рассмотрении
       </p>
       <span class="bg-accent-lavender-bold text-white text-xs font-bold px-2 py-0.5 rounded-full">
         {{ pendingRequests.length }}
@@ -17,7 +17,7 @@
       >
         <div class="flex-1 min-w-0">
           <p class="text-sm font-medium text-ink-primary truncate">
-            {{ req.user?.name }} requested <span class="font-bold font-mono text-accent-lavender-bold">{{ req.points }} pts</span>
+            {{ req.user?.name }} запросил(а) <span class="font-bold font-mono text-accent-lavender-bold">{{ formatPts(req.points) }}</span>
           </p>
           <p class="text-xs text-ink-tertiary truncate">{{ req.reason }}</p>
         </div>
@@ -26,13 +26,13 @@
             class="btn-sm bg-status-success hover:opacity-90 text-white px-3 py-1 rounded-lg text-xs font-medium"
             @click="$emit('approve', req.id)"
           >
-            Approve
+            Одобрить
           </button>
           <button
             class="btn-sm bg-status-failed hover:opacity-90 text-white px-3 py-1 rounded-lg text-xs font-medium"
             @click="$emit('deny', req.id)"
           >
-            Deny
+            Отклонить
           </button>
         </div>
       </div>
@@ -42,6 +42,7 @@
 
 <script setup>
 import { computed } from 'vue'
+import { formatPts } from '@/utils/plural'
 
 const props = defineProps({
   requests: {

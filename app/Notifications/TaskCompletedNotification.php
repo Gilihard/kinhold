@@ -39,19 +39,34 @@ class TaskCompletedNotification extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         $appUrl = config('app.url');
-        $pointsText = $this->task->getEffectivePoints() > 0
-            ? " (+{$this->task->getEffectivePoints()} points)"
+        $points = $this->task->getEffectivePoints();
+        $pointsText = $points > 0
+            ? ' (+'.$points.' '.self::pluralRu($points, 'балл', 'балла', 'баллов').')'
             : '';
 
         return (new MailMessage)
-            ->subject("Task completed: {$this->task->title}")
-            ->greeting("Hi {$notifiable->name}!")
-            ->line("**{$this->completedBy->name}** completed a task{$pointsText}:")
+            ->subject("Задача выполнена: {$this->task->title}")
+            ->greeting("Привет, {$notifiable->name}!")
+            ->line("**{$this->completedBy->name}** выполнил(а) задачу{$pointsText}:")
             ->line("**{$this->task->title}**")
             ->when($this->task->description, function (MailMessage $message) {
                 $message->line($this->task->description);
             })
-            ->action('View Tasks', "{$appUrl}/tasks")
-            ->line('Keep up the great work!');
+            ->action('Открыть задачи', "{$appUrl}/tasks")
+            ->line('Так держать!');
+    }
+
+    private static function pluralRu(int $n, string $one, string $few, string $many): string
+    {
+        $abs = abs($n) % 100;
+        $last = $abs % 10;
+        if ($last === 1 && $abs !== 11) {
+            return $one;
+        }
+        if ($last >= 2 && $last <= 4 && ($abs < 12 || $abs > 14)) {
+            return $few;
+        }
+
+        return $many;
     }
 }

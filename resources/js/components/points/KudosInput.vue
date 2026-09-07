@@ -12,7 +12,7 @@
       :class="selectedMember
         ? 'bg-transparent'
         : 'bg-surface-sunken text-ink-tertiary hover:bg-surface-overlay border border-dashed border-border-subtle'"
-      :aria-label="selectedMember ? `Recipient: ${selectedMember.name}. Tap to change` : 'Select recipient'"
+      :aria-label="selectedMember ? `Получатель: ${selectedMember.name}. Нажмите, чтобы изменить` : 'Выберите получателя'"
       @click="openPicker"
     >
       <UserAvatar v-if="selectedMember" :user="selectedMember" size="sm" />
@@ -24,7 +24,7 @@
         ref="reasonInputRef"
         v-model="reason"
         type="text"
-        :placeholder="selectedMember ? `Kudos for ${selectedMember.name.split(' ')[0]}…` : 'Pick a recipient first'"
+        :placeholder="selectedMember ? `Похвала для ${selectedMember.name.split(' ')[0]}…` : 'Сначала выберите получателя'"
         :disabled="!selectedMember"
         @keydown.enter="submit"
       />
@@ -37,7 +37,7 @@
       class="flex-shrink-0"
       @click="submit"
     >
-      Give
+      Похвалить
     </KinButton>
   </div>
 
@@ -49,7 +49,7 @@
         class="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 backdrop-blur-sm"
         role="dialog"
         aria-modal="true"
-        aria-label="Select kudos recipient"
+        aria-label="Выбрать получателя похвалы"
         tabindex="-1"
         @click.self="closePicker"
         @keydown.esc.stop.prevent="closePicker"
@@ -59,12 +59,12 @@
           @click.stop
         >
           <div class="px-5 pt-5 pb-3 border-b border-border-subtle flex items-center justify-between">
-            <h3 class="text-base font-semibold text-ink-primary">Give kudos to…</h3>
+            <h3 class="text-base font-semibold text-ink-primary">Кому отправить похвалу…</h3>
             <button
               ref="closeButtonRef"
               type="button"
               class="w-9 h-9 -mr-2 rounded-full flex items-center justify-center text-ink-tertiary hover:text-ink-primary hover:bg-surface-sunken transition-colors"
-              aria-label="Close recipient picker"
+              aria-label="Закрыть выбор получателя"
               @click="closePicker"
             >
               <XMarkIcon class="w-5 h-5" />

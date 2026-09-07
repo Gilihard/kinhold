@@ -6,7 +6,7 @@
         <button
           v-if="collapsible"
           class="p-0.5 rounded text-ink-tertiary hover:text-ink-primary transition-colors"
-          :aria-label="expanded ? 'Collapse' : 'Expand'"
+          :aria-label="expanded ? 'Свернуть' : 'Развернуть'"
           @click="expanded = !expanded"
         >
           <ChevronDownIcon class="w-4 h-4 transition-transform" :class="{ '-rotate-90': !expanded }" />
@@ -20,7 +20,7 @@
         <span
           v-if="alreadyOnListCount > 0"
           class="flex-shrink-0 inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-medium rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300"
-          :title="`${alreadyOnListCount} already on list`"
+          :title="`${alreadyOnListCount} уже в списке`"
         >
           <CheckCircleIcon class="w-3 h-3" />
           {{ alreadyOnListCount }}
@@ -34,7 +34,7 @@
           class="text-xs text-[#C4975A] hover:underline"
           @click="toggleAll"
         >
-          {{ allSelected ? 'None' : 'All' }}
+          {{ allSelected ? 'Ничего' : 'Все' }}
         </button>
       </div>
     </div>
@@ -42,7 +42,7 @@
     <!-- Ingredient list -->
     <div v-if="!collapsible || expanded" class="space-y-0.5">
       <p v-if="ingredients.length === 0" class="text-xs text-ink-tertiary italic px-3 py-2">
-        No ingredients on this recipe.
+        В этом рецепте нет ингредиентов.
       </p>
       <label
         v-for="ingredient in ingredients"
@@ -65,14 +65,14 @@
               {{ [ingredient.quantity, ingredient.unit].filter(Boolean).join(' ') }}
             </span>
             <span v-if="ingredient.is_optional" class="text-xs text-ink-tertiary ml-1.5 italic">
-              (optional)
+              (по желанию)
             </span>
           </div>
           <span
             v-if="ingredient.already_on_list"
             class="flex-shrink-0 text-[10px] font-medium px-1.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300"
           >
-            On list
+            В списке
           </span>
         </div>
       </label>

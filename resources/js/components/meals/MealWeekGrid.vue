@@ -8,7 +8,7 @@
       <button
         class="p-1 rounded hover:bg-[#C4975A]/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
         :disabled="offset === 0"
-        aria-label="Previous days"
+        aria-label="Предыдущие дни"
         @click="shiftBy(-visibleCount)"
       >
         <ChevronLeftIcon class="w-4 h-4" />
@@ -19,7 +19,7 @@
       <button
         class="p-1 rounded hover:bg-[#C4975A]/10 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
         :disabled="offset + visibleCount >= dates.length"
-        aria-label="Next days"
+        aria-label="Следующие дни"
         @click="shiftBy(visibleCount)"
       >
         <ChevronRightIcon class="w-4 h-4" />
@@ -132,10 +132,10 @@ defineEmits(['add-entry', 'entry-click', 'entry-delete'])
 const mealsStore = useMealsStore()
 
 const ALL_SLOTS = [
-  { key: 'breakfast', label: 'Breakfast', icon: SunIcon },
-  { key: 'lunch', label: 'Lunch', icon: CloudIcon },
-  { key: 'dinner', label: 'Dinner', icon: MoonIcon },
-  { key: 'snack', label: 'Snack', icon: CakeIcon },
+  { key: 'breakfast', label: 'Завтрак', icon: SunIcon },
+  { key: 'lunch', label: 'Обед', icon: CloudIcon },
+  { key: 'dinner', label: 'Ужин', icon: MoonIcon },
+  { key: 'snack', label: 'Перекус', icon: CakeIcon },
 ]
 
 const slots = computed(() =>
@@ -188,10 +188,13 @@ const visibleDates = computed(() => props.dates.slice(offset.value, offset.value
 
 const visibleRangeLabel = computed(() => {
   if (!visibleDates.value.length) return ''
-  const start = DateTime.fromISO(visibleDates.value[0]).toFormat('EEE M/d')
-  const end = DateTime.fromISO(visibleDates.value[visibleDates.value.length - 1]).toFormat('EEE M/d')
-  if (visibleDates.value.length === 1) return start
-  return `${start} – ${end}`
+  const start = DateTime.fromISO(visibleDates.value[0])
+  const end = DateTime.fromISO(visibleDates.value[visibleDates.value.length - 1])
+  if (visibleDates.value.length === 1) return start.toFormat('d MMMM')
+  if (start.year === end.year) {
+    return `${start.toFormat('d MMMM')} – ${end.toFormat('d MMMM yyyy')}`
+  }
+  return `${start.toFormat('d MMMM yyyy')} – ${end.toFormat('d MMMM yyyy')}`
 })
 
 const shiftBy = (delta) => {

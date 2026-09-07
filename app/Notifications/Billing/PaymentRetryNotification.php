@@ -35,9 +35,9 @@ class PaymentRetryNotification extends Notification implements ShouldQueue
         $portalUrl = StripeWebhookController::billingPortalReturnUrl();
 
         return (new MailMessage)
-            ->subject('A reminder about your Kinhold payment')
+            ->subject('Напоминание об оплате Kinhold')
             ->view('emails.billing.payment-retry', [
-                'subject' => 'A reminder about your Kinhold payment',
+                'subject' => 'Напоминание об оплате Kinhold',
                 'userName' => $notifiable->name,
                 'familyName' => $this->family->name,
                 'daysRemaining' => $this->daysRemaining,

@@ -36,7 +36,7 @@
 
     <!-- Earned indicator -->
     <p v-if="badge.is_earned" class="text-xs text-status-success mt-2 font-medium">
-      Earned!
+      Получено!
     </p>
   </div>
 </template>

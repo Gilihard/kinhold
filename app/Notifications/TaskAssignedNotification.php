@@ -43,31 +43,32 @@ class TaskAssignedNotification extends Notification implements ShouldQueue
     {
         $appUrl = config('app.url');
         $dueText = $this->task->due_date
-            ? "Due: {$this->task->due_date->format('M j, Y')}"
-            : 'No due date';
+            ? 'Срок: '.(clone $this->task->due_date)->locale('ru')->translatedFormat('j F Y')
+            : 'Без срока';
 
-        $pointsText = $this->task->getEffectivePoints() > 0
-            ? " ({$this->task->getEffectivePoints()} points)"
+        $points = $this->task->getEffectivePoints();
+        $pointsText = $points > 0
+            ? ' (+'.$points.' '.self::pluralRu($points, 'балл', 'балла', 'баллов').')'
             : '';
 
         return (new MailMessage)
-            ->subject("New task assigned: {$this->task->title}")
-            ->greeting("Hi {$notifiable->name}!")
-            ->line("**{$this->assignedBy->name}** assigned you a new task{$pointsText}:")
+            ->subject("Назначена новая задача: {$this->task->title}")
+            ->greeting("Привет, {$notifiable->name}!")
+            ->line("**{$this->assignedBy->name}** назначил(а) вам новую задачу{$pointsText}:")
             ->line("**{$this->task->title}**")
             ->when($this->task->description, function (MailMessage $message) {
                 $message->line($this->task->description);
             })
             ->line($dueText)
-            ->action('View Task', "{$appUrl}/tasks")
-            ->line("You've got this!");
+            ->action('Открыть задачу', "{$appUrl}/tasks")
+            ->line('У вас всё получится!');
     }
 
     public function toWebPush(object $notifiable, Notification $notification): WebPushMessage
     {
         $points = $this->task->getEffectivePoints();
-        $body = $this->assignedBy->name.' assigned you a task'
-            .($points > 0 ? " ({$points} pts)" : '');
+        $body = $this->assignedBy->name.' назначил(а) вам задачу'
+            .($points > 0 ? ' (+'.$points.' '.self::pluralRu($points, 'балл', 'балла', 'баллов').')' : '');
 
         return (new WebPushMessage)
             ->title($this->task->title)
@@ -81,5 +82,19 @@ class TaskAssignedNotification extends Notification implements ShouldQueue
                 'task_id' => $this->task->id,
             ])
             ->options(['TTL' => 60 * 60 * 24]);
+    }
+
+    private static function pluralRu(int $n, string $one, string $few, string $many): string
+    {
+        $abs = abs($n) % 100;
+        $last = $abs % 10;
+        if ($last === 1 && $abs !== 11) {
+            return $one;
+        }
+        if ($last >= 2 && $last <= 4 && ($abs < 12 || $abs > 14)) {
+            return $few;
+        }
+
+        return $many;
     }
 }

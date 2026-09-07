@@ -4,13 +4,13 @@
     <svg class="w-16 h-16 text-ink-tertiary mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
       <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
     </svg>
-    <h2 class="text-xl font-bold font-heading text-ink-primary mb-2">Create your first list</h2>
-    <p class="text-sm text-ink-tertiary mb-6">Name it after a store, a category, or whatever works for you</p>
+    <h2 class="text-xl font-bold font-heading text-ink-primary mb-2">Создайте первый список</h2>
+    <p class="text-sm text-ink-tertiary mb-6">Назовите его по магазину, категории или так, как удобно вам</p>
     <form class="flex items-center gap-2 w-full max-w-sm" @submit.prevent="handleCreate">
-      <KinInput v-model="storeName" type="text" placeholder="e.g. Costco, Weekly groceries..." class="flex-1" />
-      <KinButton type="submit" variant="primary" :disabled="!storeName.trim()">Create</KinButton>
+      <KinInput v-model="storeName" type="text" placeholder="Например: Costco, продукты на неделю..." class="flex-1" />
+      <KinButton type="submit" variant="primary" :disabled="!storeName.trim()">Создать</KinButton>
     </form>
-    <p class="text-xs text-ink-tertiary mt-3">You can add more lists later</p>
+    <p class="text-xs text-ink-tertiary mt-3">Другие списки можно добавить позже</p>
   </div>
 </template>
 

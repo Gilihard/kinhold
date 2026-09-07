@@ -35,9 +35,9 @@ class LiteTrialEndedNotification extends Notification implements ShouldQueue
         $portalUrl = StripeWebhookController::billingPortalReturnUrl();
 
         return (new MailMessage)
-            ->subject('Your AI Lite trial has ended')
+            ->subject('Ваша пробная версия AI Lite завершилась')
             ->view('emails.billing.lite-trial-ended', [
-                'subject' => 'Your AI Lite trial has ended',
+                'subject' => 'Ваша пробная версия AI Lite завершилась',
                 'userName' => $notifiable->name,
                 'familyName' => $this->family->name,
                 'portalUrl' => $portalUrl,

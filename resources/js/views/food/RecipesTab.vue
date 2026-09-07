@@ -5,11 +5,11 @@
       <!-- Search + view toggle -->
       <div class="flex items-center gap-2 sm:gap-3">
         <div class="flex-1">
-          <KinSearch v-model="searchInput" placeholder="Search recipes..." @input="onSearchInput" />
+          <KinSearch v-model="searchInput" placeholder="Поиск рецептов..." @input="onSearchInput" />
         </div>
         <button
           class="flex-shrink-0 p-2.5 rounded-[10px] transition-colors bg-surface-sunken text-ink-secondary hover:bg-surface-overlay"
-          :title="viewMode === 'grid' ? 'Switch to compact view' : 'Switch to grid view'"
+          :title="viewMode === 'grid' ? 'Переключиться на компактный вид' : 'Переключиться на вид сетки'"
           @click="toggleViewMode"
         >
           <Squares2X2Icon v-if="viewMode === 'compact'" class="w-4 h-4" />
@@ -37,7 +37,7 @@
           @click="toggleFavorites"
         >
           <template #leading><HeartIcon class="w-3 h-3" /></template>
-          Favorites
+          Избранное
         </KinChip>
 
         <!-- Safe-for-member filter (food module) -->
@@ -76,13 +76,13 @@
     <KinEmptyState
       v-else-if="!isLoading && recipes.length === 0"
       :icon="FireIcon"
-      title="No recipes yet"
-      description="Add your first recipe to get started. Import from a URL, snap a photo, or create one from scratch."
+      title="Рецептов пока нет"
+      description="Добавьте первый рецепт, чтобы начать: импортируйте по ссылке, сфотографируйте или создайте с нуля."
       accent-color="peach"
       size="md"
     >
       <template #cta>
-        <KinButton variant="primary" @click="showAddMenu = true">Add Recipe</KinButton>
+        <KinButton variant="primary" @click="showAddMenu = true">Добавить рецепт</KinButton>
       </template>
     </KinEmptyState>
 
@@ -147,7 +147,7 @@
             <button
               class="p-1.5 rounded-full transition-colors"
               :class="recipe.is_favorite ? 'text-red-500' : 'text-ink-tertiary hover:text-red-400'"
-              aria-label="Toggle favorite"
+              :aria-label="recipe.is_favorite ? 'Убрать из избранного' : 'Добавить в избранное'"
               @click.stop="handleToggleFavorite(recipe.id)"
             >
               <HeartIconSolid v-if="recipe.is_favorite" class="w-4 h-4" />
@@ -160,7 +160,7 @@
       <!-- Load more -->
       <div v-if="hasMore" class="flex justify-center mt-6">
         <KinButton variant="secondary" size="md" :loading="isLoading" @click="loadMore">
-          Load More
+          Загрузить ещё
         </KinButton>
       </div>
     </div>
@@ -171,7 +171,7 @@
     <!-- Add recipe menu (sheet) -->
     <KinModalSheet
       :model-value="showAddMenu"
-      title="Add Recipe"
+      title="Добавить рецепт"
       size="sm"
       @update:model-value="(v) => !v && (showAddMenu = false)"
     >
@@ -181,21 +181,21 @@
           @click="openManualCreate"
         >
           <PencilSquareIcon class="w-5 h-5 text-ink-tertiary" />
-          Create from scratch
+          Создать с нуля
         </button>
         <button
           class="w-full flex items-center gap-3 px-4 py-3 text-sm text-ink-primary hover:bg-surface-sunken rounded-[10px] transition-colors"
           @click="openImportUrl"
         >
           <LinkIcon class="w-5 h-5 text-ink-tertiary" />
-          Import from URL
+          Импортировать по ссылке
         </button>
         <button
           class="w-full flex items-center gap-3 px-4 py-3 text-sm text-ink-primary hover:bg-surface-sunken rounded-[10px] transition-colors"
           @click="openImportPhoto"
         >
           <CameraIcon class="w-5 h-5 text-ink-tertiary" />
-          Import from photo
+          Импортировать с фото
         </button>
       </div>
     </KinModalSheet>
@@ -203,7 +203,7 @@
     <!-- Recipe Form Modal (manual create) -->
     <KinModalSheet
       :model-value="showCreateForm"
-      title="New Recipe"
+      title="Новый рецепт"
       size="lg"
       @update:model-value="(v) => !v && (showCreateForm = false)"
     >
@@ -275,11 +275,11 @@ const resolveImageUrl = (path) => {
 
 // Same fallback-gradient picker as the grid RecipeCard, used by compact rows.
 const RECIPE_TAG_TO_GRADIENT = {
-  Breakfast: 'sun',
-  Lunch:     'mint',
-  Dinner:    'lavender',
-  Dessert:   'peach',
-  Snack:     'warm',
+  Breakfast: 'sun', Завтрак: 'sun',
+  Lunch: 'mint',     Обед: 'mint',
+  Dinner: 'lavender', Ужин: 'lavender',
+  Dessert: 'peach',  Десерт: 'peach',
+  Snack: 'warm',     Перекус: 'warm',
 }
 const RECIPE_HASH_GRADIENTS = ['warm', 'lavender', 'peach', 'mint', 'sun', 'cool']
 const recipeFallbackGradient = (recipe) => {
@@ -316,18 +316,18 @@ const toggleViewMode = () => {
 const compactTime = (recipe) => {
   const total = recipe.total_time_minutes || (recipe.prep_time_minutes || 0) + (recipe.cook_time_minutes || 0)
   if (!total) return null
-  if (total < 60) return `${total}m`
+  if (total < 60) return `${total} мин`
   const h = Math.floor(total / 60)
   const m = total % 60
-  return m > 0 ? `${h}h ${m}m` : `${h}h`
+  return m > 0 ? `${h} ч ${m} мин` : `${h} ч`
 }
 
 let searchDebounce = null
 
 const sortOptions = [
-  { value: 'recent', label: 'Recent' },
-  { value: 'alpha', label: 'A-Z' },
-  { value: 'rating', label: 'Top Rated' },
+  { value: 'recent', label: 'Сначала новые' },
+  { value: 'alpha', label: 'А–Я' },
+  { value: 'rating', label: 'По рейтингу' },
 ]
 
 // Server returns only food-scoped tags. Show all of them as filter chips so
@@ -396,7 +396,7 @@ const handleCreateRecipe = async (formData) => {
   const result = await recipesStore.createRecipe(formData)
   if (result.success) {
     showCreateForm.value = false
-    success('Recipe created!')
+    success('Рецепт создан!')
   } else {
     notifyError(result.error)
     if (createFormRef.value) createFormRef.value.saving = false
@@ -405,7 +405,7 @@ const handleCreateRecipe = async (formData) => {
 
 const handleImportSaved = () => {
   showImportModal.value = false
-  success('Recipe imported!')
+  success('Рецепт импортирован!')
 }
 
 onMounted(() => {

@@ -3,7 +3,7 @@
     v-if="shouldShow"
     class="bg-[#FAF5EE] dark:bg-[#3A2E1F]/40 border-b border-[#C4975A]/40 dark:border-[#C4975A]/30 px-4 py-2 flex items-start sm:items-center justify-between gap-3"
     role="region"
-    aria-label="Install Kinhold"
+    aria-label="Установить Kinhold"
   >
     <div class="flex items-start sm:items-center gap-2 text-sm text-[#5A4423] dark:text-[#E0C58A]">
       <svg class="w-5 h-5 flex-shrink-0 mt-0.5 sm:mt-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -11,15 +11,15 @@
       </svg>
       <p>
         <template v-if="mode === 'android'">
-          <strong>Install Kinhold</strong> for a faster, full-screen experience.
+          <strong>Установите Kinhold</strong> для полноэкранного доступа и более быстрой работы.
         </template>
         <template v-else>
-          <strong>Add Kinhold to your home screen.</strong>
-          Tap the
+          <strong>Добавьте Kinhold на главный экран.</strong>
+          Нажмите на
           <svg class="inline w-4 h-4 -mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
           </svg>
-          share icon, then "Add to Home Screen".
+          значок «Поделиться», затем выберите «Добавить на главный экран».
         </template>
       </p>
     </div>
@@ -29,12 +29,12 @@
         class="px-2.5 py-1 text-xs font-semibold rounded-md bg-[#C4975A] text-white hover:bg-[#B38A50] transition-colors"
         @click="install"
       >
-        Install
+        Установить
       </button>
       <button
         type="button"
         class="px-2 py-1 text-xs text-[#5A4423]/70 dark:text-[#E0C58A]/70 hover:text-[#5A4423] dark:hover:text-[#E0C58A] transition-colors"
-        aria-label="Dismiss install prompt"
+        aria-label="Скрыть предложение об установке"
         @click="dismiss"
       >
         ✕

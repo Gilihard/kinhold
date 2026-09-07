@@ -35,9 +35,9 @@ class TrialEndingNotification extends Notification implements ShouldQueue
         $portalUrl = StripeWebhookController::billingPortalReturnUrl();
 
         return (new MailMessage)
-            ->subject('Your Kinhold trial ends in 3 days')
+            ->subject('Пробная версия Kinhold закончится через 3 дня')
             ->view('emails.billing.trial-ending', [
-                'subject' => 'Your Kinhold trial ends in 3 days',
+                'subject' => 'Пробная версия Kinhold закончится через 3 дня',
                 'userName' => $notifiable->name,
                 'familyName' => $this->family->name,
                 'trialEndsAt' => $this->trialEndsAt,

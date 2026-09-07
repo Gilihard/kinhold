@@ -1,8 +1,8 @@
 <template>
   <EmptyState
     :icon="ShoppingCartIcon"
-    title="Shopping Lists Coming Soon"
-    description="Auto-generated from your meal plan, plus staples and manual items. Check off as you shop."
+    title="Списки покупок скоро появятся"
+    description="Автоматически формируются из вашего плана питания, плюс базовые и добавленные вручную товары. Отмечайте купленное во время покупок."
   />
 </template>
 

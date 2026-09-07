@@ -2,10 +2,10 @@
   <div class="flex-1 flex flex-col">
     <div class="text-center mb-8">
       <h1 class="text-2xl font-heading font-bold text-ink-primary mb-2">
-        Connect Your Calendar
+        Подключите свой календарь
       </h1>
       <p class="text-base text-ink-secondary">
-        See everyone's events in one place. Each family member can connect their own calendar.
+        Все события семьи — в одном месте. Каждый член семьи может подключить свой календарь.
       </p>
     </div>
 
@@ -14,9 +14,9 @@
       <div class="w-12 h-12 mx-auto rounded-full bg-status-success/10 flex items-center justify-center">
         <CheckCircleIcon class="w-7 h-7 text-status-success" />
       </div>
-      <p class="text-base font-medium text-ink-primary">Calendar connected</p>
+      <p class="text-base font-medium text-ink-primary">Календарь подключён</p>
       <p class="text-sm text-ink-secondary">
-        Your Google Calendar is synced. Other family members can connect theirs from Settings.
+        Ваш Google Календарь синхронизирован. Другие члены семьи могут подключить свой в «Настройках».
       </p>
     </KinFlatCard>
 
@@ -37,10 +37,10 @@
         </div>
         <div class="text-left flex-1">
           <p class="text-base font-medium text-ink-primary">
-            {{ connecting ? 'Connecting...' : 'Connect Google Calendar' }}
+            {{ connecting ? 'Подключение…' : 'Подключить Google Календарь' }}
           </p>
           <p class="text-sm text-ink-secondary">
-            Sync your events automatically
+            Автоматическая синхронизация событий
           </p>
         </div>
         <ChevronRightIcon class="w-5 h-5 text-ink-tertiary flex-shrink-0" />
@@ -49,7 +49,7 @@
       <p v-if="error" class="text-sm text-status-failed text-center">{{ error }}</p>
 
       <p class="text-xs text-center text-ink-secondary">
-        We only read your events. You can disconnect anytime from Settings.
+        Мы только читаем ваши события. Отключить календарь можно в любой момент в «Настройках».
       </p>
     </div>
   </div>
@@ -80,7 +80,7 @@ async function connectGoogle() {
       window.location.href = response.data.auth_url
     }
   } catch (err) {
-    error.value = err.response?.data?.message || 'Failed to start calendar connection.'
+    error.value = err.response?.data?.message || 'Не удалось начать подключение календаря.'
     connecting.value = false
   }
 }

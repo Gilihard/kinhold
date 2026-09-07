@@ -41,25 +41,25 @@ class WelcomeNotification extends Notification implements ShouldQueue
         $appUrl = config('app.url');
 
         $message = (new MailMessage)
-            ->subject('Welcome to Kinhold!')
-            ->greeting("Welcome, {$notifiable->name}!")
-            ->line("You've successfully joined **{$this->family->name}** on Kinhold.");
+            ->subject('Добро пожаловать в Kinhold!')
+            ->greeting("Добро пожаловать, {$notifiable->name}!")
+            ->line("Вы успешно присоединились к семье **{$this->family->name}** в Kinhold.");
 
         if ($this->isNewFamily) {
-            $message->line("As the family creator, you have full access to manage your family hub. Here's what you can do:");
+            $message->line('Как создатель семьи, вы имеете полный доступ к управлению семейным центром. Вот что вам доступно:');
         } else {
-            $message->line("Here's what you can do:");
+            $message->line('Вот что вам доступно:');
         }
 
         $message
-            ->line('- **Calendar**: View all your family events in one place')
-            ->line('- **Tasks**: Create and assign tasks, earn points for completing them')
-            ->line('- **Vault**: Securely store important family documents and information')
-            ->line('- **Hub AI**: Ask questions about your family data')
-            ->action('Get Started', $appUrl);
+            ->line('- **Календарь**: просматривайте все события семьи в одном месте')
+            ->line('- **Задачи**: создавайте и назначайте задачи, зарабатывайте баллы за их выполнение')
+            ->line('- **Сейф**: надёжно храните важные семейные документы и информацию')
+            ->line('- **Kinhold AI**: задавайте вопросы о данных вашей семьи')
+            ->action('Начать', $appUrl);
 
         if ($this->isNewFamily) {
-            $message->line('Invite your family members from Settings to get everyone on board!');
+            $message->line('Пригласите членов семьи в разделе «Настройки», чтобы собрать всех вместе!');
         }
 
         return $message;

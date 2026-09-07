@@ -33,9 +33,9 @@ class SubscriptionDowngradedNotification extends Notification implements ShouldQ
         $portalUrl = StripeWebhookController::billingPortalReturnUrl();
 
         return (new MailMessage)
-            ->subject('Your Kinhold AI features have been paused')
+            ->subject('Функции Kinhold AI приостановлены')
             ->view('emails.billing.subscription-downgraded', [
-                'subject' => 'Your Kinhold AI features have been paused',
+                'subject' => 'Функции Kinhold AI приостановлены',
                 'userName' => $notifiable->name,
                 'familyName' => $this->family->name,
                 'portalUrl' => $portalUrl,

@@ -31,9 +31,9 @@ class SubscriptionCancelledNotification extends Notification implements ShouldQu
         $appUrl = (string) config('app.url');
 
         return (new MailMessage)
-            ->subject('Your Kinhold subscription has ended')
+            ->subject('Ваша подписка Kinhold закончилась')
             ->view('emails.billing.subscription-cancelled', [
-                'subject' => 'Your Kinhold subscription has ended',
+                'subject' => 'Ваша подписка Kinhold закончилась',
                 'userName' => $notifiable->name,
                 'familyName' => $this->family->name,
                 'appUrl' => $appUrl,

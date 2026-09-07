@@ -20,7 +20,7 @@
     :data-entry-id="entry.id"
     role="button"
     tabindex="0"
-    :aria-label="`Edit ${entry.display_title}`"
+    :aria-label="`Редактировать ${entry.display_title}`"
     @click="$emit('click', entry)"
     @keydown.enter.prevent="$emit('click', entry)"
     @keydown.space.prevent="$emit('click', entry)"
@@ -45,7 +45,7 @@
         {{ entry.display_title }}
       </p>
       <p v-if="entry.effective_servings" class="text-xs text-ink-tertiary mt-0.5">
-        {{ entry.effective_servings }} servings
+        {{ entry.effective_servings }} {{ pluralRu(entry.effective_servings, 'порция', 'порции', 'порций') }}
       </p>
     </div>
 
@@ -64,7 +64,7 @@
     <button
       type="button"
       class="w-8 h-8 -mr-1 rounded-full text-ink-tertiary hover:text-status-failed hover:bg-status-failed/10 flex items-center justify-center flex-shrink-0 transition-colors"
-      :aria-label="`Remove ${entry.display_title} from meal plan`"
+      :aria-label="`Удалить ${entry.display_title} из плана питания`"
       @click.stop="$emit('delete', entry)"
     >
       <XMarkIcon class="w-4 h-4" />
@@ -78,7 +78,7 @@
     :data-entry-id="entry.id"
     role="button"
     tabindex="0"
-    :aria-label="`Edit ${entry.display_title}`"
+    :aria-label="`Редактировать ${entry.display_title}`"
     @click="$emit('click', entry)"
     @keydown.enter.prevent="$emit('click', entry)"
     @keydown.space.prevent="$emit('click', entry)"
@@ -96,7 +96,7 @@
         <button
           type="button"
           class="w-5 h-5 rounded-full bg-black/55 text-white/90 flex items-center justify-center opacity-0 group-hover:opacity-100 hover:bg-status-failed transition-all pointer-events-auto"
-          :aria-label="`Remove ${entry.display_title} from meal plan`"
+          :aria-label="`Удалить ${entry.display_title} из плана питания`"
           @click.stop="$emit('delete', entry)"
         >
           <XMarkIcon class="w-3 h-3" />
@@ -110,7 +110,7 @@
           target="_blank"
           rel="noopener"
           class="w-5 h-5 rounded-full bg-black/55 text-white/90 flex items-center justify-center hover:bg-[#C4975A] transition-all"
-          aria-label="Open in Google Maps"
+          aria-label="Открыть в Google Картах"
           @click.stop
         >
           <MapPinIcon class="w-3 h-3" />
@@ -134,7 +134,7 @@
             {{ entry.display_title }}
           </p>
           <p v-if="entry.effective_servings" class="text-[10px] text-ink-tertiary mt-0.5">
-            {{ entry.effective_servings }} servings
+            {{ entry.effective_servings }} {{ pluralRu(entry.effective_servings, 'порция', 'порции', 'порций') }}
           </p>
         </div>
 
@@ -165,6 +165,7 @@ import {
 } from '@heroicons/vue/24/outline'
 import UserAvatar from '@/components/common/UserAvatar.vue'
 import KinPhotoCard from '@/components/design-system/KinPhotoCard.vue'
+import { pluralRu } from '@/utils/plural'
 import { useAuthStore } from '@/stores/auth'
 
 const props = defineProps({

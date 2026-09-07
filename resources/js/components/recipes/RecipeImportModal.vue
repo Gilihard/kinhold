@@ -1,7 +1,7 @@
 <template>
   <KinModalSheet
     :model-value="show"
-    title="Import Recipe"
+    title="Импорт рецепта"
     size="lg"
     @update:model-value="(v) => !v && handleClose()"
   >
@@ -14,7 +14,7 @@
           : 'text-ink-tertiary hover:text-ink-primary'"
         @click="activeTab = 'url'"
       >
-        From URL
+        По ссылке
         <span v-if="activeTab === 'url'" class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#C4975A] rounded-full"></span>
       </button>
       <button
@@ -24,7 +24,7 @@
           : 'text-ink-tertiary hover:text-ink-primary'"
         @click="activeTab = 'photo'"
       >
-        From Photo
+        По фото
         <span v-if="activeTab === 'photo'" class="absolute bottom-0 left-0 right-0 h-0.5 bg-[#C4975A] rounded-full"></span>
       </button>
     </div>
@@ -35,7 +35,7 @@
         <KinInput
           v-model="importUrl"
           type="url"
-          label="Recipe URL"
+          label="Ссылка на рецепт"
           placeholder="https://example.com/recipe/..."
           @keydown.enter.prevent="handleImportUrl"
         />
@@ -47,10 +47,10 @@
         >
           <ExclamationTriangleIcon class="w-5 h-5 text-[#C48B3F] flex-shrink-0 mt-0.5" />
           <div class="text-sm">
-            <p class="font-medium text-[#C48B3F]">Duplicate detected</p>
+            <p class="font-medium text-[#C48B3F]">Обнаружен дубликат</p>
             <p class="text-ink-secondary">
-              You already have "{{ duplicateWarning.title }}" imported from this URL.
-              You can still save it as a new recipe.
+              С этой ссылки у вас уже импортирован рецепт «{{ duplicateWarning.title }}».
+              Вы всё равно можете сохранить его как новый рецепт.
             </p>
           </div>
         </div>
@@ -62,13 +62,13 @@
         >
           <ExclamationCircleIcon class="w-5 h-5 text-status-failed flex-shrink-0 mt-0.5" />
           <div class="text-sm">
-            <p class="font-medium text-status-failed">Import failed</p>
+            <p class="font-medium text-status-failed">Не удалось импортировать</p>
             <p class="text-ink-secondary">{{ importError }}</p>
           </div>
         </div>
 
         <p class="text-xs text-ink-tertiary">
-          Most recipe sites import for free. Pages without structured data use AI (counts toward API usage).
+          Большинство кулинарных сайтов импортируется бесплатно. Для страниц без структурированных данных используется ИИ (учитывается в использовании API).
         </p>
 
         <div class="flex gap-3">
@@ -78,7 +78,7 @@
             :loading="importing"
             @click="handleImportUrl"
           >
-            {{ importing ? 'Importing...' : 'Preview Recipe' }}
+            {{ importing ? 'Импорт…' : 'Предпросмотр рецепта' }}
           </KinButton>
         </div>
       </div>
@@ -88,16 +88,16 @@
     <div v-if="activeTab === 'photo' && !previewData">
       <div class="space-y-4">
         <div>
-          <label class="block text-sm font-medium text-ink-primary mb-1">Recipe Photo</label>
+          <label class="block text-sm font-medium text-ink-primary mb-1">Фото рецепта</label>
           <div
             class="border-2 border-dashed border-border-subtle rounded-xl p-8 text-center hover:border-[#C4975A] transition-colors cursor-pointer"
             @click="$refs.photoInput.click()"
           >
             <CameraIcon class="w-8 h-8 mx-auto text-ink-tertiary mb-2" />
             <p class="text-sm text-ink-tertiary">
-              {{ selectedFile ? selectedFile.name : 'Click to upload a photo of a recipe' }}
+              {{ selectedFile ? selectedFile.name : 'Нажмите, чтобы загрузить фото рецепта' }}
             </p>
-            <p class="text-xs text-ink-tertiary mt-1">JPEG, PNG, or HEIC · Max 10 MB · Uses AI (counts toward API usage)</p>
+            <p class="text-xs text-ink-tertiary mt-1">JPEG, PNG или HEIC · Макс. 10 МБ · Используется ИИ (учитывается в использовании API)</p>
           </div>
           <input
             ref="photoInput"
@@ -115,7 +115,7 @@
         >
           <ExclamationCircleIcon class="w-5 h-5 text-status-failed flex-shrink-0 mt-0.5" />
           <div class="text-sm">
-            <p class="font-medium text-status-failed">Import failed</p>
+            <p class="font-medium text-status-failed">Не удалось импортировать</p>
             <p class="text-ink-secondary">{{ importError }}</p>
           </div>
         </div>
@@ -127,7 +127,7 @@
             :loading="importing"
             @click="handleImportPhoto"
           >
-            {{ importing ? 'Analyzing...' : 'Preview Recipe' }}
+            {{ importing ? 'Анализ…' : 'Предпросмотр рецепта' }}
           </KinButton>
         </div>
       </div>
@@ -137,7 +137,7 @@
     <div v-if="importing" class="flex flex-col items-center justify-center py-8">
       <LoadingSpinner size="lg" />
       <p class="mt-3 text-sm text-ink-tertiary">
-        {{ activeTab === 'url' ? 'Extracting recipe data...' : 'Analyzing photo with AI...' }}
+        {{ activeTab === 'url' ? 'Извлекаем данные рецепта…' : 'Анализируем фото с помощью ИИ…' }}
       </p>
     </div>
 
@@ -146,7 +146,7 @@
       <div class="flex items-center gap-2 mb-4 p-3 bg-[#5B8C6A]/10 border border-[#5B8C6A]/20 rounded-xl">
         <CheckCircleIcon class="w-5 h-5 text-[#5B8C6A] flex-shrink-0" />
         <p class="text-sm text-[#5B8C6A]">
-          Recipe extracted! Review and edit below, then save.
+          Рецепт извлечён! Проверьте и отредактируйте данные ниже, затем сохраните.
         </p>
       </div>
       <RecipeForm

@@ -41,17 +41,17 @@ class KudosReceivedNotification extends Notification implements ShouldQueue
         $appUrl = config('app.url');
 
         return (new MailMessage)
-            ->subject("{$this->from->name} gave you kudos!")
-            ->greeting("Nice work, {$notifiable->name}!")
-            ->line("**{$this->from->name}** gave you kudos:")
+            ->subject("{$this->from->name} отправил(а) вам похвалу!")
+            ->greeting("Отличная работа, {$notifiable->name}!")
+            ->line("**{$this->from->name}** отправил(а) вам похвалу:")
             ->line("> {$this->reason}")
-            ->action('See your points', "{$appUrl}/points");
+            ->action('Посмотреть баллы', "{$appUrl}/points");
     }
 
     public function toWebPush(object $notifiable, Notification $notification): WebPushMessage
     {
         return (new WebPushMessage)
-            ->title("{$this->from->name} gave you kudos")
+            ->title("{$this->from->name} отправил(а) вам похвалу")
             ->body($this->reason)
             ->icon('/icons/icon-192.png')
             ->badge('/icons/badge-96.png')

@@ -30,13 +30,13 @@ class ShoppingListItemAddedNotification extends Notification implements ShouldQu
 
     public function toWebPush(object $notifiable, Notification $notification): WebPushMessage
     {
-        $listName = $this->item->shoppingList?->name ?: 'shopping list';
+        $listName = $this->item->shoppingList?->name ?: 'список покупок';
         $itemBody = $this->item->quantity
             ? "{$this->item->quantity} · {$this->item->name}"
             : $this->item->name;
 
         return (new WebPushMessage)
-            ->title("{$this->addedBy->name} added to {$listName}")
+            ->title("{$this->addedBy->name} добавил(а) в {$listName}")
             ->body($itemBody)
             ->icon('/icons/icon-192.png')
             ->badge('/icons/badge-96.png')

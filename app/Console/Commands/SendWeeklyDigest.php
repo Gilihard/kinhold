@@ -20,7 +20,7 @@ class SendWeeklyDigest extends Command
     {
         $weekStart = Carbon::now()->subWeek()->startOfWeek();
         $weekEnd = Carbon::now()->subWeek()->endOfWeek();
-        $weekRange = $weekStart->format('M j').' - '.$weekEnd->format('M j, Y');
+        $weekRange = $weekStart->locale('ru')->translatedFormat('j F').' — '.$weekEnd->locale('ru')->translatedFormat('j F Y');
 
         $nextWeekStart = Carbon::now()->startOfWeek();
         $nextWeekEnd = Carbon::now()->endOfWeek();
@@ -105,7 +105,7 @@ class SendWeeklyDigest extends Command
             ->get()
             ->map(fn (Task $t) => [
                 'title' => $t->title,
-                'due_date' => $t->due_date?->format('M j'),
+                'due_date' => $t->due_date?->locale('ru')->translatedFormat('j F'),
             ])
             ->toArray();
 

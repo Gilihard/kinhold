@@ -6,10 +6,10 @@
     </div>
 
     <h1 class="text-2xl font-heading font-bold text-ink-primary mb-2">
-      You're all set
+      Всё готово
     </h1>
     <p class="text-base text-ink-secondary max-w-xs">
-      Your family hub is ready. You can always adjust settings later.
+      Ваш семейный центр готов. Настройки всегда можно изменить позже.
     </p>
 
     <!-- Summary -->
@@ -49,16 +49,20 @@ const aiTier = computed(() => billing.summary?.ai_tier?.plan || null)
 const aiTierLabel = computed(() => {
   const slug = aiTier.value
   if (!slug) return null
+  if (slug === 'off') return null
   const tiers = billing.summary?.ai_tier?.tiers || []
   const tier = tiers.find(t => t.slug === slug)
-  if (!tier) return slug.charAt(0).toUpperCase() + slug.slice(1)
-  return `AI ${tier.name} — ${tier.daily_messages} msg/day`
+  if (!tier) {
+    if (slug === 'byok') return 'Свой ключ (BYOK)'
+    return slug.charAt(0).toUpperCase() + slug.slice(1)
+  }
+  return `AI ${tier.name} — ${tier.daily_messages} сообщ./день`
 })
 
 function formatDate(iso) {
   if (!iso) return ''
   try {
-    return new Date(iso).toLocaleDateString(undefined, {
+    return new Date(iso).toLocaleDateString('ru-RU', {
       year: 'numeric', month: 'short', day: 'numeric',
     })
   } catch {
@@ -68,12 +72,12 @@ function formatDate(iso) {
 
 const summaryItems = computed(() => {
   const items = [
-    { label: 'Family created', done: true },
-    { label: 'Calendar connected', done: store.status?.calendar_connected || false },
+    { label: 'Семья создана', done: true },
+    { label: 'Календарь подключён', done: store.status?.calendar_connected || false },
     {
       label: store.selectedPresets.size > 0
-        ? `${store.selectedPresets.size} tag${store.selectedPresets.size > 1 ? 's' : ''} created`
-        : 'Tags',
+        ? `Создано тегов: ${store.selectedPresets.size}`
+        : 'Теги',
       done: store.selectedPresets.size > 0,
     },
   ]
@@ -81,14 +85,14 @@ const summaryItems = computed(() => {
   if (showBilling.value && (subStatus.value === 'trialing' || subStatus.value === 'active')) {
     if (onTrial.value && trialEndsAt.value) {
       items.push({
-        label: `Free trial started — ends ${formatDate(trialEndsAt.value)}`,
+        label: `Пробная версия началась — действует до ${formatDate(trialEndsAt.value)}`,
         done: true,
       })
     } else if (subStatus.value === 'active') {
-      items.push({ label: 'Subscription active', done: true })
+      items.push({ label: 'Подписка активна', done: true })
     }
     if (aiTierLabel.value) {
-      items.push({ label: `${aiTierLabel.value} active`, done: true })
+      items.push({ label: `${aiTierLabel.value} — активен`, done: true })
     }
   }
 

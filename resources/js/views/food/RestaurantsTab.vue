@@ -6,7 +6,7 @@
         <div class="flex-1">
           <KinSearch
             v-model="restaurantsStore.searchQuery"
-            placeholder="Search restaurants..."
+            placeholder="Поиск ресторанов..."
             size="sm"
           />
         </div>
@@ -14,8 +14,8 @@
         <button
           type="button"
           class="flex-shrink-0 p-2.5 rounded-[10px] bg-surface-sunken text-ink-secondary hover:bg-surface-overlay transition-colors"
-          :title="viewMode === 'grid' ? 'Switch to compact view' : 'Switch to grid view'"
-          :aria-label="viewMode === 'grid' ? 'Switch to compact view' : 'Switch to grid view'"
+          :title="viewMode === 'grid' ? 'Переключиться на компактный вид' : 'Переключиться на вид сетки'"
+          :aria-label="viewMode === 'grid' ? 'Переключиться на компактный вид' : 'Переключиться на вид сетки'"
           @click="toggleViewMode"
         >
           <Squares2X2Icon v-if="viewMode === 'compact'" class="w-4 h-4" />
@@ -34,7 +34,7 @@
           @click="showFavoritesOnly = !showFavoritesOnly"
         >
           <template #leading><HeartIcon class="w-3 h-3" /></template>
-          Favorites
+          Избранное
         </KinChip>
 
         <!-- Divider -->
@@ -72,12 +72,12 @@
       <KinEmptyState
         v-else-if="displayedRestaurants.length === 0"
         :icon="BuildingStorefrontIcon"
-        title="No restaurants yet"
-        :description="restaurantsStore.searchQuery ? 'No restaurants match your search.' : 'Add your favourite spots to order from or visit.'"
+        title="Ресторанов пока нет"
+        :description="restaurantsStore.searchQuery ? 'Ни один ресторан не соответствует вашему запросу.' : 'Добавьте любимые места, куда заказывать доставку или ходить семьёй.'"
         accent-color="peach"
       >
         <template #cta>
-          <KinButton variant="primary" size="sm" @click="openAddModal">Add Restaurant</KinButton>
+          <KinButton variant="primary" size="sm" @click="openAddModal">Добавить ресторан</KinButton>
         </template>
       </KinEmptyState>
 
@@ -147,7 +147,7 @@
               type="button"
               class="p-1.5 rounded-full transition-colors"
               :class="restaurant.is_favorite ? 'text-status-failed' : 'text-ink-tertiary hover:text-status-failed/80'"
-              :aria-label="restaurant.is_favorite ? 'Remove favorite' : 'Mark as favorite'"
+              :aria-label="restaurant.is_favorite ? 'Убрать из избранного' : 'Добавить в избранное'"
               @click.stop="restaurantsStore.toggleFavorite(restaurant.id)"
             >
               <HeartIconSolid v-if="restaurant.is_favorite" class="w-4 h-4" />
@@ -162,16 +162,16 @@
     <FloatingActionButton :mobile-only="false" @click="openAddModal" />
 
     <!-- Detail slide panel -->
-    <SlidePanel :show="!!selectedRestaurant" title="Restaurant Details" @close="selectedRestaurant = null">
+    <SlidePanel :show="!!selectedRestaurant" title="Детали ресторана" @close="selectedRestaurant = null">
       <div v-if="selectedRestaurant" class="p-6 space-y-5">
         <!-- Editable fields -->
         <div class="space-y-3">
-          <KinInput v-model="editFields.name" label="Name" placeholder="Restaurant name" size="sm" />
-          <KinInput v-model="editFields.address" label="Address" placeholder="Street address" type="text" size="sm" />
-          <KinInput v-model="editFields.phone" label="Phone" placeholder="Phone number" type="tel" size="sm" />
-          <KinInput v-model="editFields.menu_url" label="Website / Menu URL" placeholder="https://..." type="url" size="sm" />
-          <KinInput v-model="editFields.google_maps_url" label="Google Maps URL" placeholder="https://maps.google.com/..." type="url" size="sm" />
-          <PhotoUpload v-model="editFields.image_url" label="Photo" :uploader="uploadRestaurantImage" />
+          <KinInput v-model="editFields.name" label="Название" placeholder="Название ресторана" size="sm" />
+          <KinInput v-model="editFields.address" label="Адрес" placeholder="Улица, дом" type="text" size="sm" />
+          <KinInput v-model="editFields.phone" label="Телефон" placeholder="Номер телефона" type="tel" size="sm" />
+          <KinInput v-model="editFields.menu_url" label="Сайт / ссылка на меню" placeholder="https://..." type="url" size="sm" />
+          <KinInput v-model="editFields.google_maps_url" label="Ссылка Google Карт" placeholder="https://maps.google.com/..." type="url" size="sm" />
+          <PhotoUpload v-model="editFields.image_url" label="Фото" :uploader="uploadRestaurantImage" />
         </div>
 
         <!-- Tags -->
@@ -192,7 +192,7 @@
             @click.stop
           >
             <MapPinIcon class="w-3.5 h-3.5" />
-            Maps
+            Карты
           </a>
           <a
             v-if="editFields.menu_url"
@@ -203,7 +203,7 @@
             @click.stop
           >
             <DocumentTextIcon class="w-3.5 h-3.5" />
-            Website
+            Сайт
           </a>
           <a
             v-if="editFields.phone"
@@ -212,13 +212,13 @@
             @click.stop
           >
             <PhoneIcon class="w-3.5 h-3.5" />
-            Call
+            Позвонить
           </a>
         </div>
 
         <!-- Star rating -->
         <div>
-          <p class="text-xs font-medium text-ink-tertiary mb-2 uppercase tracking-wide">Your Rating</p>
+          <p class="text-xs font-medium text-ink-tertiary mb-2 uppercase tracking-wide">Ваша оценка</p>
           <div class="flex items-center gap-1">
             <button
               v-for="n in 5"
@@ -239,15 +239,15 @@
         <!-- Family notes -->
         <KinTextarea
           v-model="editNotes"
-          label="Family Notes"
+          label="Семейные заметки"
           :rows="3"
-          placeholder="Add notes about this restaurant..."
+          placeholder="Добавьте заметки об этом ресторане..."
           size="sm"
         />
 
         <!-- Save all -->
         <KinButton variant="primary" size="sm" :loading="isDetailSaving" class="w-full" @click="saveDetail">
-          Save Changes
+          Сохранить изменения
         </KinButton>
 
         <!-- Actions -->
@@ -257,7 +257,7 @@
             @click="confirmDelete(selectedRestaurant)"
           >
             <TrashIcon class="w-4 h-4" />
-            Remove from family
+            Удалить из семьи
           </button>
         </div>
       </div>
@@ -266,7 +266,7 @@
     <!-- Add/Import modal -->
     <KinModalSheet
       :model-value="showAddModal"
-      title="Add Restaurant"
+      title="Добавить ресторан"
       size="md"
       @update:model-value="(v) => { if (!v) closeAddModal() }"
       @close="closeAddModal"
@@ -289,7 +289,7 @@
 
       <!-- Import: URL input -->
       <div v-if="addTab === 'import' && !previewData" class="px-6 pb-6 space-y-4">
-        <KinInput v-model="importUrl" label="Restaurant URL" placeholder="https://www.restaurant-website.com" :error="formErrors.url" size="sm" @keydown.enter.prevent="previewImport" />
+        <KinInput v-model="importUrl" label="Ссылка на ресторан" placeholder="https://www.restaurant-website.com" :error="formErrors.url" size="sm" @keydown.enter.prevent="previewImport" />
 
         <!-- Error -->
         <div
@@ -298,24 +298,24 @@
         >
           <ExclamationCircleIcon class="w-5 h-5 text-status-failed flex-shrink-0 mt-0.5" />
           <div class="text-sm">
-            <p class="font-medium text-status-failed">Import failed</p>
+            <p class="font-medium text-status-failed">Не удалось импортировать</p>
             <p class="text-ink-secondary">{{ saveError }}</p>
           </div>
         </div>
 
         <p class="text-xs text-ink-tertiary">
-          Paste the restaurant's website URL. You can edit all details before saving.
+          Вставьте ссылку на сайт ресторана. Перед сохранением можно отредактировать все детали.
         </p>
 
         <KinButton variant="primary" size="sm" :loading="isImporting" :disabled="!importUrl" class="w-full" @click="previewImport">
-          {{ isImporting ? 'Extracting...' : 'Preview Restaurant' }}
+          {{ isImporting ? 'Извлечение данных...' : 'Предпросмотр ресторана' }}
         </KinButton>
       </div>
 
       <!-- Import: loading spinner -->
       <div v-if="isImporting" class="flex flex-col items-center justify-center py-8">
         <LoadingSpinner size="lg" />
-        <p class="mt-3 text-sm text-ink-tertiary">Extracting restaurant details...</p>
+        <p class="mt-3 text-sm text-ink-tertiary">Извлекаем данные ресторана...</p>
       </div>
 
       <!-- Import: preview form (edit before save) -->
@@ -323,23 +323,23 @@
         <div class="flex items-center gap-2 p-3 bg-[#5B8C6A]/10 border border-[#5B8C6A]/20 rounded-xl">
           <CheckCircleIcon class="w-5 h-5 text-[#5B8C6A] flex-shrink-0" />
           <p class="text-sm text-[#5B8C6A]">
-            Details extracted! Review and edit below, then save.
+            Данные извлечены! Проверьте и при необходимости отредактируйте их перед сохранением.
           </p>
         </div>
 
-        <KinInput v-model="form.name" label="Name *" placeholder="Restaurant name" :error="formErrors.name" size="sm" />
-        <KinInput v-model="form.address" label="Address" placeholder="Street address" size="sm" />
-        <KinInput v-model="form.phone" label="Phone" placeholder="Phone number" size="sm" />
-        <KinInput v-model="form.menu_url" label="Website" placeholder="https://..." size="sm" />
-        <PhotoUpload v-model="form.image_url" label="Photo" :uploader="uploadRestaurantImage" />
+        <KinInput v-model="form.name" label="Название *" placeholder="Название ресторана" :error="formErrors.name" size="sm" />
+        <KinInput v-model="form.address" label="Адрес" placeholder="Улица, дом" size="sm" />
+        <KinInput v-model="form.phone" label="Телефон" placeholder="Номер телефона" size="sm" />
+        <KinInput v-model="form.menu_url" label="Сайт" placeholder="https://..." size="sm" />
+        <PhotoUpload v-model="form.image_url" label="Фото" :uploader="uploadRestaurantImage" />
         <TagPicker v-model="form.tag_ids" :tags="foodTags" :on-create="createTag" />
 
         <div class="flex gap-3">
           <KinButton variant="primary" size="sm" :loading="isSaving" class="flex-1" @click="saveFromPreview">
-            Save Restaurant
+            Сохранить ресторан
           </KinButton>
           <KinButton variant="ghost" size="sm" @click="resetPreview">
-            Back
+            Назад
           </KinButton>
         </div>
         <p v-if="saveError" class="text-xs text-status-failed">{{ saveError }}</p>
@@ -347,14 +347,14 @@
 
       <!-- Manual form -->
       <div v-if="addTab === 'manual' && !previewData" class="px-6 pb-6 space-y-4">
-        <KinInput v-model="form.name" label="Name *" placeholder="e.g. Gusto Pizzeria" :error="formErrors.name" size="sm" />
-        <KinInput v-model="form.address" label="Address" placeholder="123 Main St" size="sm" />
-        <KinInput v-model="form.phone" label="Phone" placeholder="+1 (555) 000-0000" size="sm" />
-        <KinInput v-model="form.menu_url" label="Website" placeholder="https://..." size="sm" />
-        <PhotoUpload v-model="form.image_url" label="Photo" :uploader="uploadRestaurantImage" />
+        <KinInput v-model="form.name" label="Название *" placeholder="Например: Gusto Pizzeria" :error="formErrors.name" size="sm" />
+        <KinInput v-model="form.address" label="Адрес" placeholder="Название улицы и номер дома" size="sm" />
+        <KinInput v-model="form.phone" label="Телефон" placeholder="+7 (900) 000-00-00" size="sm" />
+        <KinInput v-model="form.menu_url" label="Сайт" placeholder="https://..." size="sm" />
+        <PhotoUpload v-model="form.image_url" label="Фото" :uploader="uploadRestaurantImage" />
         <TagPicker v-model="form.tag_ids" :tags="foodTags" :on-create="createTag" />
         <KinButton variant="primary" size="sm" :loading="isSaving" class="w-full" @click="saveManual">
-          Add Restaurant
+          Добавить ресторан
         </KinButton>
         <p v-if="saveError" class="text-xs text-status-failed">{{ saveError }}</p>
       </div>
@@ -363,9 +363,9 @@
     <!-- Confirm delete -->
     <ConfirmDialog
       :show="!!restaurantToDelete"
-      title="Remove Restaurant"
-      :message="`Remove ${restaurantToDelete?.name} from your family? This won't affect existing meal plan entries.`"
-      confirm-text="Remove"
+      title="Удалить ресторан"
+      :message="`Удалить ${restaurantToDelete?.name} из вашей семьи? На существующие записи в плане питания это не повлияет.`"
+      confirm-text="Удалить"
       variant="danger"
       @confirm="doDelete"
       @cancel="restaurantToDelete = null"
@@ -513,7 +513,7 @@ const createTag = async ({ name, color }) => {
     await restaurantsStore.fetchTags()
     return { success: true, tag: newTag }
   } catch (err) {
-    notifyError(err.response?.data?.message || 'Failed to create tag', 4000)
+    notifyError(err.response?.data?.message || 'Не удалось создать тег', 4000)
     return { success: false }
   }
 }
@@ -546,9 +546,9 @@ const rateRestaurant = async (score) => {
   if (result.success) {
     const updated = restaurantsStore.restaurants.find(r => r.id === selectedRestaurant.value.id)
     if (updated) selectedRestaurant.value = updated
-    notifySuccess('Rating saved', 3000)
+    notifySuccess('Оценка сохранена', 3000)
   } else {
-    notifyError(result.error || 'Failed to save rating', 4000)
+    notifyError(result.error || 'Не удалось сохранить оценку', 4000)
     pendingRating.value = null
   }
 }
@@ -564,9 +564,9 @@ const saveDetail = async () => {
   if (result.success) {
     selectedRestaurant.value = result.data
     await restaurantsStore.fetchTags()
-    notifySuccess('Restaurant saved', 3000)
+    notifySuccess('Ресторан сохранён', 3000)
   } else {
-    notifyError(result.error || 'Failed to save', 4000)
+    notifyError(result.error || 'Не удалось сохранить', 4000)
   }
 }
 
@@ -581,9 +581,9 @@ const doDelete = async () => {
   selectedRestaurant.value = null
   const result = await restaurantsStore.deleteRestaurant(id)
   if (result.success) {
-    notifySuccess('Restaurant removed', 3000)
+    notifySuccess('Ресторан удалён', 3000)
   } else {
-    notifyError(result.error || 'Failed to remove restaurant', 4000)
+    notifyError(result.error || 'Не удалось удалить ресторан', 4000)
   }
 }
 
@@ -591,8 +591,8 @@ const doDelete = async () => {
 const showAddModal = ref(false)
 const addTab = ref('import')
 const addTabs = [
-  { key: 'import', label: 'From URL' },
-  { key: 'manual', label: 'Manual' },
+  { key: 'import', label: 'По ссылке' },
+  { key: 'manual', label: 'Вручную' },
 ]
 const emptyForm = () => ({ name: '', address: '', phone: '', google_maps_url: '', menu_url: '', image_url: '', tag_ids: [] })
 
@@ -629,7 +629,7 @@ const resetPreview = () => {
 
 const previewImport = async () => {
   if (!importUrl.value.trim()) {
-    formErrors.value.url = 'URL is required'
+    formErrors.value.url = 'Укажите ссылку'
     return
   }
   formErrors.value = {}
@@ -668,7 +668,7 @@ const previewImport = async () => {
     }
     previewData.value = data
   } else {
-    saveError.value = result.error || 'Failed to extract restaurant data'
+    saveError.value = result.error || 'Не удалось извлечь данные ресторана'
   }
 }
 
@@ -676,7 +676,7 @@ const saveFromPreview = async () => {
   formErrors.value = {}
   saveError.value = ''
   if (!form.value.name.trim()) {
-    formErrors.value.name = 'Name is required'
+    formErrors.value.name = 'Укажите название'
     return
   }
   isSaving.value = true
@@ -685,9 +685,9 @@ const saveFromPreview = async () => {
   if (result.success) {
     closeAddModal()
     await restaurantsStore.fetchTags()
-    notifySuccess('Restaurant added', 3000)
+    notifySuccess('Ресторан добавлен', 3000)
   } else {
-    saveError.value = result.error || 'Failed to save restaurant'
+    saveError.value = result.error || 'Не удалось сохранить ресторан'
   }
 }
 
@@ -695,7 +695,7 @@ const saveManual = async () => {
   formErrors.value = {}
   saveError.value = ''
   if (!form.value.name.trim()) {
-    formErrors.value.name = 'Name is required'
+    formErrors.value.name = 'Укажите название'
     return
   }
   isSaving.value = true
@@ -704,9 +704,9 @@ const saveManual = async () => {
   if (result.success) {
     closeAddModal()
     await restaurantsStore.fetchTags()
-    notifySuccess('Restaurant added', 3000)
+    notifySuccess('Ресторан добавлен', 3000)
   } else {
-    saveError.value = result.error || 'Failed to add restaurant'
+    saveError.value = result.error || 'Не удалось добавить ресторан'
   }
 }
 

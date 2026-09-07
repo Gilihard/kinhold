@@ -37,9 +37,9 @@ class SubscriptionResumedNotification extends Notification implements ShouldQueu
         $portalUrl = StripeWebhookController::billingPortalReturnUrl();
 
         return (new MailMessage)
-            ->subject("You're all set — Kinhold is restored")
+            ->subject('Всё готово — Kinhold восстановлен')
             ->view('emails.billing.subscription-resumed', [
-                'subject' => "You're all set — Kinhold is restored",
+                'subject' => 'Всё готово — Kinhold восстановлен',
                 'userName' => $notifiable->name,
                 'familyName' => $this->family->name,
                 'restoredTier' => $this->restoredTier,

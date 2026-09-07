@@ -33,7 +33,7 @@
       <span
         v-else-if="showStackedBadge"
         class="inline-flex items-center gap-1 min-h-[32px] px-2 rounded-full bg-surface-sunken text-ink-tertiary"
-        :aria-label="`You +1'd this kudo${item.stacks_count > 1 ? `, ${item.stacks_count} total` : ''}`"
+        :aria-label="`Вы поставили +1 к этой похвале${item.stacks_count > 1 ? `, всего ${item.stacks_count}` : ''}`"
       >
         <HandThumbUpSolidIcon class="w-4 h-4" />
         <span v-if="item.stacks_count" class="text-xs font-semibold">
@@ -43,7 +43,7 @@
       <span
         v-else-if="showStackCountOnly"
         class="inline-flex items-center gap-1 min-h-[32px] px-2 rounded-full bg-surface-sunken text-ink-tertiary"
-        :aria-label="`${item.stacks_count} other ${item.stacks_count === 1 ? 'member' : 'members'} +1'd this`"
+        :aria-label="`Ещё ${item.stacks_count} ${pluralRu(item.stacks_count, 'человек поставил', 'человека поставили', 'человек поставили')} +1 к этой похвале`"
       >
         <HandThumbUpIcon class="w-4 h-4" />
         <span class="text-xs font-semibold">{{ item.stacks_count }}</span>
@@ -66,6 +66,7 @@
 import { computed, ref } from "vue";
 import { HandThumbUpIcon } from "@heroicons/vue/24/outline";
 import { HandThumbUpIcon as HandThumbUpSolidIcon } from "@heroicons/vue/24/solid";
+import { pluralRu } from "@/utils/plural";
 import UserAvatar from "@/components/common/UserAvatar.vue";
 import { useAuthStore } from "@/stores/auth";
 import { usePointsStore } from "@/stores/points";
@@ -115,13 +116,13 @@ const showStackCountOnly = computed(
 );
 
 const stackAriaLabel = computed(() => {
-  const awardedBy =
-    props.item.awarded_by_user?.name ||
-    props.item.awarded_by?.name ||
-    "this kudo";
-  const base = `+1 ${awardedBy}'s kudos`;
+  const awardedByName =
+    props.item.awarded_by_user?.name || props.item.awarded_by?.name;
+  const base = awardedByName
+    ? `Поставить +1 к похвале от ${awardedByName}`
+    : "Поставить +1 к этой похвале";
   return props.item.stacks_count
-    ? `${base} (${props.item.stacks_count} so far)`
+    ? `${base} (сейчас ${props.item.stacks_count} ${pluralRu(props.item.stacks_count, "человек", "человека", "человек")})`
     : base;
 });
 
@@ -139,24 +140,26 @@ const actionText = computed(() => {
 
   switch (type) {
     case "task_completion":
-      return "completed a task";
+      return "выполнил(а) задачу";
     case "task_reversal":
-      return "had task points reversed";
+      return "— баллы за задачу отменены";
     case "kudos":
       if (props.item.stacked_from_transaction_id) {
         return awardedBy
-          ? `+1'd a kudo from ${awardedBy}`
-          : "received a +1'd kudo";
+          ? `получил(а) дополнительную похвалу от ${awardedBy}`
+          : "получил(а) дополнительную похвалу";
       }
-      return awardedBy ? `received kudos from ${awardedBy}` : "received kudos";
+      return awardedBy
+        ? `получил(а) похвалу от ${awardedBy}`
+        : "получил(а) похвалу";
     case "deduction":
       return awardedBy
-        ? `had points deducted by ${awardedBy}`
-        : "had points deducted";
+        ? `— баллы списал(а) ${awardedBy}`
+        : "— баллы списаны";
     case "redemption":
-      return "purchased a reward";
+      return "обменял(а) баллы на награду";
     case "adjustment":
-      return "received a point adjustment";
+      return "— баллы скорректированы";
     default:
       return "";
   }
@@ -168,12 +171,12 @@ const formatTime = (dateStr) => {
   const now = new Date();
   const diff = now - d;
   const mins = Math.floor(diff / 60000);
-  if (mins < 1) return "just now";
-  if (mins < 60) return `${mins}m ago`;
+  if (mins < 1) return "только что";
+  if (mins < 60) return `${mins} ${pluralRu(mins, "минуту", "минуты", "минут")} назад`;
   const hours = Math.floor(mins / 60);
-  if (hours < 24) return `${hours}h ago`;
+  if (hours < 24) return `${hours} ${pluralRu(hours, "час", "часа", "часов")} назад`;
   const days = Math.floor(hours / 24);
-  if (days < 7) return `${days}d ago`;
-  return d.toLocaleDateString();
+  if (days < 7) return `${days} ${pluralRu(days, "день", "дня", "дней")} назад`;
+  return d.toLocaleDateString("ru-RU", { day: "numeric", month: "short" });
 };
 </script>

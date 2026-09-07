@@ -64,10 +64,10 @@ const markNoAllergies = async () => {
     <div class="flex items-baseline justify-between gap-3">
       <h3 class="text-sm font-semibold text-ink-primary">{{ user.name }}</h3>
       <p v-if="!reviewed" class="text-xs text-status-warning font-medium">
-        Not yet reviewed
+        Ещё не подтверждён
       </p>
       <p v-else class="text-xs text-ink-tertiary">
-        Reviewed
+        Подтверждён
       </p>
     </div>
 
@@ -83,7 +83,7 @@ const markNoAllergies = async () => {
 
     <div v-if="canEdit" class="flex flex-wrap items-center gap-2 pt-1">
       <KinButton variant="primary" size="sm" :loading="saving" @click="save">
-        Save profile
+        Сохранить профиль
       </KinButton>
       <KinButton
         v-if="!reviewed && selectedIds.length === 0"
@@ -92,7 +92,7 @@ const markNoAllergies = async () => {
         :loading="markingReviewed"
         @click="markNoAllergies"
       >
-        Confirm: no allergies
+        Подтвердить: аллергий нет
       </KinButton>
     </div>
   </div>

@@ -2,10 +2,10 @@
   <div class="flex-1 flex flex-col">
     <div class="text-center mb-6">
       <h1 class="text-2xl font-heading font-bold text-ink-primary mb-2">
-        Here's What You Can Do
+        Что вам доступно
       </h1>
       <p class="text-base text-ink-secondary">
-        Your family has these features set up for you.
+        Для вашей семьи уже настроены эти функции.
       </p>
     </div>
 
@@ -40,14 +40,14 @@
           </div>
           <div class="flex-1 min-w-0">
             <p class="text-sm font-semibold text-ink-tertiary">{{ feature.name }}</p>
-            <p class="text-xs text-ink-tertiary mt-1">Managed by your parents.</p>
+            <p class="text-xs text-ink-tertiary mt-1">Управляется родителями.</p>
           </div>
         </div>
       </KinFlatCard>
     </div>
 
     <p v-if="accessibleFeatures.length === 0" class="text-sm text-ink-secondary text-center mt-4">
-      Your parents haven't set up features yet. They can do this from Settings.
+      Родители ещё не настроили функции. Они могут сделать это в «Настройках».
     </p>
   </div>
 </template>
@@ -83,39 +83,39 @@ function featureVariant(key) {
 const allFeatures = [
   {
     key: 'calendar',
-    name: 'Calendar',
+    name: 'Календарь',
     icon: CalendarDaysIcon,
-    explainer: 'See your family\'s schedule all in one place. Everyone\'s events show up color-coded so you know who has what going on.',
+    explainer: 'Весь график семьи — в одном месте. События каждого участника выделены своим цветом, чтобы сразу было видно, у кого что запланировано.',
   },
   {
     key: 'tasks',
-    name: 'Tasks',
+    name: 'Задачи',
     icon: ClipboardDocumentListIcon,
-    explainer: 'Check what needs to be done, mark tasks complete, and see what\'s assigned to you. Tasks are organized with tags — tap a tag to filter.',
+    explainer: 'Смотрите, что нужно сделать, отмечайте задачи выполненными и видите, что назначено вам. Задачи организованы по тегам — нажмите на тег, чтобы отфильтровать список.',
   },
   {
     key: 'points',
-    name: 'Points & Rewards',
+    name: 'Баллы и награды',
     icon: TrophyIcon,
-    explainer: 'Earn points when you complete tasks. Your points go into a bank you can spend at the rewards store. Check the leaderboard to see where you stand.',
+    explainer: 'Получайте баллы за выполненные задачи. Баллы копятся в общем банке, и их можно тратить в магазине наград. Загляните в рейтинг, чтобы узнать своё место.',
   },
   {
     key: 'badges',
-    name: 'Achievement Badges',
+    name: 'Достижения',
     icon: StarIcon,
-    explainer: 'Unlock badges by hitting milestones — complete tasks, build streaks, earn points. Some badges are hidden until you discover them.',
+    explainer: 'Открывайте значки за достижения: выполняйте задачи, держите серии, зарабатывайте баллы. Некоторые значки скрыты, пока вы их не обнаружите.',
   },
   {
     key: 'chat',
-    name: 'AI Chat',
+    name: 'Ассистент',
     icon: ChatBubbleLeftRightIcon,
-    explainer: 'Ask the AI about your family\'s schedule, tasks, or stored info. Try things like "What\'s happening this weekend?" or "What tasks are due today?"',
+    explainer: 'Спрашивайте ИИ о расписании семьи, задачах или сохранённой информации. Например: «Что у нас на эти выходные?» или «Какие задачи нужно сделать сегодня?»',
   },
   {
     key: 'vault',
-    name: 'Family Vault',
+    name: 'Хранилище',
     icon: LockClosedIcon,
-    explainer: 'Access important family info that\'s been shared with you — things like wifi passwords, account details, or emergency contacts.',
+    explainer: 'Доступ к важной семейной информации, которой с вами поделились: пароли от Wi-Fi, данные аккаунтов или контакты для экстренных случаев.',
   },
 ]
 

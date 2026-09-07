@@ -37,30 +37,30 @@ class TaskDueSoonNotification extends Notification implements ShouldQueue
     {
         $appUrl = config('app.url');
         $dueText = $this->task->due_date
-            ? "Due: {$this->task->due_date->format('M j, Y')}"
-            : 'Due today';
+            ? 'Срок: '.(clone $this->task->due_date)->locale('ru')->translatedFormat('j F Y')
+            : 'Срок — сегодня';
 
         return (new MailMessage)
-            ->subject("Reminder: {$this->task->title} is due today")
-            ->greeting("Hi {$notifiable->name}!")
-            ->line('This task is due today:')
+            ->subject("Напоминание: {$this->task->title} — срок сегодня")
+            ->greeting("Привет, {$notifiable->name}!")
+            ->line('Срок этой задачи — сегодня:')
             ->line("**{$this->task->title}**")
             ->when($this->task->description, function (MailMessage $message) {
                 $message->line($this->task->description);
             })
             ->line($dueText)
-            ->action('View Task', "{$appUrl}/tasks");
+            ->action('Открыть задачу', "{$appUrl}/tasks");
     }
 
     public function toWebPush(object $notifiable, Notification $notification): WebPushMessage
     {
         $points = $this->task->getEffectivePoints();
         $body = $points > 0
-            ? "{$points} pts on the line"
-            : 'Reminder from Kinhold';
+            ? 'На кону '.$points.' '.self::pluralRu($points, 'балл', 'балла', 'баллов')
+            : 'Напоминание из Kinhold';
 
         return (new WebPushMessage)
-            ->title("Due today: {$this->task->title}")
+            ->title("Срок сегодня: {$this->task->title}")
             ->body($body)
             ->icon('/icons/icon-192.png')
             ->badge('/icons/badge-96.png')
@@ -71,5 +71,19 @@ class TaskDueSoonNotification extends Notification implements ShouldQueue
                 'task_id' => $this->task->id,
             ])
             ->options(['TTL' => 60 * 60 * 24]);
+    }
+
+    private static function pluralRu(int $n, string $one, string $few, string $many): string
+    {
+        $abs = abs($n) % 100;
+        $last = $abs % 10;
+        if ($last === 1 && $abs !== 11) {
+            return $one;
+        }
+        if ($last >= 2 && $last <= 4 && ($abs < 12 || $abs > 14)) {
+            return $few;
+        }
+
+        return $many;
     }
 }

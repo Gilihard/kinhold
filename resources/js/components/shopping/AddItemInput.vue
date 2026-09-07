@@ -6,7 +6,7 @@
           ref="inputRef"
           v-model="itemName"
           type="text"
-          placeholder="Add item..."
+          placeholder="Добавить товар..."
           class="input-base w-full text-sm"
           autocomplete="off"
           @input="onInput"
@@ -37,7 +37,7 @@
         v-if="itemName.length > 0"
         v-model="itemQty"
         type="text"
-        placeholder="Qty"
+        placeholder="Кол-во"
         class="input-base w-20 text-sm flex-shrink-0"
         @keydown.enter.prevent="submitItem"
       />
@@ -51,14 +51,14 @@
           ? 'bg-[#C4975A]/15 text-[#C4975A] border border-[#C4975A]/30'
           : 'text-ink-tertiary hover:bg-surface-sunken border border-transparent'"
         :title="isRecurring
-          ? 'Recurring is ON — this item will reappear every time you clear bought items'
-          : 'Make recurring — great for staples like milk, bread, eggs that you always need'"
+          ? 'Повторение включено — этот товар будет снова появляться после каждой очистки купленного.'
+          : 'Сделать повторяющимся — товар будет снова появляться после очистки купленного (удобно для базовых продуктов: молоко, хлеб, яйца).'"
         @click="isRecurring = !isRecurring"
       >
         <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182" />
         </svg>
-        <span>{{ isRecurring ? 'Recurring' : 'Repeat' }}</span>
+        <span>{{ isRecurring ? 'Повторяется' : 'Повторять' }}</span>
       </button>
 
       <KinButton
@@ -66,7 +66,7 @@
         :disabled="!itemName.trim()"
         @click="submitItem"
       >
-        Add
+        Добавить
       </KinButton>
     </div>
   </div>

@@ -2,17 +2,17 @@
   <div class="flex-1 flex flex-col">
     <div class="text-center mb-6">
       <h1 class="text-2xl font-heading font-bold text-ink-primary mb-2">
-        Add Your Family
+        Добавьте членов семьи
       </h1>
       <p class="text-base text-ink-secondary">
-        Add family members now, or share the invite code so they can join later.
+        Добавьте членов семьи сейчас или поделитесь кодом приглашения, чтобы они присоединились позже.
       </p>
     </div>
 
     <!-- Reassurance: optional step (#254) -->
     <KinFlatCard padding="sm" class="mb-4 bg-surface-sunken">
       <p class="text-xs text-ink-secondary leading-relaxed">
-        You can do this anytime — many families fill in their calendar, tasks, and recipes first so the rest of the household joins a hub that already feels like home. Skip this step if you'd rather come back to it.
+        Это можно сделать в любой момент — многие семьи сначала заполняют календарь, задачи и рецепты, чтобы остальные домочадцы присоединились к центру, который уже ощущается как свой. Пропустите этот шаг, если хотите вернуться к нему позже.
       </p>
     </KinFlatCard>
 
@@ -21,7 +21,7 @@
          any added during this session, since addMember() calls fetchUser()
          which refreshes the auth store. Excludes the current user. -->
     <div v-if="existingMembers.length > 0" class="mb-4 space-y-2">
-      <p class="text-xs font-semibold uppercase tracking-wide text-ink-tertiary">Family members</p>
+      <p class="text-xs font-semibold uppercase tracking-wide text-ink-tertiary">Члены семьи</p>
       <KinFlatCard
         v-for="member in existingMembers"
         :key="member.id"
@@ -34,7 +34,7 @@
           </div>
           <div class="flex-1 min-w-0">
             <p class="text-sm font-medium text-ink-primary">{{ member.name }}</p>
-            <p class="text-xs text-ink-secondary">{{ (member.family_role || member.role) === 'parent' ? 'Parent' : 'Child' }}{{ member.is_managed ? ' (managed)' : '' }}</p>
+            <p class="text-xs text-ink-secondary">{{ (member.family_role || member.role) === 'parent' ? 'Родитель' : 'Ребёнок' }}{{ member.is_managed ? ' (управляемый)' : '' }}</p>
           </div>
           <CheckCircleIcon class="w-5 h-5 text-status-success flex-shrink-0" />
         </div>
@@ -48,7 +48,7 @@
           <KinInput
             v-model="memberName"
             type="text"
-            placeholder="Name"
+            placeholder="Имя"
             @keyup.enter="addMember"
           />
         </div>
@@ -56,8 +56,8 @@
           <KinSelect
             v-model="memberRole"
             :options="[
-              { value: 'child', label: 'Child' },
-              { value: 'parent', label: 'Parent' },
+              { value: 'child', label: 'Ребёнок' },
+              { value: 'parent', label: 'Родитель' },
             ]"
           />
         </div>
@@ -66,7 +66,7 @@
       <KinInput
         v-model="memberEmail"
         type="email"
-        placeholder="Email (optional — leave blank for managed account)"
+        placeholder="Эл. почта (необязательно — оставьте пустым для управляемого аккаунта)"
       />
 
       <div class="flex gap-2">
@@ -77,7 +77,7 @@
           :loading="addingMember"
           @click="addMember"
         >
-          {{ addingMember ? 'Adding...' : 'Add Member' }}
+          {{ addingMember ? 'Добавление…' : 'Добавить участника' }}
         </KinButton>
       </div>
 
@@ -91,7 +91,7 @@
         class="w-full"
         @click="showingInviteCode = !showingInviteCode"
       >
-        {{ showingInviteCode ? 'Add members directly instead' : 'Or share an invite code' }}
+        {{ showingInviteCode ? 'Добавить участников напрямую' : 'Или поделитесь кодом приглашения' }}
       </KinButton>
 
       <!-- Invite Code -->
@@ -105,7 +105,7 @@
               variant="ghost"
               size="sm"
               icon-only
-              :aria-label="copied ? 'Copied' : 'Copy invite code'"
+              :aria-label="copied ? 'Скопировано' : 'Скопировать код приглашения'"
               @click="copyCode"
             >
               <ClipboardDocumentCheckIcon v-if="copied" class="w-5 h-5 text-status-success" />
@@ -113,16 +113,16 @@
             </KinButton>
           </div>
         </KinFlatCard>
-        <p v-if="copied" class="text-center text-sm text-status-success mt-2">Copied to clipboard</p>
+        <p v-if="copied" class="text-center text-sm text-status-success mt-2">Скопировано в буфер обмена</p>
         <p class="text-xs text-center text-ink-secondary mt-2">
-          Family members enter this code when they register.
+          Члены семьи вводят этот код при регистрации.
         </p>
       </div>
 
       <!-- Non-parent view -->
       <KinFlatCard v-if="!isParent" padding="md" class="text-center mt-2">
         <p class="text-sm text-ink-secondary">
-          Ask a parent to add family members or share the invite code.
+          Попросите родителя добавить участников или поделиться кодом приглашения.
         </p>
       </KinFlatCard>
     </div>
@@ -179,7 +179,7 @@ async function addMember() {
     // Refresh auth store so the new member appears in `existingMembers`.
     await authStore.fetchUser()
   } catch (err) {
-    addError.value = err.response?.data?.message || 'Failed to add member.'
+    addError.value = err.response?.data?.message || 'Не удалось добавить участника.'
   } finally {
     addingMember.value = false
   }

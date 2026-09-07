@@ -9,24 +9,24 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
       </svg>
       <p>
-        This self-hosted Kinhold instance has
-        <strong>{{ familyCount }} {{ familyCount === 1 ? 'family' : 'families' }}</strong>.
-        The Elastic License limits self-hosted instances to a single family.
-        We know — you could probably figure out how to silence this banner.
-        The right move is to grab a commercial license from <strong>Q Thirty Two</strong> instead.
+        В этом самостоятельно развёрнутом экземпляре Kinhold —
+        <strong>{{ familyCount }} {{ pluralRu(familyCount, 'семья', 'семьи', 'семей') }}</strong>.
+        Лицензия Elastic разрешает самостоятельно развёрнутым экземплярам работать только с одной семьёй.
+        Да, мы знаем: вы наверняка сможете разобраться, как скрыть этот баннер.
+        Но правильный ход — оформить коммерческую лицензию у <strong>Q Thirty Two</strong>.
         <a
           href="https://github.com/gregqualls/kinhold/issues/new?title=Commercial%20license%20inquiry&labels=commercial-license"
           target="_blank"
           rel="noopener"
           class="underline font-medium hover:text-amber-900 dark:hover:text-amber-200"
-        >Reach out</a>
+        >Связаться с нами</a>
         ·
         <a
           href="https://github.com/gregqualls/kinhold/blob/main/LICENSE"
           target="_blank"
           rel="noopener"
           class="underline font-medium hover:text-amber-900 dark:hover:text-amber-200"
-        >Read the license</a>
+        >Прочитать лицензию</a>
       </p>
     </div>
   </div>
@@ -35,6 +35,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useAuthStore } from '@/stores/auth'
+import { pluralRu } from '@/utils/plural'
 
 const authStore = useAuthStore()
 

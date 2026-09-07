@@ -3,20 +3,20 @@
     <!-- Header -->
     <div class="flex items-center justify-between mb-3 md:mb-6 gap-3 flex-wrap">
       <div class="flex items-center gap-2 md:gap-3">
-        <KinButton variant="ghost" size="sm" icon-only aria-label="Back to Points" to="/points">
+        <KinButton variant="ghost" size="sm" icon-only aria-label="Назад к баллам" to="/points">
           <ChevronLeftIcon class="w-5 h-5" />
         </KinButton>
-        <h1 class="text-lg md:text-2xl font-bold font-heading text-ink-primary">Rewards</h1>
+        <h1 class="text-lg md:text-2xl font-bold font-heading text-ink-primary">Награды</h1>
       </div>
       <div class="flex items-center gap-3 flex-wrap">
         <span class="text-sm font-bold font-mono text-accent-lavender-bold">
-          {{ pointsStore.bank }} pts
+          {{ formatPts(pointsStore.bank) }}
         </span>
         <KinButton v-if="isParent && !showForm" variant="primary" size="sm" class="hidden md:flex" @click="openCreateForm">
           <template #leading>
             <PlusIcon class="w-4 h-4" />
           </template>
-          Add Reward
+          Добавить награду
         </KinButton>
       </div>
     </div>
@@ -36,8 +36,8 @@
       <!-- Search -->
       <KinSearch
         v-model="searchQuery"
-        placeholder="Search rewards..."
-        aria-label="Search rewards"
+        placeholder="Поиск наград…"
+        aria-label="Поиск наград"
       />
 
       <!-- Filter chips + Sort -->
@@ -59,7 +59,7 @@
             v-model="sortBy"
             size="sm"
             :options="sortOptions"
-            aria-label="Sort rewards"
+            aria-label="Сортировка наград"
           />
         </div>
       </div>
@@ -95,8 +95,8 @@
     <KinEmptyState
       v-if="filteredRewards.length === 0 && pointsStore.rewards.length > 0"
       :icon="MagnifyingGlassIcon"
-      title="No rewards match your filters"
-      description="Try adjusting your search or filters."
+      title="Ни одна награда не подходит"
+      description="Попробуйте изменить поиск или фильтры."
       accent-color="lavender"
       size="md"
       class="mt-6"
@@ -105,8 +105,8 @@
     <KinEmptyState
       v-if="pointsStore.rewards.length === 0 && !showForm"
       :icon="GiftIcon"
-      title="No rewards yet"
-      :description="isParent ? 'Create some rewards for your family!' : 'Check back soon — rewards are coming.'"
+      title="Пока нет наград"
+      :description="isParent ? 'Создайте награды для своей семьи!' : 'Загляните позже — награды скоро появятся.'"
       accent-color="peach"
       size="md"
       class="mt-6"
@@ -127,6 +127,7 @@ import RewardForm from '@/components/points/RewardForm.vue'
 import BidModal from '@/components/points/BidModal.vue'
 import FloatingActionButton from '@/components/common/FloatingActionButton.vue'
 import { ChevronLeftIcon, PlusIcon, GiftIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline'
+import { formatPts } from '@/utils/plural'
 import { useNotification } from '@/composables/useNotification'
 import KinButton from '@/components/design-system/KinButton.vue'
 import KinChip from '@/components/design-system/KinChip.vue'
@@ -168,14 +169,14 @@ const handleSave = async (data) => {
       closeForm()
       await pointsStore.fetchRewards()
     } else {
-      notify.error(result.error || 'Failed to update reward')
+      notify.error(result.error || 'Не удалось обновить награду')
     }
   } else {
     const result = await pointsStore.createReward(data)
     if (result.success) {
       closeForm()
     } else {
-      notify.error(result.error || 'Failed to create reward')
+      notify.error(result.error || 'Не удалось создать награду')
     }
   }
 }
@@ -183,10 +184,10 @@ const handleSave = async (data) => {
 const handlePurchase = async (rewardId) => {
   const result = await pointsStore.purchaseReward(rewardId)
   if (result.success) {
-    notify.success(result.data?.message || 'Reward purchased!')
+    notify.success(result.data?.message || 'Награда куплена!')
     await pointsStore.fetchRewards()
   } else {
-    notify.error(result.error || 'Failed to purchase reward')
+    notify.error(result.error || 'Не удалось купить награду')
   }
 }
 
@@ -203,27 +204,27 @@ const openBidModal = (reward) => {
 
 const handleBidPlaced = async (data) => {
   biddingReward.value = null
-  notify.success(data?.message || 'Bid placed!')
+  notify.success(data?.message || 'Ставка сделана!')
   await Promise.all([pointsStore.fetchRewards(), pointsStore.fetchBank()])
 }
 
 const handleCloseAuction = async (rewardId) => {
   const result = await pointsStore.closeAuction(rewardId)
   if (result.success) {
-    notify.success(result.data?.message || 'Auction closed!')
+    notify.success(result.data?.message || 'Аукцион закрыт!')
     await pointsStore.fetchRewards()
   } else {
-    notify.error(result.error || 'Failed to close auction')
+    notify.error(result.error || 'Не удалось закрыть аукцион')
   }
 }
 
 const handleCancelAuction = async (rewardId) => {
   const result = await pointsStore.cancelAuction(rewardId)
   if (result.success) {
-    notify.success(result.data?.message || 'Auction cancelled')
+    notify.success(result.data?.message || 'Аукцион отменён')
     await Promise.all([pointsStore.fetchRewards(), pointsStore.fetchBank()])
   } else {
-    notify.error(result.error || 'Failed to cancel auction')
+    notify.error(result.error || 'Не удалось отменить аукцион')
   }
 }
 
@@ -237,17 +238,17 @@ watch(activeFilter, (v) => localStorage.setItem('rewards_filter', v))
 watch(sortBy, (v) => localStorage.setItem('rewards_sort', v))
 
 const filterOptions = [
-  { label: 'All', value: 'all' },
-  { label: 'Affordable', value: 'affordable' },
-  { label: 'Available', value: 'available' },
+  { label: 'Все', value: 'all' },
+  { label: 'По карману', value: 'affordable' },
+  { label: 'Доступные', value: 'available' },
 ]
 
 const sortOptions = [
-  { value: 'sort_order', label: 'Default' },
-  { value: 'price_asc',  label: 'Price: Low → High' },
-  { value: 'price_desc', label: 'Price: High → Low' },
-  { value: 'name',       label: 'Name A–Z' },
-  { value: 'newest',     label: 'Newest' },
+  { value: 'sort_order', label: 'По умолчанию' },
+  { value: 'price_asc',  label: 'Сначала дешёвые' },
+  { value: 'price_desc', label: 'Сначала дорогие' },
+  { value: 'name',       label: 'По имени А–Я' },
+  { value: 'newest',     label: 'Сначала новые' },
 ]
 
 const filteredRewards = computed(() => {

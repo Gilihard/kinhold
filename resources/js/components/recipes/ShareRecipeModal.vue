@@ -45,9 +45,9 @@ const publish = async () => {
     const response = await api.post(`/recipes/${props.recipe.id}/share`)
     local.value = response.data.share
     emit('updated', response.data.share)
-    notifySuccess('Recipe shared. Copy the link to send it anywhere.')
+    notifySuccess('Рецепт опубликован. Скопируйте ссылку, чтобы отправить её куда угодно.')
   } catch (err) {
-    notifyError(err.response?.data?.message || 'Failed to publish recipe')
+    notifyError(err.response?.data?.message || 'Не удалось опубликовать рецепт')
   } finally {
     working.value = false
   }
@@ -62,22 +62,22 @@ const setAttribution = async (visible) => {
     local.value = response.data.share
     emit('updated', response.data.share)
   } catch (err) {
-    notifyError(err.response?.data?.message || 'Failed to update share settings')
+    notifyError(err.response?.data?.message || 'Не удалось обновить настройки публикации')
   } finally {
     working.value = false
   }
 }
 
 const revoke = async () => {
-  if (!confirm('Revoke this share? The public link will stop working immediately and re-sharing will create a brand new link.')) return
+  if (!confirm('Отозвать публикацию? Публичная ссылка сразу перестанет работать, а при повторной публикации будет создана новая ссылка.')) return
   working.value = true
   try {
     const response = await api.delete(`/recipes/${props.recipe.id}/share`)
     local.value = response.data.share
     emit('updated', response.data.share)
-    notifySuccess('Recipe unshared. The old link no longer works.')
+    notifySuccess('Публикация рецепта отменена. Старая ссылка больше не работает.')
   } catch (err) {
-    notifyError(err.response?.data?.message || 'Failed to revoke share')
+    notifyError(err.response?.data?.message || 'Не удалось отозвать публикацию')
   } finally {
     working.value = false
   }
@@ -119,7 +119,7 @@ const copyLink = async () => {
     // fall through
   }
 
-  notifyError('Copy failed. Tap the link, select all, then copy manually.')
+  notifyError('Не удалось скопировать. Нажмите на ссылку, выделите всё и скопируйте вручную.')
 }
 
 const previewLink = () => {
@@ -129,7 +129,7 @@ const previewLink = () => {
 </script>
 
 <template>
-  <KinModalSheet :model-value="show" title="Share this recipe" @update:model-value="(v) => !v && emit('close')">
+  <KinModalSheet :model-value="show" title="Поделиться рецептом" @update:model-value="(v) => !v && emit('close')">
     <div class="space-y-5">
       <!-- Header copy -->
       <div class="flex items-start gap-3">
@@ -137,21 +137,21 @@ const previewLink = () => {
           <ShareIcon class="w-5 h-5 text-accent-lavender-bold" />
         </div>
         <div class="text-sm text-ink-secondary">
-          Publish a public link anyone can open — no account needed. Allergen badges and the source link travel with it.
+          Опубликуйте публичную ссылку, которую сможет открыть любой — без аккаунта. Бейджи аллергенов и ссылка на источник сохраняются.
         </div>
       </div>
 
       <!-- Not yet shared: single CTA -->
       <div v-if="!isShared" class="space-y-3">
         <KinButton variant="primary" class="w-full" :loading="working" @click="publish">
-          Publish public link
+          Опубликовать публичную ссылку
         </KinButton>
       </div>
 
       <!-- Shared: URL + copy + attribution + revoke -->
       <div v-else class="space-y-4">
         <div>
-          <p class="text-xs font-semibold uppercase tracking-wide text-ink-tertiary mb-1.5">Public URL</p>
+          <p class="text-xs font-semibold uppercase tracking-wide text-ink-tertiary mb-1.5">Публичный URL</p>
           <div class="flex items-stretch gap-2">
             <input
               ref="urlInput"
@@ -163,12 +163,12 @@ const previewLink = () => {
             <button
               type="button"
               class="px-3 py-2 rounded-lg bg-accent-lavender-bold text-white text-sm font-semibold hover:bg-accent-lavender-bold/90 transition-colors inline-flex items-center gap-1.5"
-              :aria-label="copied ? 'Copied' : 'Copy link'"
+              :aria-label="copied ? 'Скопировано' : 'Копировать ссылку'"
               @click="copyLink"
             >
               <CheckIcon v-if="copied" class="w-4 h-4" />
               <ClipboardDocumentIcon v-else class="w-4 h-4" />
-              {{ copied ? 'Copied' : 'Copy' }}
+              {{ copied ? 'Скопировано' : 'Копировать' }}
             </button>
           </div>
           <button
@@ -177,15 +177,15 @@ const previewLink = () => {
             @click="previewLink"
           >
             <ArrowTopRightOnSquareIcon class="w-3.5 h-3.5" />
-            Preview what your family will see
+            Посмотреть, как это увидят члены семьи
           </button>
         </div>
 
         <div class="flex items-start justify-between gap-3 p-3 rounded-lg bg-surface-sunken">
           <div class="flex-1">
-            <p class="text-sm font-medium text-ink-primary">Show family name</p>
+            <p class="text-sm font-medium text-ink-primary">Показывать название семьи</p>
             <p class="text-xs text-ink-secondary mt-0.5">
-              Off by default. When on, the public page reads "Shared by {{ recipe.family_name || 'your family' }}" instead of "Shared via Kinhold."
+              По умолчанию выключено. Когда включено, на публичной странице будет «Поделился: {{ recipe.family_name || 'ваша семья' }}» вместо «Поделился через Kinhold».
             </p>
           </div>
           <KinSwitch
@@ -203,7 +203,7 @@ const previewLink = () => {
             @click="revoke"
           >
             <ExclamationCircleIcon class="w-4 h-4" />
-            Revoke this share
+            Отозвать публикацию
           </button>
         </div>
       </div>

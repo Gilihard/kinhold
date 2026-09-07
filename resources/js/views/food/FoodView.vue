@@ -2,8 +2,8 @@
   <div class="h-full flex flex-col">
     <!-- Header -->
     <div class="px-4 pt-3 md:px-6 md:pt-6">
-      <h1 class="text-lg md:text-2xl font-bold font-heading text-ink-primary">Meals</h1>
-      <p class="hidden md:block text-sm text-ink-tertiary mt-0.5">Recipes, restaurants &amp; meal planning</p>
+      <h1 class="text-lg md:text-2xl font-bold font-heading text-ink-primary">Питание</h1>
+      <p class="hidden md:block text-sm text-ink-tertiary mt-0.5">Рецепты, рестораны и планирование питания</p>
     </div>
 
     <!-- Tab bar -->
@@ -33,9 +33,9 @@ import MealsTab from './MealsTab.vue'
 import KinTabPillGroup from '@/components/design-system/KinTabPillGroup.vue'
 
 const tabs = [
-  { key: 'meals',       label: 'Plans' },
-  { key: 'recipes',     label: 'Recipes' },
-  { key: 'restaurants', label: 'Restaurants' },
+  { key: 'meals',       label: 'Планы' },
+  { key: 'recipes',     label: 'Рецепты' },
+  { key: 'restaurants', label: 'Рестораны' },
 ]
 
 const activeTab = ref('meals')

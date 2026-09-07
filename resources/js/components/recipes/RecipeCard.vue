@@ -44,10 +44,10 @@ const totalTime = computed(() => {
 
 const formatTime = (minutes) => {
   if (!minutes) return null
-  if (minutes < 60) return `${minutes}m`
+  if (minutes < 60) return `${minutes} мин`
   const h = Math.floor(minutes / 60)
   const m = minutes % 60
-  return m > 0 ? `${h}h ${m}m` : `${h}h`
+  return m > 0 ? `${h} ч ${m} мин` : `${h} ч`
 }
 
 const metaItems = computed(() => {
@@ -65,11 +65,11 @@ const metaItems = computed(() => {
 // across the four accent families so each recipe gets a stable, distinct
 // gradient instead of every fallback looking identical.
 const TAG_TO_GRADIENT = {
-  Breakfast: 'sun',
-  Lunch:     'mint',
-  Dinner:    'lavender',
-  Dessert:   'peach',
-  Snack:     'warm',
+  Breakfast: 'sun', Завтрак: 'sun',
+  Lunch: 'mint',     Обед: 'mint',
+  Dinner: 'lavender', Ужин: 'lavender',
+  Dessert: 'peach',  Десерт: 'peach',
+  Snack: 'warm',     Перекус: 'warm',
 }
 const HASH_GRADIENTS = ['warm', 'lavender', 'peach', 'mint', 'sun', 'cool']
 

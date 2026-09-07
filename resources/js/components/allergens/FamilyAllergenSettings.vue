@@ -66,7 +66,7 @@ const saveEdit = async () => {
 }
 
 const remove = async (allergen) => {
-  if (!confirm(`Remove "${allergen.name}" from your family's allergen list? This won't change anyone's profile.`)) {
+  if (!confirm(`Удалить «${allergen.name}» из списка аллергенов семьи? На профили участников это не повлияет.`)) {
     return
   }
   await allergens.deleteCustom(allergen.id)
@@ -76,14 +76,14 @@ const remove = async (allergen) => {
 <template>
   <div class="space-y-5">
     <p class="text-xs text-ink-secondary">
-      The Big 9 (milk, eggs, fish, shellfish, tree nuts, peanuts, wheat&nbsp;/&nbsp;gluten, soy, sesame) are
-      pre-loaded and always available. Pick them per family member in the profiles below.
+      Основные 9 (молоко, яйца, рыба, моллюски, орехи, арахис, пшеница&nbsp;/&nbsp;глютен, соя, кунжут)
+      уже предзагружены и доступны всегда. Выбирайте их для каждого члена семьи в профилях ниже.
     </p>
 
     <div>
-      <p class="text-xs font-medium text-ink-secondary mb-2">Your family's allergens</p>
+      <p class="text-xs font-medium text-ink-secondary mb-2">Аллергены вашей семьи</p>
       <div v-if="allergens.customs.length === 0" class="text-xs text-ink-tertiary italic">
-        No custom allergens yet.
+        Своих аллергенов пока нет.
       </div>
       <ul class="space-y-2">
         <li
@@ -95,7 +95,7 @@ const remove = async (allergen) => {
             <KinInput v-model="editName" class="flex-1" @keyup.enter="saveEdit" />
             <button
               class="p-1.5 text-status-success hover:bg-status-success/10 rounded"
-              aria-label="Save"
+              aria-label="Сохранить"
               :disabled="saving"
               @click="saveEdit"
             >
@@ -103,7 +103,7 @@ const remove = async (allergen) => {
             </button>
             <button
               class="p-1.5 text-ink-tertiary hover:bg-surface-raised rounded"
-              aria-label="Cancel"
+              aria-label="Отмена"
               @click="cancelEdit"
             >
               <XMarkIcon class="w-4 h-4" />
@@ -114,14 +114,14 @@ const remove = async (allergen) => {
             <template v-if="isParent">
               <button
                 class="p-1.5 text-ink-tertiary hover:bg-surface-raised rounded"
-                aria-label="Rename"
+                aria-label="Переименовать"
                 @click="startEdit(a)"
               >
                 <PencilSquareIcon class="w-4 h-4" />
               </button>
               <button
                 class="p-1.5 text-status-failed hover:bg-status-failed/10 rounded"
-                aria-label="Delete"
+                aria-label="Удалить"
                 @click="remove(a)"
               >
                 <TrashIcon class="w-4 h-4" />
@@ -134,16 +134,16 @@ const remove = async (allergen) => {
     </div>
 
     <div v-if="isParent" class="pt-2 border-t border-border-subtle">
-      <p class="text-xs font-medium text-ink-secondary mb-2">Add a custom allergen</p>
+      <p class="text-xs font-medium text-ink-secondary mb-2">Добавить свой аллерген</p>
       <div class="flex flex-wrap gap-2">
         <KinInput
           v-model="newName"
-          placeholder="e.g. Corn, Kiwi, Mustard"
+          placeholder="Например: кукуруза, киви, горчица"
           class="flex-1 min-w-[200px]"
           @keyup.enter="addCustom"
         />
         <KinButton variant="primary" size="sm" :loading="adding" @click="addCustom">
-          Add
+          Добавить
         </KinButton>
       </div>
       <p v-if="addError" class="text-xs text-status-failed mt-2" role="alert">{{ addError }}</p>

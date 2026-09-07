@@ -27,13 +27,13 @@
           : 'bg-surface-sunken text-ink-secondary hover:bg-surface-overlay'"
         @click="mealsStore.goToCurrentWeek"
       >
-        This Week
+        Эта неделя
       </button>
 
       <!-- View mode toggle (mirrors RecipesTab/RestaurantsTab pattern) -->
       <button
         class="p-2 rounded-[10px] bg-surface-sunken text-ink-secondary hover:bg-surface-overlay transition-colors"
-        :title="viewMode === 'grid' ? 'Switch to list view' : 'Switch to grid view'"
+        :title="viewMode === 'grid' ? 'Переключиться на список' : 'Переключиться на сетку'"
         @click="toggleViewMode"
       >
         <Squares2X2Icon v-if="viewMode === 'list'" class="w-4 h-4" />
@@ -44,7 +44,7 @@
       <button
         v-if="mealsStore.currentPlan"
         class="p-2 rounded-[10px] bg-surface-sunken text-ink-secondary hover:bg-surface-overlay transition-colors"
-        title="Add ingredients to shopping list"
+        title="Добавить ингредиенты в список покупок"
         @click="showShoppingModal = true"
       >
         <ShoppingCartIcon class="w-4 h-4" />
@@ -60,9 +60,9 @@
     <KinEmptyState
       v-else-if="!mealsStore.currentPlan && !mobileEntries.size"
       :icon="CalendarDaysIcon"
-      title="No meal plan yet"
-      description="Start planning your week by adding meals to each day."
-      action-text="Plan this week"
+      title="Плана питания пока нет"
+      description="Начните планировать свою неделю — добавляйте блюда на каждый день."
+      action-text="Спланировать эту неделю"
       accent-color="peach"
       size="md"
       @action="mealsStore.fetchCurrentWeekPlan"
@@ -112,7 +112,7 @@
           @click="loadPreviousDays"
         >
           <ChevronUpIcon class="w-3.5 h-3.5" />
-          {{ isLoadingPrevious ? 'Loading...' : 'Show earlier days' }}
+          {{ isLoadingPrevious ? 'Загрузка...' : 'Показать предыдущие дни' }}
         </button>
 
         <MealDaySection
@@ -150,7 +150,7 @@
     <!-- Entry edit panel -->
     <SlidePanel
       :show="!!editEntry"
-      :title="editEntry?.display_title || 'Edit Entry'"
+      :title="editEntry?.display_title || 'Изменение записи'"
       @close="editEntry = null"
     >
       <div v-if="editEntry" class="p-6 space-y-4">
@@ -160,7 +160,7 @@
             class="px-2.5 py-1 rounded-full text-xs font-medium"
             :class="typeClasses(editEntry.type)"
           >
-            {{ capitalize(editEntry.type) }}
+            {{ typeLabel(editEntry.type) }}
           </span>
           <span class="text-sm text-ink-tertiary">
             {{ slotLabel(editEntry.meal_slot) }} · {{ formatDate(editEntry.date) }}
@@ -177,7 +177,7 @@
             class="flex items-center gap-2 px-3 py-2.5 rounded-[10px] bg-surface-sunken text-sm text-ink-primary hover:bg-surface-overlay transition-colors"
           >
             <MapPinIcon class="w-4 h-4 text-[#5B7B9C] flex-shrink-0" />
-            <span class="flex-1 truncate">Open in Google Maps</span>
+            <span class="flex-1 truncate">Открыть в Google Картах</span>
             <ArrowTopRightOnSquareIcon class="w-3.5 h-3.5 text-[#9C9895] flex-shrink-0" />
           </a>
           <a
@@ -192,7 +192,7 @@
 
         <!-- Servings -->
         <div>
-          <label class="block text-xs font-medium text-ink-tertiary mb-1.5 uppercase tracking-wide">Servings</label>
+          <label class="block text-xs font-medium text-ink-tertiary mb-1.5 uppercase tracking-wide">Порции</label>
           <KinInput
             v-model.number="editServings"
             type="number"
@@ -204,7 +204,7 @@
 
         <!-- Cooks -->
         <div v-if="familyMembers.length > 0">
-          <label class="block text-xs font-medium text-ink-tertiary mb-2 uppercase tracking-wide">Assigned Cooks</label>
+          <label class="block text-xs font-medium text-ink-tertiary mb-2 uppercase tracking-wide">Кто готовит</label>
           <div class="flex flex-wrap gap-2">
             <KinChip
               v-for="member in familyMembers"
@@ -223,17 +223,17 @@
 
         <!-- Notes -->
         <div>
-          <label class="block text-xs font-medium text-ink-tertiary mb-1.5 uppercase tracking-wide">Notes</label>
+          <label class="block text-xs font-medium text-ink-tertiary mb-1.5 uppercase tracking-wide">Заметки</label>
           <KinTextarea
             v-model="editNotes"
             :rows="2"
-            placeholder="Any notes..."
+            placeholder="Любые заметки..."
           />
         </div>
 
         <!-- Save -->
         <KinButton variant="primary" size="sm" :loading="isEditSaving" class="w-full" @click="saveEdit">
-          Save Changes
+          Сохранить изменения
         </KinButton>
 
         <!-- Delete -->
@@ -242,7 +242,7 @@
           @click="deleteEntry(editEntry)"
         >
           <TrashIcon class="w-4 h-4" />
-          Remove from plan
+          Удалить из плана
         </button>
       </div>
     </SlidePanel>
@@ -317,9 +317,9 @@ const weekRangeLabel = computed(() => {
   const start = DateTime.fromISO(dates[0])
   const end = DateTime.fromISO(dates[dates.length - 1])
   if (start.year === end.year) {
-    return `${start.toFormat('MMM d')} – ${end.toFormat('MMM d, yyyy')}`
+    return `${start.toFormat('d MMMM')} – ${end.toFormat('d MMMM yyyy')}`
   }
-  return `${start.toFormat('MMM d, yyyy')} – ${end.toFormat('MMM d, yyyy')}`
+  return `${start.toFormat('d MMMM yyyy')} – ${end.toFormat('d MMMM yyyy')}`
 })
 
 // ── Mobile: continuous scroll ──
@@ -460,7 +460,7 @@ const openEntryPicker = (date, slot) => {
 }
 
 const onEntryAdded = () => {
-  notifySuccess('Meal added to plan', 3000)
+  notifySuccess('Блюдо добавлено в план', 3000)
 }
 
 // ── Entry edit ──
@@ -497,9 +497,9 @@ const saveEdit = async () => {
   isEditSaving.value = false
   if (result.success) {
     editEntry.value = null
-    notifySuccess('Entry updated', 3000)
+    notifySuccess('Запись обновлена', 3000)
   } else {
-    notifyError(result.error || 'Failed to update entry', 4000)
+    notifyError(result.error || 'Не удалось обновить запись', 4000)
   }
 }
 
@@ -507,9 +507,9 @@ const deleteEntry = async (entry) => {
   editEntry.value = null
   const result = await mealsStore.removeEntry(entry.id)
   if (result.success) {
-    notifySuccess('Meal removed', 3000)
+    notifySuccess('Блюдо удалено из плана', 3000)
   } else {
-    notifyError(result.error || 'Failed to remove meal', 4000)
+    notifyError(result.error || 'Не удалось удалить блюдо', 4000)
   }
 }
 
@@ -518,15 +518,20 @@ const showShoppingModal = ref(false)
 
 // ── Helpers ──
 const slotLabel = (slot) => {
-  const map = { breakfast: 'Breakfast', lunch: 'Lunch', dinner: 'Dinner', snack: 'Snack' }
+  const map = { breakfast: 'Завтрак', lunch: 'Обед', dinner: 'Ужин', snack: 'Перекус' }
   return map[slot] || slot
+}
+
+const typeLabel = (type) => {
+  const map = { recipe: 'Рецепт', restaurant: 'Ресторан', preset: 'Шаблон' }
+  return map[type] || capitalize(type)
 }
 
 const capitalize = (str) => str ? str.charAt(0).toUpperCase() + str.slice(1) : ''
 
 const formatDate = (dateStr) => {
   try {
-    return DateTime.fromISO(dateStr).toFormat('EEE, MMM d')
+    return DateTime.fromISO(dateStr).toFormat('ccc, d MMMM')
   } catch {
     return dateStr
   }

@@ -15,7 +15,7 @@
       <button
         v-if="sensitive"
         class="p-1.5 text-ink-tertiary hover:text-ink-primary hover:bg-surface-sunken rounded-lg transition-colors"
-        :title="revealed ? 'Hide' : 'Reveal'"
+        :title="revealed ? 'Скрыть' : 'Показать'"
         @click="toggleReveal"
       >
         <EyeIcon v-if="!revealed" class="w-4 h-4" />
@@ -26,7 +26,7 @@
       <button
         class="p-1.5 rounded-lg transition-all"
         :class="justCopied ? 'text-status-success bg-status-success/10' : 'text-ink-tertiary hover:text-ink-primary hover:bg-surface-sunken'"
-        :title="justCopied ? 'Copied!' : 'Copy'"
+        :title="justCopied ? 'Скопировано!' : 'Копировать'"
         @click="copyValue"
       >
         <CheckIcon v-if="justCopied" class="w-4 h-4" />

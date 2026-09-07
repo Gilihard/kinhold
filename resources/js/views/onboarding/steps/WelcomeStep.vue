@@ -2,10 +2,10 @@
   <div class="flex-1 flex flex-col">
     <div class="text-center mb-8">
       <h1 class="text-2xl font-heading font-bold text-ink-primary mb-2">
-        {{ isParent ? 'Welcome to Kinhold' : `Welcome to ${familyName || 'Kinhold'}` }}
+        {{ isParent ? 'Добро пожаловать в Kinhold' : `Добро пожаловать в семью «${familyName || 'Kinhold'}»` }}
       </h1>
       <p class="text-base text-ink-secondary">
-        {{ isParent ? "Let's set up your family hub. This takes about 2 minutes." : "Just a couple of quick things to get you set up." }}
+        {{ isParent ? "Настроим ваш семейный центр. Это займёт около 2 минут." : "Осталось сделать пару быстрых шагов, чтобы всё было готово." }}
       </p>
     </div>
 
@@ -13,14 +13,14 @@
       <KinInput
         v-model="familyName"
         type="text"
-        label="Family Name"
-        placeholder="e.g. The Smith Family"
+        label="Название семьи"
+        placeholder="Например, Ивановы"
         :disabled="!isParent"
       />
 
       <KinSelect
         v-model="timezone"
-        label="Your Timezone"
+        label="Часовой пояс"
         :options="timezoneOptions"
       />
     </div>

@@ -14,13 +14,13 @@
 return [
 
     'categories' => [
-        'tasks' => 'Tasks',
-        'points' => 'Points & Kudos',
-        'shopping' => 'Shopping',
-        'calendar' => 'Calendar',
-        'food' => 'Food & Meals',
-        'family' => 'Family activity',
-        'billing' => 'Billing & subscription',
+        'tasks' => 'Задачи',
+        'points' => 'Баллы и похвала',
+        'shopping' => 'Покупки',
+        'calendar' => 'Календарь',
+        'food' => 'Питание',
+        'family' => 'Активность семьи',
+        'billing' => 'Оплата и подписка',
     ],
 
     /*
@@ -38,7 +38,7 @@ return [
 
         'task_assigned' => [
             'category' => 'tasks',
-            'label' => 'When someone assigns me a task',
+            'label' => 'Когда мне назначают задачу',
             'channels' => ['email', 'push'],
             'default_email' => true,
             'default_push' => true,
@@ -47,7 +47,7 @@ return [
 
         'task_completed' => [
             'category' => 'tasks',
-            'label' => 'When a task I created is completed',
+            'label' => 'Когда завершают задачу, которую я создал(а)',
             'channels' => ['email'],
             'default_email' => true,
             'default_push' => false,
@@ -56,7 +56,7 @@ return [
 
         'kudos_received' => [
             'category' => 'points',
-            'label' => 'When a family member gives me kudos',
+            'label' => 'Когда член семьи отправляет мне похвалу',
             'channels' => ['email', 'push'],
             'default_email' => false,
             'default_push' => true,
@@ -65,8 +65,8 @@ return [
 
         'weekly_digest' => [
             'category' => 'family',
-            'label' => 'Weekly digest',
-            'description' => 'Sunday morning summary of your week',
+            'label' => 'Еженедельный дайджест',
+            'description' => 'Воскресное утреннее резюме вашей недели',
             'channels' => ['email'],
             'default_email' => true,
             'default_push' => false,
@@ -74,7 +74,7 @@ return [
 
         'family_invite' => [
             'category' => 'family',
-            'label' => 'Family invitations',
+            'label' => 'Приглашения в семью',
             'channels' => ['email'],
             'default_email' => true,
             'default_push' => false,
@@ -82,8 +82,8 @@ return [
 
         'task_due_soon' => [
             'category' => 'tasks',
-            'label' => 'When a task I own is due today',
-            'description' => 'A reminder at 8am the day a task is due',
+            'label' => 'Когда срок моей задачи — сегодня',
+            'description' => 'Напоминание в 8:00 в день, когда задача должна быть выполнена',
             'channels' => ['email', 'push'],
             'default_email' => false,
             'default_push' => true,
@@ -92,7 +92,7 @@ return [
 
         'shopping_item_added' => [
             'category' => 'shopping',
-            'label' => 'When someone adds to a shared shopping list',
+            'label' => 'Когда кто-то добавляет товар в общий список покупок',
             'channels' => ['push'],
             'default_email' => false,
             'default_push' => false,
@@ -101,8 +101,8 @@ return [
 
         'calendar_event_reminder' => [
             'category' => 'calendar',
-            'label' => 'Reminders before calendar events',
-            'description' => 'Set the lead time per event when creating it',
+            'label' => 'Напоминания о событиях календаря',
+            'description' => 'Время напоминания задаётся при создании события',
             'channels' => ['email', 'push'],
             'default_email' => false,
             'default_push' => true,
@@ -110,8 +110,8 @@ return [
 
         'dinner_reminder' => [
             'category' => 'food',
-            'label' => "What's for dinner today",
-            'description' => "A daily push with tonight's planned meal",
+            'label' => 'Что сегодня на ужин',
+            'description' => 'Ежедневное push-уведомление с запланированным на вечер блюдом',
             'channels' => ['push'],
             'default_email' => false,
             'default_push' => false,
@@ -123,8 +123,8 @@ return [
         // is on and most users won't toggle this. Opt-out remains possible.
         'billing' => [
             'category' => 'billing',
-            'label' => 'Billing & subscription notices',
-            'description' => 'Failed payments, trial endings, cancellations',
+            'label' => 'Уведомления об оплате и подписке',
+            'description' => 'Неудачные платежи, окончание пробного периода, отмены',
             'channels' => ['email'],
             'default_email' => true,
             'default_push' => false,
